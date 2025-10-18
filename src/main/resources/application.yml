@@ -2,13 +2,18 @@ server:
   port: 8080
 
 spring:
+  application:
+    name: runcode
+  config:
+    import: optional:file:.env[.properties]
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/runcode
+    url: ${DB_URL}
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
 
   jpa:
+    database: postgresql
     hibernate:
       ddl-auto: update
     show-sql: true
