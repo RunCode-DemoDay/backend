@@ -40,7 +40,7 @@ public class Review extends BaseEntity {
     private Double star;
 
     @Lob
-    @Column(name = "content", nullable = false)
+    @Column(name = "content", nullable = false, columnDefinition = "text")
     private String content;
 
     //생성자

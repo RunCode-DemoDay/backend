@@ -38,7 +38,7 @@ public class Archiving extends BaseEntity {
     private String title;
 
     @Lob
-    @Column(name = "content")
+    @Column(name = "content", columnDefinition = "text")
     private String content;
 
     @Column(name = "thumbnail", nullable = false)
