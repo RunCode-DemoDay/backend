@@ -34,7 +34,7 @@ public class Course extends BaseEntity {
     private String title;
 
     @Lob
-    @Column(name = "content", nullable = false)
+    @Column(name = "content", nullable = false, columnDefinition = "text")
     private String content;
 
     @Column(name = "address", nullable = false)
