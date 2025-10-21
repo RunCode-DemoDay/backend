@@ -39,8 +39,8 @@ public class Review extends BaseEntity {
     @Column(name = "star", nullable = false)
     private Double star;
 
-    @Lob
-    @Column(name = "content", nullable = false, columnDefinition = "text")
+
+    @Column(name = "content", nullable = false)
     private String content;
 
     //생성자

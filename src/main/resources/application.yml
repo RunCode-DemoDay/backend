@@ -13,7 +13,7 @@ spring:
     password: ${DB_PASSWORD}
   sql:
     init:
-      mode: never
+      mode: always
       encoding: UTF-8
 
   jpa:
@@ -23,3 +23,8 @@ spring:
     show-sql: true
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     open-in-view: false
+logging:
+  level:
+    org.hibernate.SQL: debug
+    org.hibernate.orm.jdbc.bind: trace
+    org.hibernate.type.descriptor.sql: trace

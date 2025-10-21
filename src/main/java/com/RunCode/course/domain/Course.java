@@ -33,8 +33,7 @@ public class Course extends BaseEntity {
     @Column(name = "title", nullable = false, length = 100)
     private String title;
 
-    @Lob
-    @Column(name = "content", nullable = false, columnDefinition = "text")
+    @Column(name = "content", nullable = false)
     private String content;
 
     @Column(name = "address", nullable = false)
@@ -65,25 +64,25 @@ public class Course extends BaseEntity {
     private List<Location> locations = new ArrayList<>();
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
-    private List<Review> reviews = new ArrayList<>();
+        private List<Review> reviews = new ArrayList<>();
 
-    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
-    private List<CourseTag> courseTags = new ArrayList<>();
+        @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+        private List<CourseTag> courseTags = new ArrayList<>();
 
-    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
-    private List<Bookmark> bookmarks = new ArrayList<>();
+        @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+        private List<Bookmark> bookmarks = new ArrayList<>();
 
-    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
-    private List<Archiving> archivings = new ArrayList<>();
+        @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+        private List<Archiving> archivings = new ArrayList<>();
 
-    //생성자
+        //생성자
     private Course(User user, String title, String content, String address, Double distance, String distanceDescription, String thumbnail, List<String> detailImages) {
-        this.user = user;
-        this.title = title;
-        this.content = content;
-        this.address = address;
-        this.distance = distance;
-        this.distanceDescription = distanceDescription;
+            this.user = user;
+            this.title = title;
+            this.content = content;
+            this.address = address;
+            this.distance = distance;
+            this.distanceDescription = distanceDescription;
         this.thumbnail = thumbnail;
         this.detailImages = detailImages;
         this.starAverage = 0.0;

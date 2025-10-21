@@ -37,8 +37,7 @@ public class Archiving extends BaseEntity {
     @Column(name = "title", nullable = false)
     private String title;
 
-    @Lob
-    @Column(name = "content", columnDefinition = "text")
+    @Column(name = "content")
     private String content;
 
     @Column(name = "thumbnail", nullable = false)
@@ -64,6 +63,9 @@ public class Archiving extends BaseEntity {
 
     @Column(name = "cadence", nullable = false)
     private Integer cadence;
+
+
+
 
     @OneToMany(mappedBy = "archiving", cascade = CascadeType.ALL)
     private List<Lap> laps = new ArrayList<>();
