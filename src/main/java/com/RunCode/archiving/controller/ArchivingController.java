@@ -17,7 +17,7 @@ public class ArchivingController {
 
     private final ArchivingService archivingService;
 
-    @GetMapping("/archivingId")
+    @GetMapping("/{archivingId}")
     public ResponseEntity<ApiResponse> readArchiving(@PathVariable Long archivingId){
         ArchivingDetailResponse response = archivingService.readArchiving(archivingId);
         return ResponseEntity.ok(new ApiResponse(true, 200, "archiving 상세조회 성공", response) );

@@ -10,8 +10,10 @@ import com.RunCode.archiving.dto.ArchivingDetailResponse;
 import com.RunCode.archiving.repository.ArchivingRepository;
 import com.RunCode.course.repository.CourseRepository;
 import jakarta.persistence.EntityNotFoundException;
+
 import lombok.*;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -22,6 +24,7 @@ public class ArchivingService {
     private final LapRepository lapRepository;
 
     // archiving 상세 조회
+    @Transactional(readOnly = true)
     public ArchivingDetailResponse readArchiving(long archivingId){
 
         Archiving archiving = archivingRepository.findById(archivingId)

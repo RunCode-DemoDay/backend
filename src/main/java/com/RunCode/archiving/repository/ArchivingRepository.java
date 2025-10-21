@@ -14,9 +14,19 @@ public interface ArchivingRepository extends JpaRepository<Archiving, Long> {
 
     @Query("""
             select ac from Archiving ac
-            join fetch ac.course c
+            join fetch ac.course
             where ac.id = :id
             """)
     Optional<Archiving> findByIdWithCourse(@Param("id") Long id);
+
+/*
+    @Query("""
+       select ac.id, ac.user.id, ac.course.id, ac.content
+       from Archiving ac
+       where ac.id = :id
+    """)
+    Object[] probe(@Param("id") Long id);
+
+*/
 
 }
