@@ -9,10 +9,10 @@ import lombok.*;
 @Builder
 public class LapDto {
     Long lap_id;
-    int lap_number;
+    Integer lap_number;
     String average_pace;
     String pace_variation;
-    int altitude;
+    Integer altitude;
 
     public static LapDto of(Lap lap){
         return LapDto.builder()

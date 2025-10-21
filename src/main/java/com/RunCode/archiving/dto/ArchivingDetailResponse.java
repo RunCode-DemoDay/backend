@@ -27,11 +27,11 @@ public class ArchivingDetailResponse {
     String thumbnail;
     String detailImage;
     Double distance;
-    int calorie;
+    Integer calorie;
     String average_pace;
     String time;
-    int altitude;
-    int cadence;
+    Integer altitude;
+    Integer cadence;
     List<LapDto> laps;
     CourseSimpleReponse course;
 
@@ -45,7 +45,12 @@ public class ArchivingDetailResponse {
                 .detailImage(archiving.getDetailImage())
                 .distance(archiving.getDistance())
                 .calorie(archiving.getCalorie())
-                //
+                .average_pace(archiving.getAveragePace())
+                .time(archiving.getTime())
+                .altitude(archiving.getAltitude())
+                .cadence(archiving.getCadence())
+                .course(CourseSimpleReponse.of(archiving.getCourse()))
+                .laps(archiving.getLaps().stream().map(LapDto::of).toList())
                 .build();
     }
 

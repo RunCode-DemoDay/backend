@@ -24,11 +24,11 @@ public class ArchivingDetailRequest {
     String thumbnail;
     String detailImage;
     Double distance;
-    int calorie;
+    Integer calorie;
     String average_pace;
     String time;
-    int altitude;
-    int cadence;
+    Integer altitude;
+    Integer cadence;
     List<LapDto> laps;
 
     public static ArchivingDetailRequest of(Archiving archiving, List<Lap> laps ){
