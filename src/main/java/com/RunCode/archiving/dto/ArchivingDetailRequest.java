@@ -1,7 +1,8 @@
 package com.RunCode.archiving.dto;
 
 import com.RunCode.archiving.domain.Archiving;
-import com.RunCode.archiving.domain.Lap;
+import com.RunCode.course.domain.Course;
+import com.RunCode.user.domain.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -29,24 +30,23 @@ public class ArchivingDetailRequest {
     String time;
     Integer altitude;
     Integer cadence;
-    List<LapDto> laps;
+    List<LapRequest> laps;
 
-    public static ArchivingDetailRequest of(Archiving archiving, List<Lap> laps ){
-        return ArchivingDetailRequest.builder()
-                .archiving_id(archiving.getId())
-                .user_id(archiving.getUser().getId())
-                .course_id(archiving.getCourse().getId())
-                .title(archiving.getTitle())
-                .content(archiving.getContent())
-                .thumbnail(archiving.getThumbnail())
-                .detailImage(archiving.getDetailImage())
-                .calorie(archiving.getCalorie())
-                .average_pace(archiving.getAveragePace())
-                .time(archiving.getTime())
-                .altitude(archiving.getAltitude())
-                .cadence(archiving.getCadence())
-                .date(archiving.getDate()) // 자동설정 필요한 경우 prePersist()
-                .laps(laps.stream().map(LapDto::of).toList())
+    public Archiving toEntity(Course course, User user){
+        return Archiving.builder()
+                .user(user)
+                .course(course)
+                .title(this.title)
+                .content(this.content)
+                .thumbnail(this.thumbnail)
+                .detailImage(this.detailImage)
+                .distance(this.distance)
+                .calorie(this.calorie)
+                .averagePace(this.average_pace)
+                .time(this.time)
+                .altitude(this.altitude)
+                .cadence(this.cadence)
+                .date(this.date != null ? this.date : LocalDate.now())
                 .build();
     }
 }
