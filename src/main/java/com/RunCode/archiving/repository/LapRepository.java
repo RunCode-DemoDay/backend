@@ -11,6 +11,5 @@ import java.util.List;
 
 @Repository
 public interface LapRepository extends JpaRepository<Lap, Long> {
-
     List<Lap> findByArchivingIdOrderByLapNumber(Long archivingId);
 }

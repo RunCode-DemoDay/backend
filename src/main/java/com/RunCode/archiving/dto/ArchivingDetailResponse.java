@@ -32,7 +32,7 @@ public class ArchivingDetailResponse {
     String time;
     Integer altitude;
     Integer cadence;
-    List<LapDto> laps;
+    List<LapResponse> laps;
     CourseSimpleReponse course;
 
     public static ArchivingDetailResponse of(Archiving archiving, List<Lap> lap) {
@@ -41,6 +41,7 @@ public class ArchivingDetailResponse {
                 .user_id(archiving.getUser().getId())
                 .title(archiving.getTitle())
                 .content(archiving.getContent())
+                .date(archiving.getDate())
                 .thumbnail(archiving.getThumbnail())
                 .detailImage(archiving.getDetailImage())
                 .distance(archiving.getDistance())
@@ -50,7 +51,7 @@ public class ArchivingDetailResponse {
                 .altitude(archiving.getAltitude())
                 .cadence(archiving.getCadence())
                 .course(CourseSimpleReponse.of(archiving.getCourse()))
-                .laps(archiving.getLaps().stream().map(LapDto::of).toList())
+                .laps(archiving.getLaps().stream().map(LapResponse::of).toList())
                 .build();
     }
 
