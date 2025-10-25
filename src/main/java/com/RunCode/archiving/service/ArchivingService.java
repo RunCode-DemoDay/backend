@@ -2,10 +2,7 @@ package com.RunCode.archiving.service;
 
 import com.RunCode.archiving.domain.Archiving;
 import com.RunCode.archiving.domain.Lap;
-import com.RunCode.archiving.dto.ArchivingDetailResponse;
-import com.RunCode.archiving.dto.ArchivingDetailRequest;
-import com.RunCode.archiving.dto.ArchivingSimpleResponse;
-import com.RunCode.archiving.dto.LapRequest;
+import com.RunCode.archiving.dto.*;
 
 import com.RunCode.course.domain.Course;
 import com.RunCode.user.domain.User;
@@ -19,8 +16,7 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.ArrayList;
+import org.springframework.data.domain.Sort;
 import java.util.List;
 
 @Service
@@ -30,6 +26,28 @@ public class ArchivingService {
     private final LapRepository lapRepository;
     private final CourseRepository courseRepository;
     private final UserRepository userRepository;
+
+    /* archiving 전체 조회*/
+    // 1. 코스별 archiving 목록
+    public List<ArchivingSummaryResponse> readAllArchivingByCourse(Long courseId, Long userId){
+        List<ArchivingSummaryResponse> archivings = archivingRepository.findByUserIdAndCourseId(courseId, userId)
+                .stream().map(ac -> ArchivingSummaryResponse.of(ac))
+                .toList();
+
+        return archivings;
+    }
+
+    // 2. 내 archiving 목록
+    public List<ArchivingSimpleResponse> readAllMyArchiving(Long userId, String order){
+        Sort sort = toSort(order);
+        List<ArchivingSimpleResponse> archivings = archivingRepository.findByUserId(userId, sort)
+                .stream().map(ac -> ArchivingSimpleResponse.of(ac))
+                .toList();
+
+        return archivings;
+
+    }
+
 
     // archiving 상세 조회
     @Transactional(readOnly = true)
@@ -75,6 +93,17 @@ public class ArchivingService {
 
         lapRepository.saveAll(laps);
         return ArchivingSimpleResponse.of(archiving);
+    }
+
+
+    private Sort toSort(String order) {
+        if (order == null || order.isBlank() || order.equalsIgnoreCase("latest")) {
+            return Sort.by(Sort.Direction.DESC, "date");  // 최신순
+        }
+        if (order.equalsIgnoreCase("oldest")) {
+            return Sort.by(Sort.Direction.ASC, "date");   // 옛날순
+        }
+        return Sort.by(Sort.Direction.DESC, "date");      // 기본 최신순 - 파라미터 고정이어서 필요없긴 함(예외처리)
     }
 
 }

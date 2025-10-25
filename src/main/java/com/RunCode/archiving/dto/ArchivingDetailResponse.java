@@ -41,6 +41,7 @@ public class ArchivingDetailResponse {
                 .user_id(archiving.getUser().getId())
                 .title(archiving.getTitle())
                 .content(archiving.getContent())
+                .date(archiving.getDate())
                 .thumbnail(archiving.getThumbnail())
                 .detailImage(archiving.getDetailImage())
                 .distance(archiving.getDistance())
