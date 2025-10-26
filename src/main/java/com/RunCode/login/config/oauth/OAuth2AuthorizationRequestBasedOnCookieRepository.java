@@ -8,7 +8,7 @@ import org.springframework.security.oauth2.client.web.AuthorizationRequestReposi
 import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest;
 import org.springframework.web.util.WebUtils;
 
-public class OAuth2AuthorizationRequestBasedOnCookieRepository implements //Ctrl+O로 override할 메서드 선택
+public class OAuth2AuthorizationRequestBasedOnCookieRepository implements
         AuthorizationRequestRepository<OAuth2AuthorizationRequest> {
 
     public static final String OAUTH_2_AUTHORIZATION_REQUEST_COOKIE_NAME= "oauth2_auth_request";

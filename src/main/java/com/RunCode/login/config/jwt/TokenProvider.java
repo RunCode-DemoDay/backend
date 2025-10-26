@@ -28,7 +28,6 @@ public class TokenProvider {
     private Key key() {
         return Keys.hmacShaKeyFor(jwtProperties.getSecretKey().getBytes(StandardCharsets.UTF_8));
     }
-    // Base64 시크릿을 쓸 경우 위 대신:
     // private Key key() { return Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtProperties.getSecretKey())); }
 
     public String generateToken(User user, Duration expiredAt) {
@@ -67,7 +66,7 @@ public class TokenProvider {
         );
     }
 
-    public Long getUserId(String token) { // "id" -> "userId"로 통일
+    public Long getUserId(String token) {
         Claims claims = getClaims(token);
         return claims.get("userId", Long.class);
     }

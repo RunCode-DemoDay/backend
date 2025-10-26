@@ -33,6 +33,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     private final OAuth2AuthorizationRequestBasedOnCookieRepository authorizationRequestRepository;
     private final UserService userService;
 
+
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
         // OAuth2User로부터 사용자 정보 가져오기
@@ -62,18 +63,11 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         response.addHeader("Authorization", "Bearer " + accessToken);
 
         // 인증 성공 후 리다이렉트
-        String redirectUrl = UriComponentsBuilder
-                .fromPath(REDIRECT_PATH)
-                .queryParam("token", accessToken)
-                .build()
-                .toUriString();
+        String targetUrl = getTargetUrl(accessToken);
 
         clearAuthenticationAttributes(request, response);
-        getRedirectStrategy().sendRedirect(request, response, redirectUrl);
+        getRedirectStrategy().sendRedirect(request, response, targetUrl);
     }
-
-
-
 
 
 
