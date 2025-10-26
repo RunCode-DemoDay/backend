@@ -16,7 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class ArchivingDetailRequest {
-    Long archiving_id;
+    //Long archiving_id;
     Long user_id;
     Long course_id;
     String title;
