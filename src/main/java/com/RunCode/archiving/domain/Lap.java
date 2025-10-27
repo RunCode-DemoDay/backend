@@ -1,13 +1,13 @@
 package com.RunCode.archiving.domain;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PROTECTED) // JPA용 기본 생성자
+@AllArgsConstructor(access = AccessLevel.PRIVATE)  // Builder 내부에서만 사용
+@Builder
 @Table(name = "laps")
 public class Lap {
 

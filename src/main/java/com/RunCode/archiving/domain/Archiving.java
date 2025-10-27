@@ -4,9 +4,7 @@ import com.RunCode.common.domain.BaseEntity;
 import com.RunCode.course.domain.Course;
 import com.RunCode.user.domain.User;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -14,7 +12,9 @@ import java.util.List;
 
 @Entity
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PROTECTED) // JPA용 기본 생성자
+@AllArgsConstructor(access = AccessLevel.PRIVATE)  // Builder 내부에서만 사용
+@Builder
 @Table(name = "archivings")
 public class Archiving extends BaseEntity {
 
@@ -37,7 +37,6 @@ public class Archiving extends BaseEntity {
     @Column(name = "title", nullable = false)
     private String title;
 
-    @Lob
     @Column(name = "content")
     private String content;
 
@@ -64,6 +63,9 @@ public class Archiving extends BaseEntity {
 
     @Column(name = "cadence", nullable = false)
     private Integer cadence;
+
+
+
 
     @OneToMany(mappedBy = "archiving", cascade = CascadeType.ALL)
     private List<Lap> laps = new ArrayList<>();

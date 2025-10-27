@@ -24,7 +24,7 @@ public class Type {
     @Column(name = "name", nullable = false, unique = true)
     private String name;
 
-    @Lob
+    //@Lob
     @Column(name = "description", nullable = false)
     private String description;
 
