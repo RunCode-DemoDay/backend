@@ -4,6 +4,8 @@ import com.RunCode.archiving.dto.ArchivingDetailResponse;
 import com.RunCode.archiving.dto.ArchivingSummaryResponse;
 import com.RunCode.archiving.service.ArchivingService;
 import com.RunCode.common.domain.ApiResponse;
+import com.RunCode.course.dto.CourseDetailResponse;
+import com.RunCode.course.service.CourseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,10 +23,21 @@ public class CourseController {
 
     private final ArchivingService archivingService;
 
+    private final CourseService courseService;
+
     // course별 내 archiving 전체 조회
     @GetMapping("/{courseId}/archivings")
     public ResponseEntity<ApiResponse> readArchiving(@PathVariable Long courseId){
         List<ArchivingSummaryResponse> response = archivingService.readAllArchivingByCourse(courseId, 1L);
         return ResponseEntity.ok(new ApiResponse(true, 200, "archiving 상세조회 성공", response) );
+    }
+
+    @GetMapping("/{courseId}")
+    public ResponseEntity<ApiResponse> getCourseDetail(@PathVariable Long courseId){
+
+        Long userId=1L;
+        CourseDetailResponse response = courseService.getCourseDetail(courseId, userId);
+
+        return ResponseEntity.ok(new ApiResponse(true, 200, "코스 상세 조회 성공", response));
     }
 }

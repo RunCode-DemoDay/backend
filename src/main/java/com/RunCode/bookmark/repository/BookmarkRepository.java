@@ -23,4 +23,6 @@ public interface BookmarkRepository extends JpaRepository<Bookmark, Long> {
             WHERE b.user = :user
             """)
     List<Bookmark> findByUserwithCourse(@Param("user") User user, Sort sort);
+
+    boolean existsByUserAndCourse(User user, Course course);
 }
