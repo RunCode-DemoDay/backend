@@ -17,7 +17,7 @@ public class CourseSimpleResponse {
     String title;
     String thumbnail;
     String content;
-    Double start_average;
+    Double star_average;
     int review_count;
     Double distance;
 
@@ -27,7 +27,7 @@ public class CourseSimpleResponse {
                 .title(course.getTitle())
                 .thumbnail(course.getThumbnail())
                 .content(course.getContent())
-                .start_average(course.getStarAverage())
+                .star_average(course.getStarAverage())
                 .review_count(course.getReviewCount())
                 .distance(course.getDistance())
                 .build();

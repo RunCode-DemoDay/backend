@@ -88,12 +88,12 @@ public class BookmarkService {
 
     private Sort toSort(String order) {
         if (order == null || order.isBlank() || order.equalsIgnoreCase("latest")) {
-            return Sort.by(Sort.Direction.DESC, "date");  // 최신순
+            return Sort.by(Sort.Direction.DESC, "createdAt");  // 최신순
         }
         if (order.equalsIgnoreCase("oldest")) {
-            return Sort.by(Sort.Direction.ASC, "date");   // 옛날순
+            return Sort.by(Sort.Direction.ASC, "createdAt");   // 옛날순
         }
-        return Sort.by(Sort.Direction.DESC, "date");      // 기본 최신순 - 파라미터 고정이어서 필요없긴 함(예외처리)
+        return Sort.by(Sort.Direction.DESC, "createdAt");      // 기본 최신순 - 파라미터 고정이어서 필요없긴 함(예외처리)
     }
 
 }

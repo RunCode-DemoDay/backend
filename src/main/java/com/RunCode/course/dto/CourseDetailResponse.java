@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -30,9 +31,10 @@ public class CourseDetailResponse {
                 .title(course.getTitle())
                 .content(course.getContent())
                 .address(course.getAddress())
+                .distance(course.getDistance())
                 .distanceDescription(course.getDistanceDescription())
                 .thumbnail(course.getThumbnail())
-                .detailImages(course.getDetailImages())
+                .detailImages(new ArrayList<>(course.getDetailImages()))
                 .isBookmarked(isBookmarked)
                 .build();
     }
