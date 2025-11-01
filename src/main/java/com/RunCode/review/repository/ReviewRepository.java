@@ -2,6 +2,7 @@ package com.RunCode.review.repository;
 
 import com.RunCode.course.domain.Course;
 import com.RunCode.review.domain.Review;
+import com.RunCode.user.domain.User;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -19,4 +20,6 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
             WHERE r.course = :course
             """)
     List<Review> findByCourseWithUser(@Param("course") Course course, Sort sort);
+
+    boolean existsByUserAndCourse(User user, Course course);
 }

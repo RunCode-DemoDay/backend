@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor  // access 설정 불필요 (기본 public)
 @AllArgsConstructor
 @Builder
-public class CourseSimpleReponse {
+public class CourseSimpleResponse {
     Long course_id;
     String title;
     String thumbnail;
@@ -21,8 +21,8 @@ public class CourseSimpleReponse {
     int review_count;
     Double distance;
 
-    public static CourseSimpleReponse of (Course course){
-        return CourseSimpleReponse.builder()
+    public static CourseSimpleResponse of (Course course){
+        return CourseSimpleResponse.builder()
                 .course_id(course.getId())
                 .title(course.getTitle())
                 .thumbnail(course.getThumbnail())

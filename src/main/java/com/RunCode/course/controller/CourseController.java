@@ -5,7 +5,9 @@ import com.RunCode.archiving.dto.ArchivingSummaryResponse;
 import com.RunCode.archiving.service.ArchivingService;
 import com.RunCode.common.domain.ApiResponse;
 import com.RunCode.course.dto.CourseDetailResponse;
+import com.RunCode.course.dto.CourseSimpleResponse;
 import com.RunCode.course.service.CourseService;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,12 +34,20 @@ public class CourseController {
         return ResponseEntity.ok(new ApiResponse(true, 200, "archiving 상세조회 성공", response) );
     }
 
+    // 코스 상세 조회
     @GetMapping("/{courseId}")
     public ResponseEntity<ApiResponse> getCourseDetail(@PathVariable Long courseId){
 
         Long userId=1L;
         CourseDetailResponse response = courseService.getCourseDetail(courseId, userId);
-
         return ResponseEntity.ok(new ApiResponse(true, 200, "코스 상세 조회 성공", response));
+    }
+
+    // 코스 간단 조회
+    @GetMapping("/{courseId}/summary")
+    public ResponseEntity<ApiResponse> getCourseSummary(@PathVariable Long courseId){
+
+        CourseSimpleResponse response = courseService.getCourseSummary(courseId);
+        return ResponseEntity.ok(new ApiResponse(true, 200, "코스 간단 조회 성공", response));
     }
 }
