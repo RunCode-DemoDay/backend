@@ -33,4 +33,18 @@ public class CourseController {
         List<CourseListResponse> courseList = courseService.getCoursesByTagAndOrder(tag, order, 1L); // 유저 아이디 상수값
         return ResponseEntity.ok(new ApiResponse(true, 200, "Course 목록 조회 성공", courseList));
     }
+
+    // Course 검색 결과 조회
+    @GetMapping("/search")
+    public ResponseEntity<ApiResponse> searchCourses(@RequestParam(required = false) String query, @RequestParam String order){
+        List<CourseListResponse> courseList = courseService.searchCoursesByQueryAndOrder(query, order, 1L);
+
+        if (courseList.isEmpty()) {
+            // 404 Not Found 응답 -> 검색어는 틀리는 경우가 많을 것 같아서 명시적으로 일단 넣었습니다
+            return ResponseEntity
+                    .status(404)
+                    .body(new ApiResponse(false, 404, "해당 검색어에 맞는 코스를 찾을 수 없습니다.", null));
+        }
+        return ResponseEntity.ok(new ApiResponse(true, 200, "Course 검색 결과 조회 성공", courseList));
+    }
 }

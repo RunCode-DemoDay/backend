@@ -26,14 +26,30 @@ public class CourseService {
 
         //  Tag를 통해 WHERE절 만들기
         Specification<Course> spec = CourseSpecification.hasTag(tag);
-
         // Order를 통해 ORDER BY절 만들기
         Sort sort = convertOrderToSort(order);
-
         // DB 조회
         List<Course> courses = courseRepository.findAll(spec, sort);
 
         // DTO 변환 로직을 CourseListResponse.of()에 위임
+        return courses.stream()
+                .map(course -> {
+                    boolean isBookmarked = isCourseBookmarked(course.getId(), userId);
+                    return CourseListResponse.of(course, isBookmarked);
+                })
+                .collect(Collectors.toList());
+    }
+
+    // ⭐️ Course 검색 결과 조회 메서드 추가 (Controller에서 호출)
+    public List<CourseListResponse> searchCoursesByQueryAndOrder(String query, String order, Long userId) {
+
+        // WHERE: 쿼리 검색 조건 사용
+        Specification<Course> spec = CourseSpecification.containsQuery(query);
+        // ORDER BY
+        Sort sort = convertOrderToSort(order);
+
+        List<Course> courses = courseRepository.findAll(spec, sort);
+
         return courses.stream()
                 .map(course -> {
                     boolean isBookmarked = isCourseBookmarked(course.getId(), userId);
@@ -72,4 +88,6 @@ public class CourseService {
     private boolean isCourseBookmarked(Long courseId, Long userId) {
         return bookmarkRepository.existsByUserIdAndCourseId(userId, courseId);
     }
+
+
 }
