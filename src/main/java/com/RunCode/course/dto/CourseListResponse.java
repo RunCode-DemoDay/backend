@@ -24,9 +24,7 @@ public class CourseListResponse {
                 .content(course.getContent())
                 .star_average(course.getStarAverage())
                 .review_count(course.getReviewCount())
-                // distance는 Double 타입 그대로 전달
                 .distance(course.getDistance())
-                // Service에서 계산된 값을 받아 초기화합니다.
                 .is_bookmarked(isBookmarked)
                 .thumbnail(course.getThumbnail())
                 .build();
