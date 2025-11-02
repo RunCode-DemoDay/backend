@@ -1,7 +1,10 @@
 package com.RunCode.user.service;
 
 import com.RunCode.common.domain.ApiResponse;
+import com.RunCode.course.domain.Course;
+import com.RunCode.course.repository.CourseRepository;
 import com.RunCode.login.config.jwt.TokenProvider;
+import com.RunCode.user.dto.UnreviewedCourseResponse;
 import com.RunCode.user.dto.UserRegisterResponse;
 import com.RunCode.type.domain.Type;
 import com.RunCode.type.repository.TypeRepository;
@@ -10,7 +13,10 @@ import com.RunCode.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.http.ResponseEntity;
+
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -18,6 +24,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final TokenProvider tokenProvider;
     private final TypeRepository typeRepository;
+    private final CourseRepository courseRepository;
 
     public ResponseEntity<ApiResponse<UserRegisterResponse>> getUserInfo(String authHeader) {
         User user = getAuthenticatedUser(authHeader);
@@ -111,4 +118,29 @@ public class UserService {
         return userRepository.save(newUser);
     }
 
+    // 리뷰 미작성 목록 조회
+    public List<UnreviewedCourseResponse> getUnreviewedCourses(String authHeader) {
+
+        // 인증 로직: authHeader에서 사용자 ID 추출 및 유효성 검사
+        // Long userId = tokenProvider.getUserId(authHeader);
+        Long userId = 1L; // 일단 임시 아이디 사용..
+
+        if (userId == null) {
+            throw new IllegalArgumentException("사용자 인증 정보가 유효하지 않습니다.");
+        }
+
+        // Repository 호출: Course 엔티티와 isBookmarked 상태 조회
+        List<Object[]> results = courseRepository.findUnreviewedCourseEntitiesByUserId(userId);
+
+        // DTO로 변환
+        return results.stream()
+                .map(obj -> {
+                    // Object[0] = Course 엔티티, Object[1] = boolean 값
+                    Course course = (Course) obj[0];
+                    boolean isBookmarked = (boolean) obj[1];
+
+                    return UnreviewedCourseResponse.of(course, isBookmarked);
+                })
+                .collect(Collectors.toList());
+    }
 }

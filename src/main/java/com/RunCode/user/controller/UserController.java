@@ -2,11 +2,13 @@ package com.RunCode.user.controller;
 
 import com.RunCode.common.domain.ApiResponse;
 import com.RunCode.user.dto.UserRegisterResponse;
+import com.RunCode.user.dto.UnreviewedCourseResponse;
 import com.RunCode.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RequiredArgsConstructor
@@ -32,4 +34,13 @@ public class UserController {
         return userService.updateRunnerType(authHeader, typeId);
     }
 
+    // 현재 로그인된 사용자의 리뷰 미작성 코스 목록 조회 : 일단 헤더는 필수 아닌걸로 해뒀어요
+    @GetMapping("/me/courses/unreviewed")
+    public ResponseEntity<ApiResponse<List<UnreviewedCourseResponse>>> getUnreviewedCourses(@RequestHeader(value = "Authorization", required = false) String authHeader) {
+        List<UnreviewedCourseResponse> unreviewedCourses = userService.getUnreviewedCourses(authHeader);
+
+        return ResponseEntity.ok(
+                new ApiResponse(true, 200, "리뷰 미작성 코스 목록 조회 성공", unreviewedCourses)
+        );
+    }
 }
