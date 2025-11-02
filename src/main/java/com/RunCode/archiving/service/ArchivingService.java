@@ -56,9 +56,9 @@ public class ArchivingService {
         Archiving archiving = archivingRepository.findById(archivingId)
                 .orElseThrow(()-> new EntityNotFoundException(" 해당 id 의 archiving을 찾을 수 없습니다. "));
 
-        List<Lap> laps = lapRepository.findByArchivingIdOrderByLapNumber(archivingId);
+        //List<Lap> laps = lapRepository.findByArchivingIdOrderByLapNumber(archivingId);
 
-        return ArchivingDetailResponse.of(archiving, laps);
+        return ArchivingDetailResponse.of(archiving);
     }
 
     //archiving 생성
@@ -93,6 +93,23 @@ public class ArchivingService {
 
         lapRepository.saveAll(laps);
         return ArchivingSimpleResponse.of(archiving);
+    }
+
+    // archiving 수정
+    @Transactional
+    public ArchivingDetailResponse updateArchiving(Long archivingId, Long userId, ArchivingUpdateRequest req){
+        Archiving archiving = archivingRepository.findByIdAndUserId(archivingId, userId)
+                .orElseThrow(() ->
+                        new EntityNotFoundException("해당 id의 archiving을 찾을 수 없습니다."));
+
+        if (req.getTitle() == null && req.getContent()==null){
+            throw new IllegalArgumentException("잘못된 request 형식입니다.");
+        }
+
+        if(req.getTitle()!=null ) {archiving.setTitle(req.getTitle());}
+        if(req.getContent()!= null) {archiving.setContent(req.getContent());}
+
+        return ArchivingDetailResponse.of(archiving);
     }
 
 

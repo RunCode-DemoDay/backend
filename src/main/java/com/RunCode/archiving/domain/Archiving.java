@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Getter
+@Getter @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED) // JPA용 기본 생성자
 @AllArgsConstructor(access = AccessLevel.PRIVATE)  // Builder 내부에서만 사용
 @Builder
@@ -68,6 +68,7 @@ public class Archiving extends BaseEntity {
 
 
     @OneToMany(mappedBy = "archiving", cascade = CascadeType.ALL)
+    @OrderBy("lapNumber ASC")
     private List<Lap> laps = new ArrayList<>();
 
 

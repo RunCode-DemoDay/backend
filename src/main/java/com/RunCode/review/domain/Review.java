@@ -33,9 +33,6 @@ public class Review extends BaseEntity {
     @JoinColumn(name = "course_id", nullable = false)
     private Course course;
 
-    @Column(name = "title", nullable = false)
-    private String title;
-
     @Column(name = "star", nullable = false)
     private Double star;
 
@@ -44,17 +41,16 @@ public class Review extends BaseEntity {
     private String content;
 
     //생성자
-    private Review(User user, Course course, String title, Double star, String content) {
+    private Review(User user, Course course, Double star, String content) {
         this.user = user;
         this.course = course;
-        this.title = title;
         this.star = star;
         this.content = content;
     }
 
     //----편의메서드----
-    public static Review create(User user, Course course, String title, Double star, String content) {
-        Review review = new Review(user, course, title, star, content);
+    public static Review create(User user, Course course, Double star, String content) {
+        Review review = new Review(user, course, star, content);
         course.addReview(star);
         user.getReviews().add(review);
         return review;

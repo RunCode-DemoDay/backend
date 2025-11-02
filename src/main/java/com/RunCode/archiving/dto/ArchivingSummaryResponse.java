@@ -1,7 +1,7 @@
 package com.RunCode.archiving.dto;
 
 import com.RunCode.archiving.domain.Archiving;
-import com.RunCode.course.dto.CourseSimpleReponse;
+import com.RunCode.course.dto.CourseSimpleResponse;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

@@ -2,6 +2,8 @@ package com.RunCode.user.controller;
 
 import com.RunCode.common.domain.ApiResponse;
 import com.RunCode.user.dto.ReviewListResponse;
+import com.RunCode.course.dto.CourseWithLocationResponse;
+import com.RunCode.course.service.CourseService;
 import com.RunCode.user.dto.UserRegisterResponse;
 import com.RunCode.user.dto.UnreviewedCourseResponse;
 import com.RunCode.user.service.UserService;
@@ -18,6 +20,7 @@ import java.util.Map;
 public class UserController {
 
     private final UserService userService;
+    private final CourseService courseService;
 
     // 현재 로그인된 사용자 정보 조회
     @GetMapping("/me")
@@ -54,5 +57,14 @@ public class UserController {
         return ResponseEntity.ok(
                 new ApiResponse(true, 200, "작성한 리뷰 목록 조회 성공", reviews)
         );
+    }
+  
+    @GetMapping("/me/courses/archived")
+    public ResponseEntity<ApiResponse> ReadAllCoursesWithArchiving(){
+        Long userId=1L;
+        List<CourseWithLocationResponse> response =  courseService.getUserArchivedCoursesWithStart(userId);
+
+        return ResponseEntity.ok(new ApiResponse(true, 200, "archiving 생성된 course 목록조회 성공", response));
+
     }
 }
