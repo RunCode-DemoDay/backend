@@ -1,6 +1,7 @@
 package com.RunCode.user.controller;
 
 import com.RunCode.common.domain.ApiResponse;
+import com.RunCode.user.dto.ReviewListResponse;
 import com.RunCode.user.dto.UserRegisterResponse;
 import com.RunCode.user.dto.UnreviewedCourseResponse;
 import com.RunCode.user.service.UserService;
@@ -41,6 +42,17 @@ public class UserController {
 
         return ResponseEntity.ok(
                 new ApiResponse(true, 200, "리뷰 미작성 코스 목록 조회 성공", unreviewedCourses)
+        );
+    }
+
+    @GetMapping("/me/reviews")
+    public ResponseEntity<ApiResponse<List<ReviewListResponse>>> getUserReviews(
+        @RequestHeader(value = "Authorization", required = false) String authHeader) {
+
+        List<ReviewListResponse> reviews = userService.getUserReviews(authHeader);
+
+        return ResponseEntity.ok(
+                new ApiResponse(true, 200, "작성한 리뷰 목록 조회 성공", reviews)
         );
     }
 }

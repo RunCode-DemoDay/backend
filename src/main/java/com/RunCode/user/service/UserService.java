@@ -4,6 +4,9 @@ import com.RunCode.common.domain.ApiResponse;
 import com.RunCode.course.domain.Course;
 import com.RunCode.course.repository.CourseRepository;
 import com.RunCode.login.config.jwt.TokenProvider;
+import com.RunCode.review.domain.Review;
+import com.RunCode.review.repository.ReviewRepository;
+import com.RunCode.user.dto.ReviewListResponse;
 import com.RunCode.user.dto.UnreviewedCourseResponse;
 import com.RunCode.user.dto.UserRegisterResponse;
 import com.RunCode.type.domain.Type;
@@ -25,6 +28,7 @@ public class UserService {
     private final TokenProvider tokenProvider;
     private final TypeRepository typeRepository;
     private final CourseRepository courseRepository;
+    private final ReviewRepository reviewRepository;
 
     public ResponseEntity<ApiResponse<UserRegisterResponse>> getUserInfo(String authHeader) {
         User user = getAuthenticatedUser(authHeader);
@@ -143,4 +147,20 @@ public class UserService {
                 })
                 .collect(Collectors.toList());
     }
+
+    public List<ReviewListResponse> getUserReviews(String authHeader) {
+
+        // 일단은 상수 ID 사용
+        Long userId = 1L;
+        if (userId == null) { // 인증 실패 예외 처리
+            throw new IllegalArgumentException("사용자 인증 정보가 유효하지 않습니다.");
+        }
+        // 리뷰 목록 조회
+        List<Review> reviews = reviewRepository.findUserReviewsWithCourse(userId);
+
+        return reviews.stream()
+                .map(ReviewListResponse::of)
+                .collect(Collectors.toList());
+    }
+
 }

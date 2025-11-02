@@ -7,6 +7,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
@@ -27,14 +30,25 @@ public class ReviewListResponse {
         // Review 엔티티에서 Course 정보 추출
         Course course = review.getCourse();
 
+        String formattedDate;
+        LocalDateTime createdAt = review.getCreatedAt();
+
+        if (createdAt != null) { // DB 자체에는 자동으로 들어가게 되어있는데 더미데이터에 없어서 그런듯?
+            // 명세된 "YYYY.MM.DD" 형태의 문자열로 포맷
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd");
+            formattedDate = createdAt.format(formatter);
+        } else {
+            formattedDate = "";
+        }
+
         return ReviewListResponse.builder()
                 .review_id(review.getId())
                 .course_id(course.getId())
                 .course_title(course.getTitle())
                 .course_thumbnail(course.getThumbnail())
-                .rating(review.getStar()) // Review 엔티티의 star 필드가 rating에 해당
+                .rating(review.getStar()) // Review 엔티티의 star 필드가 rating에 해당함!
                 .content(review.getContent())
-                .review_date(review.getReviewDate())
+                .review_date(formattedDate)
                 .course_star_average(course.getStarAverage())
                 .course_review_count(course.getReviewCount())
                 .course_distance(course.getDistance())
