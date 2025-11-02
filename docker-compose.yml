@@ -1,0 +1,37 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:16
+    container_name: runcode-db
+    environment:
+      POSTGRES_DB: runcode
+      POSTGRES_USER: runcode
+      POSTGRES_PASSWORD: secret
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U runcode -d runcode"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  app:
+    image: yuyi5187/runcode
+    container_name: runcode-app
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env
+    depends_on:
+      db:
+        condition: service_healthy
+    # 필요 시 아키텍처 강제 (M1/ARM 등)
+    # platform: linux/amd64
+    # JAR 경로 문제가 있으면 ENTRYPOINT를 덮어쓸 수 있습니다:
+    # command: ["java","-jar","/app/app.jar"]
+
+volumes:
+  pgdata:
