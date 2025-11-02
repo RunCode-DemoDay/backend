@@ -7,6 +7,7 @@ import org.springframework.data.jpa.domain.Specification;
 import com.RunCode.course.dto.CourseListResponse;
 import com.RunCode.course.dto.CourseDetailResponse;
 import com.RunCode.course.dto.CourseSimpleResponse;
+import com.RunCode.course.dto.CourseWithLocationResponse;
 import com.RunCode.course.repository.CourseRepository;
 import com.RunCode.course.repository.CourseSpecification;
 import com.RunCode.user.domain.User;
@@ -117,5 +118,14 @@ public class CourseService {
                 .orElseThrow(() -> new EntityNotFoundException("해당 코스를 찾을 수 없습니다."));
 
         return CourseSimpleResponse.of(course);
+    }
+
+    public List<CourseWithLocationResponse> getUserArchivedCoursesWithStart(Long userId) {
+        List<Course> courses = courseRepository.findAllArchivedByUserWithStart(userId);
+        // 안전하게 한 번 더 START만 필터 (중복 방지 차원)
+        List<CourseWithLocationResponse> cwlr = courses.stream()
+                .map(CourseWithLocationResponse::of)
+                .toList();
+        return cwlr;
     }
 }

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import com.RunCode.review.dto.ReviewStatusResponse;
 
 @Service
 @RequiredArgsConstructor
@@ -79,6 +80,13 @@ public class ReviewService {
         return response;
     }
 
+    @Transactional(readOnly = true)
+    public ReviewStatusResponse hasUserReviewedCourse(Long courseId, Long userId){
+        boolean reviewed = reviewRepository.existsByCourse_IdAndUser_Id(courseId, userId);
+
+        return new ReviewStatusResponse(courseId, userId, reviewed);
+    }
+
     private Sort toSort(String order) {
         if (order == null || order.isBlank() || order.equalsIgnoreCase("latest")) {
             return Sort.by(Sort.Direction.DESC, "createdAt");  // 최신순
@@ -88,4 +96,5 @@ public class ReviewService {
         }
         return Sort.by(Sort.Direction.DESC, "createdAt");      // 기본 최신순 - 파라미터 고정이어서 필요없긴 함(예외처리)
     }
+
 }

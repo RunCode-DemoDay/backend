@@ -18,9 +18,14 @@ public interface ArchivingRepository extends JpaRepository<Archiving, Long> {
     @EntityGraph(attributePaths = "course")
     List<Archiving> findByUserId(Long userId, Sort sort);
 
-
     @EntityGraph(attributePaths = "course")
     List<Archiving> findByUserIdAndCourseId(Long userId, Long courseId);
+
+    @EntityGraph(attributePaths = {"course", "laps"})
+    Optional<Archiving> findById(Long id);
+
+    @EntityGraph(attributePaths = {"course", "laps"})
+    Optional<Archiving> findByIdAndUserId(Long id, Long userId);
 
     @Query("""
             select ac from Archiving ac

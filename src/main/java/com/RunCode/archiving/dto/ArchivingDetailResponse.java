@@ -35,7 +35,7 @@ public class ArchivingDetailResponse {
     List<LapResponse> laps;
     CourseSimpleResponse course;
 
-    public static ArchivingDetailResponse of(Archiving archiving, List<Lap> lap) {
+    public static ArchivingDetailResponse of(Archiving archiving) {
         return ArchivingDetailResponse.builder()
                 .archiving_id(archiving.getId())
                 .user_id(archiving.getUser().getId())

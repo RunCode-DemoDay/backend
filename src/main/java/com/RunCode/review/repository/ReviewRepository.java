@@ -22,4 +22,7 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
     List<Review> findByCourseWithUser(@Param("course") Course course, Sort sort);
 
     boolean existsByUserAndCourse(User user, Course course);
+
+    // 사용자가 코스에 대한 리뷰를 작성한 적이 있는지
+    boolean existsByCourse_IdAndUser_Id(Long course_id,Long userId);
 }
