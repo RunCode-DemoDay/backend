@@ -3,6 +3,7 @@ package com.RunCode.course.repository;
 import com.RunCode.course.domain.Course;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 @Repository
-public interface CourseRepository extends JpaRepository<Course, Long> { }
+public interface CourseRepository extends JpaRepository<Course, Long>, JpaSpecificationExecutor<Course> { }

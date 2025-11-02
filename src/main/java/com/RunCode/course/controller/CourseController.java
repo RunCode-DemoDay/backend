@@ -3,15 +3,14 @@ package com.RunCode.course.controller;
 import com.RunCode.archiving.dto.ArchivingDetailResponse;
 import com.RunCode.archiving.dto.ArchivingSummaryResponse;
 import com.RunCode.archiving.service.ArchivingService;
+import com.RunCode.course.dto.CourseListResponse;
+import com.RunCode.course.service.CourseService;
 import com.RunCode.common.domain.ApiResponse;
 import com.RunCode.review.dto.ReviewStatusResponse;
 import com.RunCode.review.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,6 +22,7 @@ public class CourseController {
 
     private final ArchivingService archivingService;
     private final ReviewService reviewService;
+    private final CourseService courseService;
 
     // course별 내 archiving 전체 조회
     @GetMapping("/{courseId}/archivings")
@@ -40,5 +40,26 @@ public class CourseController {
         Long userId = 1L;
         ReviewStatusResponse response = reviewService.hasUserReviewedCourse(courseId, userId);
         return ResponseEntity.ok(new ApiResponse(true, 200, "review 작성여부 조회 성공", response));
+    }
+
+    // Course 목록 조회
+    @GetMapping
+    public ResponseEntity<ApiResponse> getCourseList(@RequestParam(required = false) String tag, @RequestParam String order){ // tag 선택, order 필수
+        List<CourseListResponse> courseList = courseService.getCoursesByTagAndOrder(tag, order, 1L); // 유저 아이디 상수값
+        return ResponseEntity.ok(new ApiResponse(true, 200, "Course 목록 조회 성공", courseList));
+    }
+
+    // Course 검색 결과 조회
+    @GetMapping("/search")
+    public ResponseEntity<ApiResponse> searchCourses(@RequestParam(required = false) String query, @RequestParam String order){
+        List<CourseListResponse> courseList = courseService.searchCoursesByQueryAndOrder(query, order, 1L);
+
+        if (courseList.isEmpty()) {
+            // 404 Not Found 응답 -> 검색어는 틀리는 경우가 많을 것 같아서 명시적으로 일단 넣었습니다
+            return ResponseEntity
+                    .status(404)
+                    .body(new ApiResponse(false, 404, "해당 검색어에 맞는 코스를 찾을 수 없습니다.", null));
+        }
+        return ResponseEntity.ok(new ApiResponse(true, 200, "Course 검색 결과 조회 성공", courseList));
     }
 }

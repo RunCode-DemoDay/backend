@@ -8,16 +8,17 @@ INSERT INTO types (name, description, thumbnail) VALUES ('TYPE_7', 'Description 
 INSERT INTO types (name, description, thumbnail) VALUES ('TYPE_8', 'Description for TYPE_8 _ lorem ipsum.', 'https://img.example.com/type_8.png');
 INSERT INTO types (name, description, thumbnail) VALUES ('TYPE_9', 'Description for TYPE_9 _ lorem ipsum.', 'https://img.example.com/type_9.png');
 INSERT INTO types (name, description, thumbnail) VALUES ('TYPE_10', 'Description for TYPE_10 _lorem ipsum.', 'https://img.example.com/type_10.png');
-INSERT INTO users (name, profile_image, nickname, type_id) VALUES ('User 1', 'https://img.example.com/avatar_1.jpg', 'runner01', 2);
-INSERT INTO users (name, profile_image, nickname, type_id) VALUES ('User 2', 'https://img.example.com/avatar_2.jpg', 'runner02', 3);
-INSERT INTO users (name, profile_image, nickname, type_id) VALUES ('User 3', 'https://img.example.com/avatar_3.jpg', 'runner03', 4);
-INSERT INTO users (name, profile_image, nickname, type_id) VALUES ('User 4', 'https://img.example.com/avatar_4.jpg', 'runner04', 5);
-INSERT INTO users (name, profile_image, nickname, type_id) VALUES ('User 5', 'https://img.example.com/avatar_5.jpg', 'runner05', 6);
-INSERT INTO users (name, profile_image, nickname, type_id) VALUES ('User 6', 'https://img.example.com/avatar_6.jpg', 'runner06', 7);
-INSERT INTO users (name, profile_image, nickname, type_id) VALUES ('User 7', 'https://img.example.com/avatar_7.jpg', 'runner07', 8);
-INSERT INTO users (name, profile_image, nickname, type_id) VALUES ('User 8', 'https://img.example.com/avatar_8.jpg', 'runner08', 9);
-INSERT INTO users (name, profile_image, nickname, type_id) VALUES ('User 9', 'https://img.example.com/avatar_9.jpg', 'runner09', 10);
-INSERT INTO users (name, profile_image, nickname, type_id) VALUES ('User 10', 'https://img.example.com/avatar_10.jpg', 'runner10', 1);
+INSERT INTO users (kakao_id, name, profile_image, nickname, type_id) VALUES ('kakao001', 'User 1', 'https://img.example.com/avatar_1.jpg', 'runner01', 2);
+INSERT INTO users (kakao_id, name, profile_image, nickname, type_id) VALUES ('kakao002', 'User 2', 'https://img.example.com/avatar_2.jpg', 'runner02', 3);
+INSERT INTO users (kakao_id, name, profile_image, nickname, type_id) VALUES ('kakao003', 'User 3', 'https://img.example.com/avatar_3.jpg', 'runner03', 4);
+INSERT INTO users (kakao_id, name, profile_image, nickname, type_id) VALUES ('kakao004', 'User 4', 'https://img.example.com/avatar_4.jpg', 'runner04', 5);
+INSERT INTO users (kakao_id, name, profile_image, nickname, type_id) VALUES ('kakao005', 'User 5', 'https://img.example.com/avatar_5.jpg', 'runner05', 6);
+INSERT INTO users (kakao_id, name, profile_image, nickname, type_id) VALUES ('kakao006', 'User 6', 'https://img.example.com/avatar_6.jpg', 'runner06', 7);
+INSERT INTO users (kakao_id, name, profile_image, nickname, type_id) VALUES ('kakao007', 'User 7', 'https://img.example.com/avatar_7.jpg', 'runner07', 8);
+INSERT INTO users (kakao_id, name, profile_image, nickname, type_id) VALUES ('kakao008', 'User 8', 'https://img.example.com/avatar_8.jpg', 'runner08', 9);
+INSERT INTO users (kakao_id, name, profile_image, nickname, type_id) VALUES ('kakao009', 'User 9', 'https://img.example.com/avatar_9.jpg', 'runner09', 10);
+INSERT INTO users (kakao_id, name, profile_image, nickname, type_id) VALUES ('kakao010', 'User 10', 'https://img.example.com/avatar_10.jpg', 'runner10', 1);
+
 INSERT INTO tags (name) VALUES ('tag01');
 INSERT INTO tags (name) VALUES ('tag02');
 INSERT INTO tags (name) VALUES ('tag03');
