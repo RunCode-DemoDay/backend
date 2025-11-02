@@ -25,6 +25,9 @@ public class User extends BaseEntity {
     @Column(name = "user_id")
     private Long id;
 
+    @Column(name = "kakao_id", unique = true, nullable = false)
+    private String kakaoId;
+
     @Column(name = "name", nullable = false)
     private String name;
 
@@ -35,7 +38,7 @@ public class User extends BaseEntity {
     private String nickname;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "type_id", nullable = false)
+    @JoinColumn(name = "type_id", nullable = true)
     private Type type;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
@@ -51,17 +54,20 @@ public class User extends BaseEntity {
     private List<Archiving> archivings = new ArrayList<>();
 
     //생성자
-    private User(String name, String profileImage, String nickname, Type type) {
+    private User(String name, String kakaoId, String profileImage, String nickname, Type type) {
         this.name = name;
+        this.kakaoId = kakaoId;
         this.profileImage = profileImage;
         this.nickname = nickname;
         this.type = type;
     }
 
+
     //----편의메서드----
-    public static User create(String name, String profileImage, String nickname, Type type) {
-        return new User(name, profileImage, nickname, type);
+    public static User create(String name, String kakaoId, String profileImage, Type type) {
+        return new User(name, kakaoId, profileImage, name, type);
     }
+
 
     public void updateType(Type newType) {
         this.type = newType;
