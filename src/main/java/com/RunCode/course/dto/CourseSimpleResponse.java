@@ -12,22 +12,22 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor  // access 설정 불필요 (기본 public)
 @AllArgsConstructor
 @Builder
-public class CourseSimpleReponse {
+public class CourseSimpleResponse {
     Long course_id;
     String title;
     String thumbnail;
     String content;
-    Double start_average;
+    Double star_average;
     int review_count;
     Double distance;
 
-    public static CourseSimpleReponse of (Course course){
-        return CourseSimpleReponse.builder()
+    public static CourseSimpleResponse of (Course course){
+        return CourseSimpleResponse.builder()
                 .course_id(course.getId())
                 .title(course.getTitle())
                 .thumbnail(course.getThumbnail())
                 .content(course.getContent())
-                .start_average(course.getStarAverage())
+                .star_average(course.getStarAverage())
                 .review_count(course.getReviewCount())
                 .distance(course.getDistance())
                 .build();
