@@ -14,6 +14,9 @@ import java.util.List;
 @Repository
 public interface ReviewRepository extends JpaRepository<Review, Long> {
 
+    @Query("SELECT r FROM Review r JOIN FETCH r.course c JOIN r.user u WHERE u.id = :userId ORDER BY r.createdAt DESC")
+    List<Review> findUserReviewsWithCourse(@Param("userId") Long userId);
+
     @Query("""
             SELECT r FROM Review r 
             JOIN FETCH r.user
