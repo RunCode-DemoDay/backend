@@ -1,37 +1,40 @@
-version: "3.9"
-
 services:
-  db:
-    image: postgres:16
-    container_name: runcode-db
-    environment:
-      POSTGRES_DB: runcode
-      POSTGRES_USER: runcode
-      POSTGRES_PASSWORD: secret
-    ports:
-      - "5432:5432"
-    volumes:
-      - pgdata:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U runcode -d runcode"]
-      interval: 5s
-      timeout: 3s
-      retries: 10
-
   app:
-    image: yuyi5187/runcode
-    container_name: runcode-app
-    ports:
-      - "8080:8080"
-    env_file:
-      - .env
+    build:
+      context: .          # 백엔드 프로젝트 루트
+      dockerfile: Dockerfile
+    image: runcode-app:latest
     depends_on:
       db:
         condition: service_healthy
-    # 필요 시 아키텍처 강제 (M1/ARM 등)
-    # platform: linux/amd64
-    # JAR 경로 문제가 있으면 ENTRYPOINT를 덮어쓸 수 있습니다:
-    # command: ["java","-jar","/app/app.jar"]
+    env_file:
+      - .env
+    ports:
+      - "8080:8080"
+    # 필요시 JVM/스프링 옵션
+    environment:
+      # 예시) 메모리 튜닝, GC 로그 등
+      - JAVA_OPTS=-XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0
+      # 예시) Spring profile
+      - SPRING_OPTS=--spring.profiles.active=prod
+    restart: unless-stopped
+
+  db:
+    image: postgres:16
+    environment:
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
 
 volumes:
   pgdata:
