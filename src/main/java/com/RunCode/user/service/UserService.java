@@ -1,5 +1,6 @@
 package com.RunCode.user.service;
 
+import com.RunCode.common.domain.ApiResponse;
 import com.RunCode.login.config.jwt.TokenProvider;
 import com.RunCode.user.dto.UserRegisterResponse;
 import com.RunCode.type.domain.Type;
@@ -18,40 +19,51 @@ public class UserService {
     private final TokenProvider tokenProvider;
     private final TypeRepository typeRepository;
 
-    public ResponseEntity<?> getUserInfo(String authHeader) {
+    public ResponseEntity<ApiResponse<UserRegisterResponse>> getUserInfo(String authHeader) {
         User user = getAuthenticatedUser(authHeader);
         if (user == null) {
             return ResponseEntity.status(401)
-                    .body(new UserRegisterResponse.ErrorRes("Unauthorized or invalid token"));
+                    .body(new ApiResponse<>(false, 401, "인증이 필요합니다."));
         }
 
-        String typeName = user.getType() != null ? user.getType().getName() : null;
+        // Lazy 로딩 문제 해결: 연관된 Type 데이터를 미리 로드
+        String typeName = null;
+        if (user.getType() != null) {
+            Type userType = typeRepository.findById(user.getType().getId())
+                    .orElse(null); // 명시적으로 타입 데이터를 초기화
+            if (userType != null) {
+                typeName = userType.getName();
+            }
+        }
 
-        return ResponseEntity.ok(new UserRegisterResponse(
+        UserRegisterResponse userResponse = new UserRegisterResponse(
                 user.getId(),
                 user.getKakaoId(),
                 user.getName(),
                 user.getNickname(),
                 user.getProfileImage(),
                 typeName
-        ));
+        );
+        return ResponseEntity.ok(
+                new ApiResponse<>(true, 200, "사용자 정보 조회 성공", userResponse)
+        );
     }
+
+
     public User getAuthenticatedUser(String authHeader) {
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             String token = authHeader.substring("Bearer ".length());
-            if (!tokenProvider.validToken(token)) {
-                return null;
-            }
+            if (!tokenProvider.validToken(token)) return null;
             Long userId = tokenProvider.getUserId(token);
-            return userRepository.findById(userId).orElse(null);
+            return userRepository.findByIdWithType(userId).orElse(null);
         }
         return null;
     }
-    public ResponseEntity<?> updateRunnerType(String authHeader, Long typeId) {
+    public ResponseEntity<ApiResponse<UserRegisterResponse>> updateRunnerType(String authHeader, Long typeId) {
         User user = getAuthenticatedUser(authHeader);
         if (user == null) {
             return ResponseEntity.status(401)
-                    .body(new UserRegisterResponse.ErrorRes("Unauthorized or invalid token"));
+                    .body(new ApiResponse<>(false, 401, "인증이 필요합니다."));
         }
         try {
             Type newType = typeRepository.findById(typeId)
@@ -61,18 +73,24 @@ public class UserService {
 
             String updatedTypeName = user.getType() != null ? user.getType().getName() : null;
 
-            return ResponseEntity.ok(new UserRegisterResponse(
+            UserRegisterResponse userResponse = new UserRegisterResponse(
                     user.getId(),
                     user.getKakaoId(),
                     user.getName(),
                     user.getNickname(),
                     user.getProfileImage(),
                     updatedTypeName
-            ));
+            );
+
+            return ResponseEntity.ok(
+                    new ApiResponse<>(true, 200, "러너 유형이 업데이트되었습니다.", userResponse)
+            );
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(400).body(new UserRegisterResponse.ErrorRes(e.getMessage()));
+            return ResponseEntity.status(400)
+                    .body(new ApiResponse<>(false, 400, e.getMessage()));
         }
     }
+
 
     // 카카오 ID를 통해 로그인 처리
     public User login(String kakaoId, String name, String profileImage) {

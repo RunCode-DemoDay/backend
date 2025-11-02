@@ -16,6 +16,13 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.List;
+
+
 @EnableWebSecurity
 @RequiredArgsConstructor
 @Configuration
@@ -30,11 +37,12 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
+                .cors(cors -> {})
                 .csrf(AbstractHttpConfigurer::disable)                // CSRF 보호 비활성화
                 .httpBasic(AbstractHttpConfigurer::disable)                // HTTP Basic 인증 비활성화
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))             // 세션 비활성화 (JWT 및 OAuth2 사용 환경에서 STATELESS 추천)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/oauth2/authorization/kakao","/login/oauth2/code/**",  "/auth/**").permitAll() // 인증 없이 접근 가능한 API
+                        .requestMatchers("/oauth2/authorization/kakao","/login/oauth2/code/**","/auth/token/refresh", "/auth/logout", "/auth/**").permitAll() // 인증 없이 접근 가능한 API
                         .anyRequest().permitAll() //authenticated()
                 )                // 요청 권한 설정
 
@@ -79,5 +87,24 @@ public class WebSecurityConfig {
     public TokenAuthenticationFilter tokenAuthenticationFilter() {
         return new TokenAuthenticationFilter(tokenProvider);
     }
+
+    // ★★★ CORS 설정 (프론트에서 credentials: 'include' 로 쿠키 전송 가능)
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration c = new CorsConfiguration();
+        // 프론트 개발 서버 Origin을 정확히 지정
+        c.setAllowedOrigins(List.of(
+                "http://localhost:5173"// 운영 도메인 추가
+        ));
+        c.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
+        c.setAllowedHeaders(List.of("Authorization", "Content-Type"));
+        // 쿠키 전송 허용(리프레시 토큰 쿠키 전송에 필요)
+        c.setAllowCredentials(true);
+
+        UrlBasedCorsConfigurationSource s = new UrlBasedCorsConfigurationSource();
+        s.registerCorsConfiguration("/**", c);
+        return s;
+    }
+
 }
 

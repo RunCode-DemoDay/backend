@@ -15,6 +15,9 @@ import java.util.Optional;
 @Repository
 public interface BookmarkRepository extends JpaRepository<Bookmark, Long> {
 
+    // 특정 사용자 ID와 코스 ID에 해당하는 북마크 존재 여부를 확인
+    boolean existsByUserIdAndCourseId(Long userId, Long courseId);
+
     Optional<Bookmark> findByUserAndCourse(User user, Course course);
 
     @Query("""
