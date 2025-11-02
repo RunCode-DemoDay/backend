@@ -6,10 +6,12 @@ import com.RunCode.archiving.dto.ArchivingSimpleResponse;
 import com.RunCode.archiving.dto.ArchivingUpdateRequest;
 import com.RunCode.archiving.service.ArchivingService;
 import com.RunCode.common.domain.ApiResponse;
+import com.RunCode.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 //import jakarta.validation.Valid;
@@ -22,14 +24,18 @@ import java.util.List;
 public class ArchivingController {
 
     private final ArchivingService archivingService;
+    private final UserService userService;
 
     
     // 내 archiving 전체조회
     @GetMapping()
     public ResponseEntity<ApiResponse> readAllMyArchivings(
             @RequestParam(name = "order") String order
+            //String authHeader
     ){
-        List<ArchivingSimpleResponse> response = archivingService.readAllMyArchiving(1L, order);
+        Long userId = 1L;
+        //Long userId = userService.getAuthenticatedUser(authHeader).getId();
+        List<ArchivingSimpleResponse> response = archivingService.readAllMyArchiving(userId, order);
         return ResponseEntity.ok(new ApiResponse(true, 200, "내 archiving 전체 조회 성공", response) );
     }
 
@@ -56,8 +62,10 @@ public class ArchivingController {
     public ResponseEntity<ApiResponse> updateArchiving(
             @PathVariable Long archivingId,
             @RequestBody ArchivingUpdateRequest req
+            //String authHeader
             ){
         Long userId = 1L;
+        //Long userId = userService.getAuthenticatedUser(authHeader).getId();
         ArchivingDetailResponse response = archivingService.updateArchiving(archivingId, userId, req);
 
         return ResponseEntity.ok(

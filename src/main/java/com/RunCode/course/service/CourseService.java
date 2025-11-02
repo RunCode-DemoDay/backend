@@ -3,6 +3,7 @@ package com.RunCode.course.service;
 import com.RunCode.bookmark.repository.BookmarkRepository;
 import com.RunCode.course.domain.Course;
 import com.RunCode.course.dto.CourseListResponse;
+import com.RunCode.course.dto.CourseWithLocationResponse;
 import com.RunCode.course.repository.CourseRepository;
 import com.RunCode.course.repository.CourseSpecification;
 import lombok.RequiredArgsConstructor;
@@ -87,6 +88,15 @@ public class CourseService {
     // BookmarkRepository에서 사용자의 북마크 여부 확인
     private boolean isCourseBookmarked(Long courseId, Long userId) {
         return bookmarkRepository.existsByUserIdAndCourseId(userId, courseId);
+    }
+
+    public List<CourseWithLocationResponse> getUserArchivedCoursesWithStart(Long userId) {
+        List<Course> courses = courseRepository.findAllArchivedByUserWithStart(userId);
+        // 안전하게 한 번 더 START만 필터 (중복 방지 차원)
+        List<CourseWithLocationResponse> cwlr = courses.stream()
+                .map(CourseWithLocationResponse::of)
+                .toList();
+        return cwlr;
     }
 
 
