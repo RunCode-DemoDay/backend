@@ -6,6 +6,10 @@ import com.RunCode.archiving.service.ArchivingService;
 import com.RunCode.course.dto.CourseListResponse;
 import com.RunCode.course.service.CourseService;
 import com.RunCode.common.domain.ApiResponse;
+import com.RunCode.course.dto.CourseDetailResponse;
+import com.RunCode.course.dto.CourseSimpleResponse;
+import com.RunCode.course.service.CourseService;
+import lombok.Getter;
 import com.RunCode.review.dto.ReviewStatusResponse;
 import com.RunCode.review.service.ReviewService;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +17,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
 
 @RestController
 @RequiredArgsConstructor
@@ -30,7 +33,6 @@ public class CourseController {
         List<ArchivingSummaryResponse> response = archivingService.readAllArchivingByCourse(courseId, 1L);
         return ResponseEntity.ok(new ApiResponse(true, 200, "archiving 상세조회 성공", response) );
     }
-
 
     // course별 review 작성여부
     @GetMapping("/{courseId}/reviews/me/status")
@@ -61,5 +63,22 @@ public class CourseController {
                     .body(new ApiResponse(false, 404, "해당 검색어에 맞는 코스를 찾을 수 없습니다.", null));
         }
         return ResponseEntity.ok(new ApiResponse(true, 200, "Course 검색 결과 조회 성공", courseList));
+    }
+
+    // 코스 상세 조회
+    @GetMapping("/{courseId}")
+    public ResponseEntity<ApiResponse> getCourseDetail(@PathVariable Long courseId){
+
+        Long userId=1L;
+        CourseDetailResponse response = courseService.getCourseDetail(courseId, userId);
+        return ResponseEntity.ok(new ApiResponse(true, 200, "코스 상세 조회 성공", response));
+    }
+
+    // 코스 간단 조회
+    @GetMapping("/{courseId}/summary")
+    public ResponseEntity<ApiResponse> getCourseSummary(@PathVariable Long courseId){
+
+        CourseSimpleResponse response = courseService.getCourseSummary(courseId);
+        return ResponseEntity.ok(new ApiResponse(true, 200, "코스 간단 조회 성공", response));
     }
 }

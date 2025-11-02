@@ -2,7 +2,7 @@ package com.RunCode.archiving.dto;
 
 import com.RunCode.archiving.domain.Archiving;
 import com.RunCode.archiving.domain.Lap;
-import com.RunCode.course.dto.CourseSimpleReponse;
+import com.RunCode.course.dto.CourseSimpleResponse;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -33,7 +33,7 @@ public class ArchivingDetailResponse {
     Integer altitude;
     Integer cadence;
     List<LapResponse> laps;
-    CourseSimpleReponse course;
+    CourseSimpleResponse course;
 
     public static ArchivingDetailResponse of(Archiving archiving) {
         return ArchivingDetailResponse.builder()
@@ -50,7 +50,7 @@ public class ArchivingDetailResponse {
                 .time(archiving.getTime())
                 .altitude(archiving.getAltitude())
                 .cadence(archiving.getCadence())
-                .course(CourseSimpleReponse.of(archiving.getCourse()))
+                .course(CourseSimpleResponse.of(archiving.getCourse()))
                 .laps(archiving.getLaps().stream().map(LapResponse::of).toList())
                 .build();
     }
