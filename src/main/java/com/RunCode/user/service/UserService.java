@@ -10,33 +10,28 @@ import com.RunCode.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
 public class UserService {
     private final UserRepository userRepository;
-    private final TokenProvider tokenProvider;
     private final TypeRepository typeRepository;
 
-    public ResponseEntity<ApiResponse<UserRegisterResponse>> getUserInfo(String authHeader) {
-        User user = getAuthenticatedUser(authHeader);
+
+    @Transactional(readOnly = true)
+    public ResponseEntity<ApiResponse<UserRegisterResponse>> getUserInfoById(Long userId) {
+        User user = userRepository.findById(userId).orElse(null);
         if (user == null) {
             return ResponseEntity.status(401)
                     .body(new ApiResponse<>(false, 401, "인증이 필요합니다."));
         }
 
-        // Lazy 로딩 문제 해결: 연관된 Type 데이터를 미리 로드
-        String typeName = null;
-        if (user.getType() != null) {
-            Type userType = typeRepository.findById(user.getType().getId())
-                    .orElse(null); // 명시적으로 타입 데이터를 초기화
-            if (userType != null) {
-                typeName = userType.getName();
-            }
-        }
+        String typeName = (user.getType() != null) ? user.getType().getName() : null;
 
-        UserRegisterResponse userResponse = new UserRegisterResponse(
+        UserRegisterResponse data = new UserRegisterResponse(
                 user.getId(),
                 user.getKakaoId(),
                 user.getName(),
@@ -44,23 +39,12 @@ public class UserService {
                 user.getProfileImage(),
                 typeName
         );
-        return ResponseEntity.ok(
-                new ApiResponse<>(true, 200, "사용자 정보 조회 성공", userResponse)
-        );
+        return ResponseEntity.ok(new ApiResponse<>(true, 200, "사용자 정보 조회 성공", data));
     }
 
-
-    public User getAuthenticatedUser(String authHeader) {
-        if (authHeader != null && authHeader.startsWith("Bearer ")) {
-            String token = authHeader.substring("Bearer ".length());
-            if (!tokenProvider.validToken(token)) return null;
-            Long userId = tokenProvider.getUserId(token);
-            return userRepository.findByIdWithType(userId).orElse(null);
-        }
-        return null;
-    }
-    public ResponseEntity<ApiResponse<UserRegisterResponse>> updateRunnerType(String authHeader, Long typeId) {
-        User user = getAuthenticatedUser(authHeader);
+    @Transactional
+    public ResponseEntity<ApiResponse<UserRegisterResponse>> updateRunnerTypeByUserId(Long userId, Long typeId) {
+        User user = userRepository.findById(userId).orElse(null);
         if (user == null) {
             return ResponseEntity.status(401)
                     .body(new ApiResponse<>(false, 401, "인증이 필요합니다."));
@@ -71,9 +55,9 @@ public class UserService {
             user.updateType(newType);
             userRepository.save(user);
 
-            String updatedTypeName = user.getType() != null ? user.getType().getName() : null;
+            String updatedTypeName = (user.getType() != null) ? user.getType().getName() : null;
 
-            UserRegisterResponse userResponse = new UserRegisterResponse(
+            UserRegisterResponse data = new UserRegisterResponse(
                     user.getId(),
                     user.getKakaoId(),
                     user.getName(),
@@ -81,15 +65,13 @@ public class UserService {
                     user.getProfileImage(),
                     updatedTypeName
             );
-
-            return ResponseEntity.ok(
-                    new ApiResponse<>(true, 200, "러너 유형이 업데이트되었습니다.", userResponse)
-            );
+            return ResponseEntity.ok(new ApiResponse<>(true, 200, "러너 유형이 업데이트되었습니다.", data));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(400)
                     .body(new ApiResponse<>(false, 400, e.getMessage()));
         }
     }
+
 
 
     // 카카오 ID를 통해 로그인 처리
