@@ -1,6 +1,8 @@
 package com.RunCode.user.controller;
 
 import com.RunCode.common.domain.ApiResponse;
+import com.RunCode.user.domain.CustomUserDetails;
+import com.RunCode.user.dto.UpdateRunnerTypeRequest;
 import com.RunCode.user.dto.ReviewListResponse;
 import com.RunCode.course.dto.CourseWithLocationResponse;
 import com.RunCode.course.service.CourseService;
@@ -9,6 +11,8 @@ import com.RunCode.user.dto.UnreviewedCourseResponse;
 import com.RunCode.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,20 +26,23 @@ public class UserController {
     private final UserService userService;
     private final CourseService courseService;
 
-    // 현재 로그인된 사용자 정보 조회
+    /** 현재 로그인 사용자 정보 조회 */
     @GetMapping("/me")
     public ResponseEntity<ApiResponse<UserRegisterResponse>> getUserInfo(
-            @RequestHeader("Authorization") String authHeader) {
-        return userService.getUserInfo(authHeader);
+            @AuthenticationPrincipal CustomUserDetails principal
+    ) {
+        Long userId = principal.getUserId();
+        return userService.getUserInfoById(userId);
     }
 
-    // 현재 로그인된 사용자의 러너 유형 변경
+    /** 러너 유형 변경 */
     @PatchMapping("/me")
     public ResponseEntity<ApiResponse<UserRegisterResponse>> updateRunnerType(
-            @RequestHeader("Authorization") String authHeader,
-            @RequestBody Map<String, Object> body) {
-        Long typeId = Long.valueOf(body.get("type_id").toString());
-        return userService.updateRunnerType(authHeader, typeId);
+            @AuthenticationPrincipal CustomUserDetails principal,
+            @RequestBody UpdateRunnerTypeRequest req
+    ) {
+        Long userId = principal.getUserId();
+        return userService.updateRunnerTypeByUserId(userId, req.getTypeId());
     }
 
     // 현재 로그인된 사용자의 리뷰 미작성 코스 목록 조회 : 일단 헤더는 필수 아닌걸로 해뒀어요
@@ -58,7 +65,7 @@ public class UserController {
                 new ApiResponse(true, 200, "작성한 리뷰 목록 조회 성공", reviews)
         );
     }
-  
+
     @GetMapping("/me/courses/archived")
     public ResponseEntity<ApiResponse> ReadAllCoursesWithArchiving(){
         Long userId=1L;
