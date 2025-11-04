@@ -1,4 +1,19 @@
 services:
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    volumes:
+      - /home/ubuntu/backend/nginx/conf:/etc/nginx/conf.d
+      - /home/ubuntu/certbot/www:/var/www/certbot
+      - /home/ubuntu/certbot/conf:/etc/letsencrypt
+    ports: [ "80:80","443:443"]
+    depends_on:
+      - app
+  certbot:
+    image: certbot/certbot
+    volumes:
+      - /home/ubuntu/certbot/www:/var/www/certbot
+      - /home/ubuntu/certbot/conf:/etc/letsencrypt
   app:
     build:
       context: .          # 백엔드 프로젝트 루트
@@ -14,9 +29,17 @@ services:
     # 필요시 JVM/스프링 옵션
     environment:
       # 예시) 메모리 튜닝, GC 로그 등
-      - JAVA_OPTS=-XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0
+      #- JAVA_OPTS=-XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0
       # 예시) Spring profile
-      - SPRING_OPTS=--spring.profiles.active=prod
+      #- SPRING_OPTS=--spring.profiles.active=prod
+      - SPRING_PROFILES_ACTIVE=prod
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/${DB_NAME}
+      - SPRING_DATASOURCE_USERNAME=${DB_USER}
+      - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD}
+      # 선택: data.sql 강제 실행 옵션을 env로 넘길 수도 있음
+      - SPRING_SQL_INIT_MODE=always
+      - SPRING_JPA_DEFER_DATASOURCE_INITIALIZATION=true
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
     restart: unless-stopped
 
   db:
