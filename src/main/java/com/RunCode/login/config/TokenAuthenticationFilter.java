@@ -19,17 +19,18 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
     private final static String TOKEN_PREFIX="Bearer ";
 
     @Override
-    protected void doFilterInternal(
-            HttpServletRequest request,
-            HttpServletResponse response,
-            FilterChain filterChain) throws ServletException, IOException {
-        String authorizationHeader = request.getHeader(HEADER_AUTHORIZATION);
-        String token=getAccessToken(authorizationHeader);
-        if(tokenProvider.validToken(token)){
-            Authentication authentication = tokenProvider.getAuthentication(token);
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+            throws ServletException, IOException {
+        String authorizationHeader = request.getHeader("Authorization");
+        String token = (authorizationHeader != null && authorizationHeader.startsWith("Bearer "))
+                ? authorizationHeader.substring("Bearer ".length())
+                : null;
+
+        if (token != null && tokenProvider.validToken(token)) {
+            Authentication authentication = tokenProvider.getAuthentication(token); // username = kakaoId
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
-        filterChain.doFilter(request,response);
+        filterChain.doFilter(request, response);
     }
 
     private String getAccessToken(String authorizationHeader){
