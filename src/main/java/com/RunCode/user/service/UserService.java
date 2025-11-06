@@ -105,12 +105,7 @@ public class UserService {
     }
 
     // 리뷰 미작성 목록 조회
-    public List<UnreviewedCourseResponse> getUnreviewedCourses(String authHeader) {
-
-        // 인증 로직: authHeader에서 사용자 ID 추출 및 유효성 검사
-        // Long userId = tokenProvider.getUserId(authHeader);
-        Long userId = 1L; // 일단 임시 아이디 사용..
-
+    public List<UnreviewedCourseResponse> getUnreviewedCourses(Long userId) {
         if (userId == null) {
             throw new IllegalArgumentException("사용자 인증 정보가 유효하지 않습니다.");
         }
@@ -130,10 +125,7 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
-    public List<ReviewListResponse> getUserReviews(String authHeader) {
-
-        // 일단은 상수 ID 사용
-        Long userId = 1L;
+    public List<ReviewListResponse> getUserReviews(Long userId) {
         if (userId == null) { // 인증 실패 예외 처리
             throw new IllegalArgumentException("사용자 인증 정보가 유효하지 않습니다.");
         }

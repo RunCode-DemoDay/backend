@@ -50,15 +50,29 @@ public class CourseController {
 
     // Course 목록 조회
     @GetMapping
-    public ResponseEntity<ApiResponse> getCourseList(@RequestParam(required = false) String tag, @RequestParam String order){ // tag 선택, order 필수
-        List<CourseListResponse> courseList = courseService.getCoursesByTagAndOrder(tag, order, 1L); // 유저 아이디 상수값
+    public ResponseEntity<ApiResponse> getCourseList(@AuthenticationPrincipal CustomUserDetails userDetails, @RequestParam(required = false) String tag, @RequestParam String order){ // tag 선택, order 필수
+        if (userDetails == null) {
+            return ResponseEntity
+                    .status(401)
+                    .body(new ApiResponse(false, 401, "로그인이 필요합니다.", null));
+        }
+        Long userId = userDetails.getUserId();
+
+        List<CourseListResponse> courseList = courseService.getCoursesByTagAndOrder(tag, order, userId); // 유저 아이디 상수값
         return ResponseEntity.ok(new ApiResponse(true, 200, "Course 목록 조회 성공", courseList));
     }
 
     // Course 검색 결과 조회
     @GetMapping("/search")
-    public ResponseEntity<ApiResponse> searchCourses(@RequestParam(required = false) String query, @RequestParam String order){
-        List<CourseListResponse> courseList = courseService.searchCoursesByQueryAndOrder(query, order, 1L);
+    public ResponseEntity<ApiResponse> searchCourses(@AuthenticationPrincipal CustomUserDetails userDetails, @RequestParam(required = false) String query, @RequestParam String order){
+        if (userDetails == null) {
+            return ResponseEntity
+                    .status(401)
+                    .body(new ApiResponse(false, 401, "로그인이 필요합니다.", null));
+        }
+        Long userId = userDetails.getUserId();
+
+        List<CourseListResponse> courseList = courseService.searchCoursesByQueryAndOrder(query, order, userId);
 
         if (courseList.isEmpty()) {
             // 404 Not Found 응답 -> 검색어는 틀리는 경우가 많을 것 같아서 명시적으로 일단 넣었습니다
