@@ -9,11 +9,15 @@ import com.RunCode.common.domain.ApiResponse;
 import com.RunCode.course.dto.CourseDetailResponse;
 import com.RunCode.course.dto.CourseSimpleResponse;
 import com.RunCode.course.service.CourseService;
+import com.RunCode.user.domain.CustomUserDetails;
+import com.RunCode.user.repository.UserRepository;
 import lombok.Getter;
 import com.RunCode.review.dto.ReviewStatusResponse;
 import com.RunCode.review.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -67,9 +71,10 @@ public class CourseController {
 
     // 코스 상세 조회
     @GetMapping("/{courseId}")
-    public ResponseEntity<ApiResponse> getCourseDetail(@PathVariable Long courseId){
+    public ResponseEntity<ApiResponse> getCourseDetail(@AuthenticationPrincipal CustomUserDetails userDetails, @PathVariable Long courseId){
 
-        Long userId=1L;
+        Long userId = userDetails.getUserId();
+
         CourseDetailResponse response = courseService.getCourseDetail(courseId, userId);
         return ResponseEntity.ok(new ApiResponse(true, 200, "코스 상세 조회 성공", response));
     }
