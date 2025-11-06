@@ -13,7 +13,7 @@ spring:
     password: ${DB_PASSWORD}
   sql:
     init:
-      mode: never
+      mode: always
       encoding: UTF-8
   jpa:
     database: postgresql

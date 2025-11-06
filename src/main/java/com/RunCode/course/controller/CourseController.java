@@ -33,17 +33,36 @@ public class CourseController {
 
     // course별 내 archiving 전체 조회
     @GetMapping("/{courseId}/archivings")
-    public ResponseEntity<ApiResponse> readArchiving(@PathVariable Long courseId){
-        List<ArchivingSummaryResponse> response = archivingService.readAllArchivingByCourse(courseId, 1L);
+    public ResponseEntity<ApiResponse> readArchiving(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @PathVariable Long courseId
+    ){
+        /*login 연동*/
+        if (userDetails == null) {
+            return ResponseEntity
+                    .status(401)
+                    .body(new ApiResponse(false, 401, "로그인이 필요합니다.", null));
+        }
+        Long userId = userDetails.getUserId();
+        List<ArchivingSummaryResponse> response = archivingService.readAllArchivingByCourse(courseId, userId);
         return ResponseEntity.ok(new ApiResponse(true, 200, "archiving 상세조회 성공", response) );
     }
 
     // course별 review 작성여부
     @GetMapping("/{courseId}/reviews/me/status")
     public ResponseEntity<ApiResponse>  getReviewStatus(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
             @PathVariable Long courseId
     ){
-        Long userId = 1L;
+        //Long userId = 1L;
+        /*login 연동*/
+        if (userDetails == null) {
+            return ResponseEntity
+                    .status(401)
+                    .body(new ApiResponse(false, 401, "로그인이 필요합니다.", null));
+        }
+        Long userId = userDetails.getUserId();
+
         ReviewStatusResponse response = reviewService.hasUserReviewedCourse(courseId, userId);
         return ResponseEntity.ok(new ApiResponse(true, 200, "review 작성여부 조회 성공", response));
     }
