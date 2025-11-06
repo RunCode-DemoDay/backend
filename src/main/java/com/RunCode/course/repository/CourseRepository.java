@@ -23,13 +23,25 @@ public interface CourseRepository extends JpaRepository<Course, Long>, JpaSpecif
             ")")
     List<Object[]> findUnreviewedCourseEntitiesByUserId(@Param("userId") Long userId);
 
-    @Query("""
+/*    @Query("""
         select distinct c
         from Course c
         join Archiving a on a.course = c
         left join fetch c.locations l
         where a.user.id = :userId
           and l.locationType = com.RunCode.location.domain.LOCATIONTYPE.START
-    """)
+    """)*/
+
+    @Query("""
+    select distinct c
+    from Course c
+    left join fetch c.locations l
+    where exists (
+        select 1 from Archiving a
+        where a.course = c
+          and a.user.id = :userId
+    )
+      and (l is null or l.locationType = com.RunCode.location.domain.LOCATIONTYPE.START)
+""")
     List<Course> findAllArchivedByUserWithStart(@Param("userId") Long userId);
 }

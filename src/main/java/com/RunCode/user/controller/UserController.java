@@ -65,7 +65,8 @@ public class UserController {
 
     @GetMapping("/me/reviews")
     public ResponseEntity<ApiResponse<List<ReviewListResponse>>> getUserReviews(
-            @AuthenticationPrincipal CustomUserDetails userDetails) {
+            @AuthenticationPrincipal CustomUserDetails userDetails
+    ) {
         if (userDetails == null) {
             return ResponseEntity
                     .status(401)
@@ -80,8 +81,17 @@ public class UserController {
     }
 
     @GetMapping("/me/courses/archived")
-    public ResponseEntity<ApiResponse> ReadAllCoursesWithArchiving(){
-        Long userId=1L;
+    public ResponseEntity<ApiResponse> ReadAllCoursesWithArchiving(
+            @AuthenticationPrincipal CustomUserDetails userDetails
+    ){
+        //Long userId=1L;
+        /*login 연동*/
+        if (userDetails == null) {
+            return ResponseEntity
+                    .status(401)
+                    .body(new ApiResponse(false, 401, "로그인이 필요합니다.", null));
+        }
+        Long userId = userDetails.getUserId();
         List<CourseWithLocationResponse> response =  courseService.getUserArchivedCoursesWithStart(userId);
 
         return ResponseEntity.ok(new ApiResponse<>(true, 200, "archiving 생성된 course 목록조회 성공", response));

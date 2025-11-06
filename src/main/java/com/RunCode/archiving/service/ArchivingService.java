@@ -51,9 +51,9 @@ public class ArchivingService {
 
     // archiving 상세 조회
     @Transactional(readOnly = true)
-    public ArchivingDetailResponse readArchiving(long archivingId){
+    public ArchivingDetailResponse readArchiving(long archivingId, long userId){
 
-        Archiving archiving = archivingRepository.findById(archivingId)
+        Archiving archiving = archivingRepository.findByIdAndUserId(archivingId, userId)
                 .orElseThrow(()-> new EntityNotFoundException(" 해당 id 의 archiving을 찾을 수 없습니다. "));
 
         //List<Lap> laps = lapRepository.findByArchivingIdOrderByLapNumber(archivingId);
@@ -63,7 +63,7 @@ public class ArchivingService {
 
     //archiving 생성
     @Transactional
-    public ArchivingSimpleResponse createArchiving(ArchivingDetailRequest req){
+    public ArchivingSimpleResponse createArchiving(ArchivingDetailRequest req, Long userId){
 
         //requestBody값 확인
         if (req.getCourse_id() == null){
@@ -76,8 +76,8 @@ public class ArchivingService {
             throw new IllegalArgumentException("laps(구간기록)은 최대 42개까지만 허용됩니다.");
         }
 
-        User user = userRepository.findById(1L)
-                .orElseThrow(() -> new EntityNotFoundException("id=1 사용자를 찾을 수 없습니다."));
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("해당 id의 사용자를 찾을 수 없습니다."));
 
         Course course = courseRepository.findById(req.getCourse_id())
                 .orElseThrow(()-> new EntityNotFoundException("해당 id의 course를 찾을 수 없습니다."));
