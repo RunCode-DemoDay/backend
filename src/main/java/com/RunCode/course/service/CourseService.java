@@ -1,15 +1,21 @@
 package com.RunCode.course.service;
 
 import com.RunCode.bookmark.repository.BookmarkRepository;
+import com.RunCode.bookmark.service.BookmarkService;
 import com.RunCode.course.domain.Course;
+import org.springframework.data.jpa.domain.Specification;
 import com.RunCode.course.dto.CourseListResponse;
+import com.RunCode.course.dto.CourseDetailResponse;
+import com.RunCode.course.dto.CourseSimpleResponse;
 import com.RunCode.course.dto.CourseWithLocationResponse;
 import com.RunCode.course.repository.CourseRepository;
 import com.RunCode.course.repository.CourseSpecification;
+import com.RunCode.user.domain.User;
+import com.RunCode.user.repository.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.domain.Sort;
 
 import java.util.List;
@@ -19,7 +25,9 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class CourseService {
+
     private final CourseRepository courseRepository;
+    private final UserRepository userRepository;
     private final BookmarkRepository bookmarkRepository;
 
     // tag & order에 따라 코스 목록 조회 후 DTO로 변환
@@ -90,6 +98,28 @@ public class CourseService {
         return bookmarkRepository.existsByUserIdAndCourseId(userId, courseId);
     }
 
+    //코스 상세 조회
+    public CourseDetailResponse getCourseDetail(Long courseId, Long userId) {
+
+        Course course = courseRepository.findById(courseId)
+                .orElseThrow(() -> new EntityNotFoundException("해당 코스를 찾을 수 없습니다."));
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("해당 유저를 찾을 수 없습니다."));
+
+        boolean isBookmarked = bookmarkRepository.existsByUserAndCourse(user, course);
+
+        return CourseDetailResponse.of(course, isBookmarked);
+    }
+
+    // 코스 간단 조회
+    public CourseSimpleResponse getCourseSummary(Long courseId) {
+        Course course = courseRepository.findById(courseId)
+                .orElseThrow(() -> new EntityNotFoundException("해당 코스를 찾을 수 없습니다."));
+
+        return CourseSimpleResponse.of(course);
+    }
+
     public List<CourseWithLocationResponse> getUserArchivedCoursesWithStart(Long userId) {
         List<Course> courses = courseRepository.findAllArchivedByUserWithStart(userId);
         // 안전하게 한 번 더 START만 필터 (중복 방지 차원)
@@ -98,6 +128,4 @@ public class CourseService {
                 .toList();
         return cwlr;
     }
-
-
 }

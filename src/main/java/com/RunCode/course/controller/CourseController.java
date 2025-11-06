@@ -6,14 +6,21 @@ import com.RunCode.archiving.service.ArchivingService;
 import com.RunCode.course.dto.CourseListResponse;
 import com.RunCode.course.service.CourseService;
 import com.RunCode.common.domain.ApiResponse;
+import com.RunCode.course.dto.CourseDetailResponse;
+import com.RunCode.course.dto.CourseSimpleResponse;
+import com.RunCode.course.service.CourseService;
+import com.RunCode.user.domain.CustomUserDetails;
+import com.RunCode.user.repository.UserRepository;
+import lombok.Getter;
 import com.RunCode.review.dto.ReviewStatusResponse;
 import com.RunCode.review.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
 
 @RestController
 @RequiredArgsConstructor
@@ -31,7 +38,6 @@ public class CourseController {
         return ResponseEntity.ok(new ApiResponse(true, 200, "archiving 상세조회 성공", response) );
     }
 
-
     // course별 review 작성여부
     @GetMapping("/{courseId}/reviews/me/status")
     public ResponseEntity<ApiResponse>  getReviewStatus(
@@ -44,15 +50,29 @@ public class CourseController {
 
     // Course 목록 조회
     @GetMapping
-    public ResponseEntity<ApiResponse> getCourseList(@RequestParam(required = false) String tag, @RequestParam String order){ // tag 선택, order 필수
-        List<CourseListResponse> courseList = courseService.getCoursesByTagAndOrder(tag, order, 1L); // 유저 아이디 상수값
+    public ResponseEntity<ApiResponse> getCourseList(@AuthenticationPrincipal CustomUserDetails userDetails, @RequestParam(required = false) String tag, @RequestParam String order){ // tag 선택, order 필수
+        if (userDetails == null) {
+            return ResponseEntity
+                    .status(401)
+                    .body(new ApiResponse(false, 401, "로그인이 필요합니다.", null));
+        }
+        Long userId = userDetails.getUserId();
+
+        List<CourseListResponse> courseList = courseService.getCoursesByTagAndOrder(tag, order, userId); // 유저 아이디 상수값
         return ResponseEntity.ok(new ApiResponse(true, 200, "Course 목록 조회 성공", courseList));
     }
 
     // Course 검색 결과 조회
     @GetMapping("/search")
-    public ResponseEntity<ApiResponse> searchCourses(@RequestParam(required = false) String query, @RequestParam String order){
-        List<CourseListResponse> courseList = courseService.searchCoursesByQueryAndOrder(query, order, 1L);
+    public ResponseEntity<ApiResponse> searchCourses(@AuthenticationPrincipal CustomUserDetails userDetails, @RequestParam(required = false) String query, @RequestParam String order){
+        if (userDetails == null) {
+            return ResponseEntity
+                    .status(401)
+                    .body(new ApiResponse(false, 401, "로그인이 필요합니다.", null));
+        }
+        Long userId = userDetails.getUserId();
+
+        List<CourseListResponse> courseList = courseService.searchCoursesByQueryAndOrder(query, order, userId);
 
         if (courseList.isEmpty()) {
             // 404 Not Found 응답 -> 검색어는 틀리는 경우가 많을 것 같아서 명시적으로 일단 넣었습니다
@@ -61,5 +81,23 @@ public class CourseController {
                     .body(new ApiResponse(false, 404, "해당 검색어에 맞는 코스를 찾을 수 없습니다.", null));
         }
         return ResponseEntity.ok(new ApiResponse(true, 200, "Course 검색 결과 조회 성공", courseList));
+    }
+
+    // 코스 상세 조회
+    @GetMapping("/{courseId}")
+    public ResponseEntity<ApiResponse> getCourseDetail(@AuthenticationPrincipal CustomUserDetails userDetails, @PathVariable Long courseId){
+
+        Long userId = userDetails.getUserId();
+
+        CourseDetailResponse response = courseService.getCourseDetail(courseId, userId);
+        return ResponseEntity.ok(new ApiResponse(true, 200, "코스 상세 조회 성공", response));
+    }
+
+    // 코스 간단 조회
+    @GetMapping("/{courseId}/summary")
+    public ResponseEntity<ApiResponse> getCourseSummary(@PathVariable Long courseId){
+
+        CourseSimpleResponse response = courseService.getCourseSummary(courseId);
+        return ResponseEntity.ok(new ApiResponse(true, 200, "코스 간단 조회 성공", response));
     }
 }
