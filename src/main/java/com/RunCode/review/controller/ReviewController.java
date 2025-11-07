@@ -34,6 +34,11 @@ public class ReviewController {
     @PostMapping("/{courseId}/reviews")
     public ResponseEntity<ApiResponse> createReview(@AuthenticationPrincipal CustomUserDetails userDetails, @PathVariable Long courseId, @RequestBody ReviewCreateRequest request) {
 
+        if (userDetails == null) {
+            return ResponseEntity
+                    .status(401)
+                    .body(new ApiResponse(false, 401, "로그인이 필요합니다.", null));
+        }
         Long userId = userDetails.getUserId();
 
         ReviewCreateResponse response = reviewService.createReview(courseId, userId, request);
@@ -44,6 +49,11 @@ public class ReviewController {
     @DeleteMapping("/{courseId}/reviews/{reviewId}")
     public ResponseEntity<ApiResponse> deleteReview(@AuthenticationPrincipal CustomUserDetails userDetails, @PathVariable Long courseId, @PathVariable Long reviewId) {
 
+        if (userDetails == null) {
+            return ResponseEntity
+                    .status(401)
+                    .body(new ApiResponse(false, 401, "로그인이 필요합니다.", null));
+        }
         Long userId = userDetails.getUserId();
 
         ReviewDeleteResponse response = reviewService.deleteReview(courseId, reviewId, userId);
