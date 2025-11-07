@@ -87,13 +87,28 @@ public class BookmarkService {
     }
 
     private Sort toSort(String order) {
-        if (order == null || order.isBlank() || order.equalsIgnoreCase("latest")) {
-            return Sort.by(Sort.Direction.DESC, "createdAt");  // 최신순
+        String effectiveOrder = (order == null || order.isBlank()) ? "latest" : order;
+
+        switch (effectiveOrder.toLowerCase()) {
+            case "oldest":
+                return Sort.by(Sort.Direction.ASC, "createdAt");
+
+            case "distance_asc": // 짧은 코스 순
+                return Sort.by(Sort.Direction.ASC, "course.distance");
+
+            case "distance_desc": // 긴 코스 순
+                return Sort.by(Sort.Direction.DESC, "course.distance");
+
+            case "star_desc": // 별점 높은 순
+                return Sort.by(Sort.Direction.DESC, "course.starAverage");
+
+            case "review_desc": // 리뷰 많은 순
+                return Sort.by(Sort.Direction.DESC, "course.reviewCount");
+
+            case "latest":
+            default:
+                return Sort.by(Sort.Direction.DESC, "createdAt");
         }
-        if (order.equalsIgnoreCase("oldest")) {
-            return Sort.by(Sort.Direction.ASC, "createdAt");   // 옛날순
-        }
-        return Sort.by(Sort.Direction.DESC, "createdAt");      // 기본 최신순 - 파라미터 고정이어서 필요없긴 함(예외처리)
     }
 
 }

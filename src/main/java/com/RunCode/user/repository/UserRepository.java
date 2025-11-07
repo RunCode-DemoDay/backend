@@ -11,6 +11,5 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByKakaoId(String kakaoId);
-    @Query("select u from User u left join fetch u.type where u.id = :id")
-    Optional<User> findByIdWithType(@Param("id") Long id);
+
 }
