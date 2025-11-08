@@ -106,6 +106,12 @@ public class CourseController {
     @GetMapping("/{courseId}")
     public ResponseEntity<ApiResponse> getCourseDetail(@AuthenticationPrincipal CustomUserDetails userDetails, @PathVariable Long courseId){
 
+        if (userDetails == null) {
+            return ResponseEntity
+                    .status(401)
+                    .body(new ApiResponse(false, 401, "로그인이 필요합니다.", null));
+        }
+
         Long userId = userDetails.getUserId();
 
         CourseDetailResponse response = courseService.getCourseDetail(courseId, userId);

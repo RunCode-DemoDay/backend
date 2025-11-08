@@ -29,6 +29,11 @@ public class BookmarkController {
     @PostMapping()
     public ResponseEntity<ApiResponse> createBookmark(@AuthenticationPrincipal CustomUserDetails userDetails, @RequestBody BookmarkCreateRequest request) {
 
+        if (userDetails == null) {
+            return ResponseEntity
+                    .status(401)
+                    .body(new ApiResponse(false, 401, "로그인이 필요합니다.", null));
+        }
         Long userId = userDetails.getUserId();
 
         BookmarkCreateResponse response = bookmarkService.createBookmark(userId, request);
@@ -42,6 +47,11 @@ public class BookmarkController {
     @DeleteMapping("/{bookmarkId}")
     public ResponseEntity<ApiResponse> deleteBookmark(@AuthenticationPrincipal CustomUserDetails userDetails, @PathVariable Long bookmarkId) {
 
+        if (userDetails == null) {
+            return ResponseEntity
+                    .status(401)
+                    .body(new ApiResponse(false, 401, "로그인이 필요합니다.", null));
+        }
         Long userId = userDetails.getUserId();
 
         BookmarkDeleteResponse response = bookmarkService.deleteBookmark(userId, bookmarkId);
@@ -54,6 +64,11 @@ public class BookmarkController {
     @GetMapping
     public ResponseEntity<ApiResponse> getMyBookmarks(@AuthenticationPrincipal CustomUserDetails userDetails, @RequestParam(name = "order", defaultValue = "latest") String order) {
 
+        if (userDetails == null) {
+            return ResponseEntity
+                    .status(401)
+                    .body(new ApiResponse(false, 401, "로그인이 필요합니다.", null));
+        }
         Long userId = userDetails.getUserId();
 
         List<BookmarkListResponse> responseList = bookmarkService.getMyBookmarks(userId, order);
