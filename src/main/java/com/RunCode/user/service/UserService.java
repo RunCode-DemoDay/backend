@@ -6,6 +6,7 @@ import com.RunCode.course.repository.CourseRepository;
 import com.RunCode.login.config.jwt.TokenProvider;
 import com.RunCode.review.domain.Review;
 import com.RunCode.review.repository.ReviewRepository;
+import com.RunCode.user.domain.CustomUserDetails;
 import com.RunCode.user.dto.ReviewListResponse;
 import com.RunCode.user.dto.UnreviewedCourseResponse;
 import com.RunCode.user.dto.UserRegisterResponse;
@@ -13,6 +14,7 @@ import com.RunCode.type.domain.Type;
 import com.RunCode.type.repository.TypeRepository;
 import com.RunCode.user.domain.User;
 import com.RunCode.user.repository.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.http.ResponseEntity;
@@ -31,18 +33,22 @@ public class UserService {
     private final CourseRepository courseRepository;
     private final ReviewRepository reviewRepository;
 
-
-    @Transactional(readOnly = true)
-    public ResponseEntity<ApiResponse<UserRegisterResponse>> getUserInfoById(Long userId) {
-        User user = userRepository.findById(userId).orElse(null);
-        if (user == null) {
-            return ResponseEntity.status(401)
-                    .body(new ApiResponse<>(false, 401, "인증이 필요합니다."));
+    /** 인증된 userId 가져오기 */
+    public Long getRequiredUserId(CustomUserDetails userDetails) {
+        if (userDetails == null) {
+            throw new EntityNotFoundException("로그인이 필요합니다.");
         }
+        return userDetails.getUserId();
+    }
+    /** 현재 로그인 사용자 정보 조회 */
+    @Transactional(readOnly = true)
+    public UserRegisterResponse getUserInfoById(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("해당 사용자를 찾을 수 없습니다."));
 
         String typeName = (user.getType() != null) ? user.getType().getName() : null;
 
-        UserRegisterResponse data = new UserRegisterResponse(
+        return new UserRegisterResponse(
                 user.getId(),
                 user.getKakaoId(),
                 user.getName(),
@@ -50,37 +56,27 @@ public class UserService {
                 user.getProfileImage(),
                 typeName
         );
-        return ResponseEntity.ok(new ApiResponse<>(true, 200, "사용자 정보 조회 성공", data));
     }
-
+    /** 러너 유형 변경 */
     @Transactional
-    public ResponseEntity<ApiResponse<UserRegisterResponse>> updateRunnerTypeByUserId(Long userId, Long typeId) {
-        User user = userRepository.findById(userId).orElse(null);
-        if (user == null) {
-            return ResponseEntity.status(401)
-                    .body(new ApiResponse<>(false, 401, "인증이 필요합니다."));
-        }
-        try {
-            Type newType = typeRepository.findById(typeId)
-                    .orElseThrow(() -> new IllegalArgumentException("Invalid type ID: " + typeId));
-            user.updateType(newType);
-            userRepository.save(user);
+    public UserRegisterResponse updateRunnerTypeByUserId(Long userId, Long typeId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("해당 사용자를 찾을 수 없습니다."));
 
-            String updatedTypeName = (user.getType() != null) ? user.getType().getName() : null;
+        Type newType = typeRepository.findById(typeId)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid type ID: " + typeId));
 
-            UserRegisterResponse data = new UserRegisterResponse(
-                    user.getId(),
-                    user.getKakaoId(),
-                    user.getName(),
-                    user.getNickname(),
-                    user.getProfileImage(),
-                    updatedTypeName
-            );
-            return ResponseEntity.ok(new ApiResponse<>(true, 200, "러너 유형이 업데이트되었습니다.", data));
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(400)
-                    .body(new ApiResponse<>(false, 400, e.getMessage()));
-        }
+        user.updateType(newType);
+        userRepository.save(user);
+
+        return new UserRegisterResponse(
+                user.getId(),
+                user.getKakaoId(),
+                user.getName(),
+                user.getNickname(),
+                user.getProfileImage(),
+                user.getType().getName()
+        );
     }
 
 
