@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class LapRequest {
-    Long lap_id;
+    //Long lap_id;
     Integer lap_number;
     String average_pace;
     String pace_variation;
@@ -20,7 +20,7 @@ public class LapRequest {
 
     public Lap toEntity(Archiving archiving){
         return Lap.builder()
-                .id(this.lap_id)
+                //.id(this.lap_id)
                 .archiving(archiving)
                 .lapNumber(this.lap_number)
                 .averagePace(this.average_pace)
