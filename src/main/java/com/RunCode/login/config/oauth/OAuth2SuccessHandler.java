@@ -1,11 +1,15 @@
 package com.RunCode.login.config.oauth;
 
+import com.RunCode.common.domain.ApiResponse;
 import com.RunCode.login.CookieUtil;
 import com.RunCode.login.config.jwt.TokenProvider;
 import com.RunCode.login.domain.RefreshToken;
+import com.RunCode.login.dto.CreateAccessTokenResponse;
+import com.RunCode.login.dto.CreateTokenResponse;
 import com.RunCode.login.repository.RefreshTokenRepository;
 import com.RunCode.user.domain.User;
 import com.RunCode.user.service.UserService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +30,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     public static final String REFRESH_TOKEN_COOKIE_NAME = "refresh_token";
     public static final Duration REFRESH_TOKEN_DURATION = Duration.ofDays(14);
     public static final Duration ACCESS_TOKEN_DURATION = Duration.ofDays(1);
-    public static final String REDIRECT_PATH = "/";
+    public static final String REDIRECT_PATH = "http://localhost:5174/start";
 
     private final TokenProvider tokenProvider;
     private final RefreshTokenRepository refreshTokenRepository;
@@ -66,7 +70,9 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         String targetUrl = getTargetUrl(accessToken);
 
         clearAuthenticationAttributes(request, response);
-        getRedirectStrategy().sendRedirect(request, response, targetUrl);
+        // ApiResponse 형태로 JSON 반환
+//        writeTokenResponse(response, accessToken, refreshToken);
+        //getRedirectStrategy().sendRedirect(request, response, targetUrl);
     }
 
 
@@ -83,7 +89,14 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         int cookieMaxAge = (int) REFRESH_TOKEN_DURATION.toSeconds();
 
         CookieUtil.deleteCookie(request, response, REFRESH_TOKEN_COOKIE_NAME);
-        CookieUtil.addCookie(response, REFRESH_TOKEN_COOKIE_NAME, refreshToken, cookieMaxAge);
+        String cookieValue =
+                "refresh_token=" + refreshToken +
+                        "; Max-Age=" + cookieMaxAge +
+                        "; Path=/" +
+                        "; HttpOnly" +
+                        "; SameSite=None; Secure";//https시 Secure
+        response.addHeader("Set-Cookie", cookieValue);
+        //CookieUtil.addCookie(response, REFRESH_TOKEN_COOKIE_NAME, refreshToken, cookieMaxAge);
     }
 
     private void clearAuthenticationAttributes(HttpServletRequest request, HttpServletResponse response) {
@@ -96,5 +109,19 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
                 .queryParam("token", token)
                 .build()
                 .toUriString();
+    }
+    private void writeTokenResponse(HttpServletResponse response,
+                                    String accessToken,
+                                    String refreshToken) throws IOException {
+        CreateTokenResponse tokenData = new CreateTokenResponse(accessToken, refreshToken);
+
+        ApiResponse<CreateTokenResponse> apiResponse =
+                new ApiResponse<>(true, 200, "로그인 성공", tokenData);
+
+        response.setStatus(HttpServletResponse.SC_OK);
+        response.setContentType("application/json;charset=UTF-8");
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.writeValue(response.getWriter(), apiResponse);
     }
 }
