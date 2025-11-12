@@ -59,6 +59,53 @@ public class UserService {
     }
     /** 러너 유형 변경 */
     @Transactional
+    public UserRegisterResponse updateRunnerTypeByCode(Long userId, String typeCode) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("해당 사용자를 찾을 수 없습니다."));
+
+        Long typeId = mapTypeCodeToId(typeCode);
+
+        Type newType = typeRepository.findById(typeId)
+                .orElseThrow(() -> new IllegalArgumentException("유효하지 않은 type ID입니다: " + typeId));
+
+        user.updateType(newType);
+        userRepository.save(user);
+
+        return new UserRegisterResponse(
+                user.getId(),
+                user.getKakaoId(),
+                user.getName(),
+                user.getNickname(),
+                user.getProfileImage(),
+                user.getType().getName()
+        );
+    }
+    private Long mapTypeCodeToId(String code) {
+        if (code == null || code.length() != 4) {
+            throw new IllegalArgumentException("typeCode 형식이 잘못되었습니다. (예: SGMP)");
+        }
+
+        return switch (code.toUpperCase()) {
+            case "SGMP" -> 1L;  // 새벽솔로 도전자
+            case "SGTP" -> 2L;  // 아침 팀 마라토너
+            case "NGMP" -> 3L;  // 야간 기록 추격자
+            case "NGTP" -> 4L;  // 저녁 러닝 클럽 리더
+            case "SHMH" -> 5L;  // 즉흥 새벽 질주러
+            case "SHTH" -> 6L;  // 팀과 함께 즐기는 아침 스프린터
+            case "NGMH" -> 7L;  // 퇴근 후 기록 도전자
+            case "NHTH" -> 8L;  // 야간 즉흥 러닝 메이트
+            case "SFMH" -> 9L;  // 루틴형 아침 힐링러
+            case "SFTH" -> 10L; // 아침 공원 러닝 메이트
+            case "NFMH" -> 11L; // 저녁 루틴 산책러
+            case "NFTH" -> 12L; // 퇴근 후 팀 러너
+            case "SHMP" -> 13L; // 기분파 아침 러너
+            case "SHTP" -> 14L; // 함께하는 감성 새벽 러너
+            case "NFMP" -> 15L; // 노을 감상 야간 러너
+            case "NHTP" -> 16L; // 저녁 즉흥 러닝 메이트
+            default -> throw new IllegalArgumentException("유효하지 않은 typeCode: " + code);
+        };
+    }
+    @Transactional
     public UserRegisterResponse updateRunnerTypeByUserId(Long userId, Long typeId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException("해당 사용자를 찾을 수 없습니다."));

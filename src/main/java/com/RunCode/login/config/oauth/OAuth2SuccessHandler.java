@@ -70,9 +70,8 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         String targetUrl = getTargetUrl(accessToken);
 
         clearAuthenticationAttributes(request, response);
-        // ApiResponse 형태로 JSON 반환
-        writeTokenResponse(response, accessToken, refreshToken);
-        //getRedirectStrategy().sendRedirect(request, response, targetUrl);
+
+        getRedirectStrategy().sendRedirect(request, response, targetUrl);
     }
 
 
