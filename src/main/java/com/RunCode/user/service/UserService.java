@@ -82,26 +82,26 @@ public class UserService {
     }
     private Long mapTypeCodeToId(String code) {
         if (code == null || code.length() != 4) {
-            throw new IllegalArgumentException("typeCode 형식이 잘못되었습니다. (예: SGMP)");
+            throw new IllegalArgumentException("typeCode 형식이 잘못되었습니다. (예: GPSM)");
         }
 
         return switch (code.toUpperCase()) {
-            case "SGMP" -> 1L;  // 새벽솔로 도전자
-            case "SGTP" -> 2L;  // 아침 팀 마라토너
-            case "NGMP" -> 3L;  // 야간 기록 추격자
-            case "NGTP" -> 4L;  // 저녁 러닝 클럽 리더
-            case "SHMH" -> 5L;  // 즉흥 새벽 질주러
-            case "SHTH" -> 6L;  // 팀과 함께 즐기는 아침 스프린터
-            case "NGMH" -> 7L;  // 퇴근 후 기록 도전자
-            case "NHTH" -> 8L;  // 야간 즉흥 러닝 메이트
-            case "SFMH" -> 9L;  // 루틴형 아침 힐링러
-            case "SFTH" -> 10L; // 아침 공원 러닝 메이트
-            case "NFMH" -> 11L; // 저녁 루틴 산책러
-            case "NFTH" -> 12L; // 퇴근 후 팀 러너
-            case "SHMP" -> 13L; // 기분파 아침 러너
-            case "SHTP" -> 14L; // 함께하는 감성 새벽 러너
-            case "NFMP" -> 15L; // 노을 감상 야간 러너
-            case "NHTP" -> 16L; // 저녁 즉흥 러닝 메이트
+            case "GPSM" -> 1L;  // 새벽 솔로 도전자
+            case "GPST" -> 2L;  // 아침 팀 마라토너
+            case "GPNM" -> 3L;  // 야간 기록 추격자
+            case "GPNT" -> 4L;  // 저녁 러닝 클럽 리더
+            case "GFSM" -> 5L;  // 즉흥 새벽 질주러
+            case "GFST" -> 6L;  // 팀과 함께 즐기는 아침 스프린터
+            case "GFNM" -> 7L;  // 퇴근 후 기록 도전자
+            case "GFNT" -> 8L;  // 야간 즉흥 러닝 메이트
+            case "HPSM" -> 9L;  // 루틴형 아침 힐링러
+            case "HPST" -> 10L; // 아침 공원 러닝 메이트
+            case "HPNM" -> 11L; // 저녁 루틴 산책러
+            case "HPNT" -> 12L; // 퇴근 후 팀 러너
+            case "HFSM" -> 13L; // 기분파 아침 러너
+            case "HFST" -> 14L; // 함께하는 감성 새벽 러너
+            case "HFNM" -> 15L; // 노을 감상 야간 러너
+            case "HFNT" -> 16L; // 저녁 즉흥 러닝 메이트
             default -> throw new IllegalArgumentException("유효하지 않은 typeCode: " + code);
         };
     }
