@@ -23,13 +23,16 @@ import java.io.IOException;
 import java.time.Duration;
 import java.util.Map;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @RequiredArgsConstructor
 @Component
 public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
     public static final String REFRESH_TOKEN_COOKIE_NAME = "refresh_token";
     public static final Duration REFRESH_TOKEN_DURATION = Duration.ofDays(14);
-    public static final Duration ACCESS_TOKEN_DURATION = Duration.ofDays(1);
+    public static final Duration ACCESS_TOKEN_DURATION = Duration.ofDays(14);
 
     // public static final String REDIRECT_PATH = "http://localhost:5174/start";
     public static final String REDIRECT_PATH = "http://localhost:5174/oauth/kakao/callback";
@@ -59,22 +62,38 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         String accessToken = tokenProvider.generateToken(user, ACCESS_TOKEN_DURATION);
         String refreshToken = tokenProvider.generateToken(user, REFRESH_TOKEN_DURATION);
 
-        // Refresh Token 저장 (DB에 저장)
-        saveRefreshToken(user.getId(), refreshToken);
+        // 3) redirect URL 만들기
+        String targetUrl = UriComponentsBuilder.fromUriString(REDIRECT_PATH)
+                .queryParam("token", accessToken)
+                .queryParam("refresh", refreshToken)
+                .build()
+                .toUriString();
 
-        // Refresh Token을 쿠키에 추가 (수정된 호출)
-        addRefreshTokenToCookie(request, response, refreshToken);
+        // 🔥 여기 로그 꼭 넣어보기
+        log.info("[OAuth2SuccessHandler] redirect to front: {}", targetUrl);
 
-        // Access Token을 HTTP 헤더에 추가 (선택)
-        response.addHeader("Authorization", "Bearer " + accessToken);
+        log.info("Redirect URL: {}", REDIRECT_PATH);
 
-        // 인증 성공 후 리다이렉트
-        String targetUrl = getTargetUrl(accessToken, refreshToken);
 
-        clearAuthenticationAttributes(request, response);
-        // ApiResponse 형태로 JSON 반환
-        //writeTokenResponse(response, accessToken, refreshToken);
+        // 4) 실제 리다이렉트
         getRedirectStrategy().sendRedirect(request, response, targetUrl);
+
+        // // Refresh Token 저장 (DB에 저장)
+        // saveRefreshToken(user.getId(), refreshToken);
+
+        // // Refresh Token을 쿠키에 추가 (수정된 호출)
+        // addRefreshTokenToCookie(request, response, refreshToken);
+
+        // // Access Token을 HTTP 헤더에 추가 (선택)
+        // response.addHeader("Authorization", "Bearer " + accessToken);
+
+        // // 인증 성공 후 리다이렉트
+        // String targetUrl = getTargetUrl(accessToken, refreshToken);
+
+        // clearAuthenticationAttributes(request, response);
+        // // ApiResponse 형태로 JSON 반환
+        // //writeTokenResponse(response, accessToken, refreshToken);
+        // getRedirectStrategy().sendRedirect(request, response, targetUrl);
     }
 
 

@@ -41,3 +41,4 @@ out/
 
 certbot/conf/accounts/
 .data/pg/.env
+.data/pg/
