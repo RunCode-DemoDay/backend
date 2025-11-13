@@ -20,4 +20,5 @@ out
 data
 pgdata
 
-certbot/
+certbot
+nginx
