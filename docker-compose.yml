@@ -16,7 +16,7 @@ services:
       # 예시) 메모리 튜닝, GC 로그 등
       - JAVA_OPTS=-XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0
       # 예시) Spring profile
-      - SPRING_OPTS=--spring.profiles.active=prod
+      - SPRING_PROFILES_ACTIVE=prod
     restart: unless-stopped
 
   db:
