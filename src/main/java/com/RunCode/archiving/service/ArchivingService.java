@@ -30,7 +30,7 @@ public class ArchivingService {
     /* archiving 전체 조회*/
     // 1. 코스별 archiving 목록
     public List<ArchivingSummaryResponse> readAllArchivingByCourse(Long courseId, Long userId){
-        List<ArchivingSummaryResponse> archivings = archivingRepository.findByUserIdAndCourseId(courseId, userId)
+        List<ArchivingSummaryResponse> archivings = archivingRepository.findByUserIdAndCourseId(userId, courseId)
                 .stream().map(ac -> ArchivingSummaryResponse.of(ac))
                 .toList();
 

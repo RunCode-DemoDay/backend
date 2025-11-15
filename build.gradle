@@ -36,8 +36,13 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 	implementation 'org.springframework.security:spring-security-oauth2-resource-server'
 	implementation 'com.fasterxml.jackson.core:jackson-databind'
+	implementation 'io.awspring.cloud:spring-cloud-aws-starter-s3:3.1.1'
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+jar {
+	enabled = false
 }

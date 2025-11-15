@@ -31,8 +31,12 @@ public class UserController {
     public ResponseEntity<ApiResponse<UserRegisterResponse>> getUserInfo(
             @AuthenticationPrincipal CustomUserDetails principal
     ) {
-        Long userId = principal.getUserId();
-        return userService.getUserInfoById(userId);
+        Long userId = userService.getRequiredUserId(principal);
+        UserRegisterResponse data = userService.getUserInfoById(userId);
+
+        return ResponseEntity.ok(
+                new ApiResponse<>(true, 200, "사용자 정보 조회 성공", data)
+        );
     }
 
     /** 러너 유형 변경 */
@@ -41,8 +45,13 @@ public class UserController {
             @AuthenticationPrincipal CustomUserDetails principal,
             @RequestBody UpdateRunnerTypeRequest req
     ) {
-        Long userId = principal.getUserId();
-        return userService.updateRunnerTypeByUserId(userId, req.getTypeId());
+        Long userId = userService.getRequiredUserId(principal);
+        // UserRegisterResponse data = userService.updateRunnerTypeByUserId(userId, req.getTypeId());
+        UserRegisterResponse data = userService.updateRunnerTypeByCode(userId, req.getTypeCode());
+
+        return ResponseEntity.ok(
+                new ApiResponse<>(true, 200, "러너 유형이 업데이트되었습니다.", data)
+        );
     }
 
     // 현재 로그인된 사용자의 리뷰 미작성 코스 목록 조회 : 일단 헤더는 필수 아닌걸로 해뒀어요

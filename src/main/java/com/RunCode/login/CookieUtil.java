@@ -13,7 +13,9 @@ public class CookieUtil {
     public static void addCookie(HttpServletResponse response, String name, String value, int maxAge){
         Cookie cookie = new Cookie(name, value);
         cookie.setPath("/");
+        cookie.setHttpOnly(true);
         cookie.setMaxAge(maxAge);
+        cookie.setSecure(true);
         response.addCookie(cookie);
     }
 
@@ -53,6 +55,9 @@ public class CookieUtil {
 
 
     public static <T> T deserialize(Cookie cookie, Class<T> cls){
+        if (cookie == null) {
+            return null;
+        }
         return cls.cast(
                 SerializationUtils.deserialize(
                         Base64.getUrlDecoder().decode(cookie.getValue())

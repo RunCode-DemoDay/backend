@@ -38,3 +38,7 @@ out/
 ### VS Code ###
 .vscode/
 .env
+
+certbot/conf/accounts/
+.data/pg/.env
+.data/pg/
