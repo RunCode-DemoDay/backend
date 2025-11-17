@@ -44,8 +44,8 @@ public class BookmarkController {
     }
 
     // bookmark 삭제
-    @DeleteMapping("/{bookmarkId}")
-    public ResponseEntity<ApiResponse> deleteBookmark(@AuthenticationPrincipal CustomUserDetails userDetails, @PathVariable Long bookmarkId) {
+    @DeleteMapping("/{courseId}")
+    public ResponseEntity<ApiResponse> deleteBookmark(@AuthenticationPrincipal CustomUserDetails userDetails, @PathVariable Long courseId) {
 
         if (userDetails == null) {
             return ResponseEntity
@@ -54,7 +54,7 @@ public class BookmarkController {
         }
         Long userId = userDetails.getUserId();
 
-        BookmarkDeleteResponse response = bookmarkService.deleteBookmark(userId, bookmarkId);
+        BookmarkDeleteResponse response = bookmarkService.deleteBookmark(userId, courseId);
 
         return ResponseEntity
                 .ok(new ApiResponse(true, 200, "북마크 삭제 성공", response));

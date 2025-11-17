@@ -186,20 +186,20 @@
 --         ON UPDATE CASCADE
 -- ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-TRUNCATE TABLE types RESTART IDENTITY CASCADE;
-TRUNCATE TABLE users RESTART IDENTITY CASCADE;
-TRUNCATE TABLE tags RESTART IDENTITY CASCADE;
-TRUNCATE TABLE courses RESTART IDENTITY CASCADE;
-TRUNCATE TABLE course_tags RESTART IDENTITY CASCADE;
-TRUNCATE TABLE type_tags RESTART IDENTITY CASCADE;
-TRUNCATE TABLE locations RESTART IDENTITY CASCADE;
-TRUNCATE TABLE archivings RESTART IDENTITY CASCADE;
-TRUNCATE TABLE laps RESTART IDENTITY CASCADE;
-TRUNCATE TABLE reviews RESTART IDENTITY CASCADE;
-TRUNCATE TABLE bookmarks RESTART IDENTITY CASCADE;
-TRUNCATE TABLE course_detail_image RESTART IDENTITY CASCADE;
+-- TRUNCATE TABLE types RESTART IDENTITY CASCADE;
+-- TRUNCATE TABLE users RESTART IDENTITY CASCADE;
+-- TRUNCATE TABLE tags RESTART IDENTITY CASCADE;
+-- TRUNCATE TABLE courses RESTART IDENTITY CASCADE;
+-- TRUNCATE TABLE course_tags RESTART IDENTITY CASCADE;
+-- TRUNCATE TABLE type_tags RESTART IDENTITY CASCADE;
+-- TRUNCATE TABLE locations RESTART IDENTITY CASCADE;
+-- TRUNCATE TABLE archivings RESTART IDENTITY CASCADE;
+-- TRUNCATE TABLE laps RESTART IDENTITY CASCADE;
+-- TRUNCATE TABLE reviews RESTART IDENTITY CASCADE;
+-- TRUNCATE TABLE bookmarks RESTART IDENTITY CASCADE;
+-- TRUNCATE TABLE course_detail_image RESTART IDENTITY CASCADE;
 
-INSERT INTO types (name, description, thumbnail) VALUES ('새벽솔로 도전자', '아침의 고요 속에서 혼자 달리며 기록에 집중하는 타입.\n꾸준한 루틴과 성취감을 통해 성장하는 러너.', 'https://img.example.com/type_1.png');
+INSERT INTO types (name, description, thumbnail) VALUES ('새벽솔로 도전자', '아침의 고요 속에서 혼자 달리며 기록에 집중하는 타입.\n꾸준한 루틴과 성취감을 통해 성장하는 러너.', 'https://img.example.com/type_1.png'); 
 INSERT INTO types (name, description, thumbnail) VALUES ('아침 팀 마라토너', '팀과 함께 아침 러닝으로 하루를 여는 타입.\n동료와의 협력 속에서 목표 달성에 힘을 얻는다.', 'https://img.example.com/type_2.png');
 INSERT INTO types (name, description, thumbnail) VALUES ('야간 기록 추격자', '저녁마다 홀로 기록을 갱신하려는 도전적인 타입\n어둠 속에서 자신과의 경쟁을 즐기는 러너.', 'https://img.example.com/type_3.png');
 INSERT INTO types (name, description, thumbnail) VALUES ('저녁 러닝 클럽 리더', '퇴근 후 크루와 함께 달리며 목표를 향하는 타입.\n서로를 이끌며 팀워크로 성취를 만들어간다.', 'https://img.example.com/type_4.png');
@@ -236,16 +236,16 @@ INSERT INTO tags (name) VALUES ('엔조이'); -- H
 INSERT INTO tags (name) VALUES ('단체런'); -- T
 INSERT INTO tags (name) VALUES ('풍경 즐기기'); -- F
 
-INSERT INTO courses (user_id, title, content, address, distance, distance_description, thumbnail, star_average, review_count) VALUES (1, '한강 반포 러닝 코스', '아침 햇살과 강바람을 맞으며 기록에 집중하기 좋은 한강 대표 코스', '서울시 서초구 반포동 (고속터미널역 8-1 출구 도보 10분)', 5.7, '약 5km (반포대교-잠수교 순환)', 'https://img.example.com/course_1.jpg', 0.0, 0);
-INSERT INTO courses (user_id, title, content, address, distance, distance_description, thumbnail, star_average, review_count) VALUES (2, '한강 여의도 러닝 코스', '여의도공원과 샛강 생태공원을 포함한 강변 평탄 구간', '서울시 영등포구 여의도동 (여의도한강공원 일대)', 6.4, '약 5 km (여의도 샛강생태공원 루프 포함)', 'https://img.example.com/course_2.jpg', 0.0, 0);
-INSERT INTO courses (user_id, title, content, address, distance, distance_description, thumbnail, star_average, review_count) VALUES (3, '청계천 도심 러닝 코스', '도심 속 하천 따라 시원하게 달릴 수 있는 도심로 코스', '서울시 종로구 수표동 (청계광장 인근)', 7.1, '약 3-4 km (청계광장에서 동쪽방향 왕복)', 'https://img.example.com/course_3.jpg', 0.0, 0);
-INSERT INTO courses (user_id, title, content, address, distance, distance_description, thumbnail, star_average, review_count) VALUES (4, '양재천 물길 러닝 코스', '강남·서초와 이어지는 나무 그늘 아래 평탄한 스트림 코스', '서울시 서초구 양재동 ~ 강남구 일대 (양재천변)', 7.8, '서울시 서초구 양재동 ~ 강남구 일대 (양재천변)', 'https://img.example.com/course_4.jpg', 0.0, 0);
-INSERT INTO courses (user_id, title, content, address, distance, distance_description, thumbnail, star_average, review_count) VALUES (5, '서울둘레길 외곽 러닝 코스', '서울 외곽 자연과 마을길을 잇는 트레일 느낌의 긴 코스', '서울시 외곽 산자락 일대 (예: 남양주시경계 등)', 8.5, '약 8-12 km (서울둘레길 1개 구간)', 'https://img.example.com/course_5.jpg', 0.0, 0);
-INSERT INTO courses (user_id, title, content, address, distance, distance_description, thumbnail, star_average, review_count) VALUES (6, '뚝섬-광진교 한강 러닝 코스', '한강변 자전거길을 공유하며 강변 풍경 따라 달리기 좋은 구간', '서울시 광진구 뚝섬유원지역 인근 (뚝섬유원지 출발)', 9.2, '약 7.9 km (뚝섬유원지-광진교 구간)', 'https://img.example.com/course_6.jpg', 0.0, 0);
-INSERT INTO courses (user_id, title, content, address, distance, distance_description, thumbnail, star_average, review_count) VALUES (7, '북악산 성곽길 러닝 코스', '도심과 산이 만나는 곳에서 기분 전환하며 달릴 수 있는 코스', '서울시 종로구 부암동 일대 (북악산 성곽길 시작점)', 9.9, '약 10 km 내외 (성곽길 구간)', 'https://img.example.com/course_7.jpg', 0.0, 0);
-INSERT INTO courses (user_id, title, content, address, distance, distance_description, thumbnail, star_average, review_count) VALUES (1, '올림픽공원 조깅 코스', '1988올림픽 메모리얼 공간에서 평탄하고 잘 정비된 트랙', '서울시 송파구 올림픽로 424 (올림픽공원 내부)', 10.6, '약 4 km (공원 내부 루프)', 'https://img.example.com/course_8.jpg', 0.0, 0);
-INSERT INTO courses (user_id, title, content, address, distance, distance_description, thumbnail, star_average, review_count) VALUES (1, '월드컵공원 하늘공원 러닝 코스', '도시 속 녹지와 계단을 섞어 달리기 강화되는 기분 좋은 트레일', '서울시 마포구 하늘공원로 95 (월드컵공원 하늘공원)', 11.3, '약 3-5 km (공원 내부 루프)', 'https://img.example.com/course_9.jpg', 0.0, 0);
-INSERT INTO courses (user_id, title, content, address, distance, distance_description, thumbnail, star_average, review_count) VALUES (1, '안양천 강변 러닝 코스', '강변 나무 그늘 아래 꾸준히 달리기 좋은 강변 산책로', '서울시 구로구 구로동 ~ 양천구 일대 (안양천 산책로)', 12.0, '약 5-6 km (안양천 산책·러닝 구간)', 'https://img.example.com/course_10.jpg', 0.0, 0);
+INSERT INTO courses (user_id, title, content, address, distance, distance_description, thumbnail, star_average, review_count) VALUES (1, '한강 반포 러닝 코스', '아침 햇살과 강바람을 맞으며 기록에 집중하기 좋은 한강 대표 코스', '서울시 서초구 반포동 (고속터미널역 8-1 출구 도보 10분)', 5.7, '약 5km (반포대교-잠수교 순환)', 'https://runcode-bucket.s3.ap-northeast-2.amazonaws.com/courses/course1_banpo.jpg', 0.0, 0);
+INSERT INTO courses (user_id, title, content, address, distance, distance_description, thumbnail, star_average, review_count) VALUES (2, '한강 여의도 러닝 코스', '여의도공원과 샛강 생태공원을 포함한 강변 평탄 구간', '서울시 영등포구 여의도동 (여의도한강공원 일대)', 6.4, '약 5 km (여의도 샛강생태공원 루프 포함)', 'https://runcode-bucket.s3.ap-northeast-2.amazonaws.com/courses/course2_yeouido.jpg', 0.0, 0);
+INSERT INTO courses (user_id, title, content, address, distance, distance_description, thumbnail, star_average, review_count) VALUES (3, '청계천 도심 러닝 코스', '도심 속 하천 따라 시원하게 달릴 수 있는 도심로 코스', '서울시 종로구 수표동 (청계광장 인근)', 7.1, '약 3-4 km (청계광장에서 동쪽방향 왕복)', 'https://runcode-bucket.s3.ap-northeast-2.amazonaws.com/courses/course3_cheonggye.jpg', 0.0, 0);
+INSERT INTO courses (user_id, title, content, address, distance, distance_description, thumbnail, star_average, review_count) VALUES (4, '양재천 물길 러닝 코스', '강남·서초와 이어지는 나무 그늘 아래 평탄한 스트림 코스', '서울시 서초구 양재동 ~ 강남구 일대 (양재천변)', 7.8, '서울시 서초구 양재동 ~ 강남구 일대 (양재천변)', 'https://runcode-bucket.s3.ap-northeast-2.amazonaws.com/courses/course4_yangjae.jpg', 0.0, 0);
+INSERT INTO courses (user_id, title, content, address, distance, distance_description, thumbnail, star_average, review_count) VALUES (5, '서울둘레길 외곽 러닝 코스', '서울 외곽 자연과 마을길을 잇는 트레일 느낌의 긴 코스', '서울시 외곽 산자락 일대 (예: 남양주시경계 등)', 8.5, '약 8-12 km (서울둘레길 1개 구간)', 'https://runcode-bucket.s3.ap-northeast-2.amazonaws.com/courses/course5_dulegil.jpg', 0.0, 0);
+INSERT INTO courses (user_id, title, content, address, distance, distance_description, thumbnail, star_average, review_count) VALUES (6, '뚝섬-광진교 한강 러닝 코스', '한강변 자전거길을 공유하며 강변 풍경 따라 달리기 좋은 구간', '서울시 광진구 뚝섬유원지역 인근 (뚝섬유원지 출발)', 9.2, '약 7.9 km (뚝섬유원지-광진교 구간)', 'https://runcode-bucket.s3.ap-northeast-2.amazonaws.com/courses/course6_ttukseom.jpg', 0.0, 0);
+INSERT INTO courses (user_id, title, content, address, distance, distance_description, thumbnail, star_average, review_count) VALUES (7, '북악산 성곽길 러닝 코스', '도심과 산이 만나는 곳에서 기분 전환하며 달릴 수 있는 코스', '서울시 종로구 부암동 일대 (북악산 성곽길 시작점)', 9.9, '약 10 km 내외 (성곽길 구간)', 'hhttps://runcode-bucket.s3.ap-northeast-2.amazonaws.com/courses/course7_bugaksan.jpg', 0.0, 0);
+INSERT INTO courses (user_id, title, content, address, distance, distance_description, thumbnail, star_average, review_count) VALUES (1, '올림픽공원 조깅 코스', '1988올림픽 메모리얼 공간에서 평탄하고 잘 정비된 트랙', '서울시 송파구 올림픽로 424 (올림픽공원 내부)', 10.6, '약 4 km (공원 내부 루프)', 'https://runcode-bucket.s3.ap-northeast-2.amazonaws.com/courses/course8_olympic.jpg', 0.0, 0);
+INSERT INTO courses (user_id, title, content, address, distance, distance_description, thumbnail, star_average, review_count) VALUES (1, '월드컵공원 하늘공원 러닝 코스', '도시 속 녹지와 계단을 섞어 달리기 강화되는 기분 좋은 트레일', '서울시 마포구 하늘공원로 95 (월드컵공원 하늘공원)', 11.3, '약 3-5 km (공원 내부 루프)', 'https://runcode-bucket.s3.ap-northeast-2.amazonaws.com/courses/course9_worldcup.jpg', 0.0, 0);
+INSERT INTO courses (user_id, title, content, address, distance, distance_description, thumbnail, star_average, review_count) VALUES (1, '안양천 강변 러닝 코스', '강변 나무 그늘 아래 꾸준히 달리기 좋은 강변 산책로', '서울시 구로구 구로동 ~ 양천구 일대 (안양천 산책로)', 12.0, '약 5-6 km (안양천 산책·러닝 구간)', 'https://runcode-bucket.s3.ap-northeast-2.amazonaws.com/courses/course10_anyang.jpg', 0.0, 0);
 INSERT INTO course_detail_image (course_id, image_url) VALUES (1, 'https://img.example.com/course_1_detail_1.jpg');
 INSERT INTO course_detail_image (course_id, image_url) VALUES (1, 'https://img.example.com/course_1_detail_2.jpg');
 INSERT INTO course_detail_image (course_id, image_url) VALUES (2, 'https://img.example.com/course_2_detail_1.jpg');

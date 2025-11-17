@@ -75,7 +75,7 @@ public class TokenProvider {
         return claims.get("userId", Long.class);
     }
 
-    private Claims getClaims(String token) {
+    public Claims getClaims(String token) {
         return Jwts.parserBuilder().setSigningKey(key()).build()
                 .parseClaimsJws(token)
                 .getBody();

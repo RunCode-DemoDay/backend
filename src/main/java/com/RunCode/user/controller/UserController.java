@@ -47,6 +47,8 @@ public class UserController {
             @RequestBody UpdateRunnerTypeRequest req
     ) {
         Long userId = userService.getRequiredUserId(principal);
+
+        // UserRegisterResponse data = userService.updateRunnerTypeByUserId(userId, req.getTypeId());
         UserRegisterResponse data = userService.updateRunnerTypeByCode(userId, req.getTypeCode());
 
         return ResponseEntity.ok(

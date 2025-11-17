@@ -95,7 +95,9 @@ public class WebSecurityConfig {
         // 프론트 개발 서버 Origin을 정확히 지정
         c.setAllowedOrigins(List.of(
                 "http://localhost:3000",
-                "http://localhost:5174"// 운영 도메인 추가
+                "http://localhost:5173",
+                "http://localhost:5174",
+                "https://runcode-real-main.vercel.app" // 프론트 배포 주소
         ));
         c.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         c.setAllowedHeaders(List.of("Authorization", "Content-Type"));

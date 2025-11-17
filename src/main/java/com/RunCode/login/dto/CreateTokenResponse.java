@@ -9,3 +9,4 @@ public class CreateTokenResponse {
     private String accessToken;
     private String refreshToken;
 }
+
