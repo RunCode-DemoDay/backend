@@ -74,7 +74,6 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
         log.info("Redirect URL: {}", REDIRECT_PATH);
 
-
         // 4) 실제 리다이렉트
         getRedirectStrategy().sendRedirect(request, response, targetUrl);
 
@@ -147,4 +146,5 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.writeValue(response.getWriter(), apiResponse);
     }
+
 }

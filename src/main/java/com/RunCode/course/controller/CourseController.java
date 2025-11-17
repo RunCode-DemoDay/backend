@@ -45,7 +45,7 @@ public class CourseController {
         }
         Long userId = userDetails.getUserId();
         List<ArchivingSummaryResponse> response = archivingService.readAllArchivingByCourse(courseId, userId);
-        return ResponseEntity.ok(new ApiResponse(true, 200, "archiving 상세조회 성공", response) );
+        return ResponseEntity.ok(new ApiResponse(true, 200, "코스별 archiving 전체조회 성공", response) );
     }
 
     // course별 review 작성여부

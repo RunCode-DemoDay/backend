@@ -69,9 +69,9 @@ public class ArchivingService {
         if (req.getCourse_id() == null){
             throw new IllegalArgumentException("course_id가 필요합니다.");
         }
-        if (req.getLaps() == null || req.getLaps().isEmpty()){
-            throw new IllegalArgumentException("lap(구간기록)은 최소 1개 이상이어야 합니다.");
-        }
+//        if (req.getLaps() == null || req.getLaps().isEmpty()){
+//            throw new IllegalArgumentException("lap(구간기록)은 최소 1개 이상이어야 합니다.");
+//        }
         if (req.getLaps().size()>42){
             throw new IllegalArgumentException("laps(구간기록)은 최대 42개까지만 허용됩니다.");
         }

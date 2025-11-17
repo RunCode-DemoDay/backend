@@ -39,6 +39,7 @@ public class UserController {
         );
     }
 
+
     /** 러너 유형 변경 */
     @PatchMapping("/me")
     public ResponseEntity<ApiResponse<UserRegisterResponse>> updateRunnerType(
@@ -46,6 +47,7 @@ public class UserController {
             @RequestBody UpdateRunnerTypeRequest req
     ) {
         Long userId = userService.getRequiredUserId(principal);
+
         // UserRegisterResponse data = userService.updateRunnerTypeByUserId(userId, req.getTypeId());
         UserRegisterResponse data = userService.updateRunnerTypeByCode(userId, req.getTypeCode());
 
