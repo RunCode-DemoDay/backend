@@ -35,7 +35,9 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     public static final Duration ACCESS_TOKEN_DURATION = Duration.ofDays(14);
 
     // public static final String REDIRECT_PATH = "http://localhost:5174/start";
-    public static final String REDIRECT_PATH = "http://localhost:5174/oauth/kakao/callback";
+    //public static final String REDIRECT_PATH = "http://localhost:5174/oauth/kakao/callback";
+    //public static final String REDIRECT_PATH = "https://runcode-real-main.vercel.app/oauth/kakao/callback";
+    public static final String REDIRECT_PATH = "https://runcord-jaldallijo.vercel.app/oauth/kakao/callback";
 
     private final TokenProvider tokenProvider;
     private final RefreshTokenRepository refreshTokenRepository;

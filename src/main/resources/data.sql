@@ -246,26 +246,62 @@ INSERT INTO courses (user_id, title, content, address, distance, distance_descri
 INSERT INTO courses (user_id, title, content, address, distance, distance_description, thumbnail, star_average, review_count) VALUES (1, '올림픽공원 조깅 코스', '1988올림픽 메모리얼 공간에서 평탄하고 잘 정비된 트랙', '서울시 송파구 올림픽로 424 (올림픽공원 내부)', 10.6, '약 4 km (공원 내부 루프)', 'https://runcode-bucket.s3.ap-northeast-2.amazonaws.com/courses/course8_olympic.jpg', 0.0, 0);
 INSERT INTO courses (user_id, title, content, address, distance, distance_description, thumbnail, star_average, review_count) VALUES (1, '월드컵공원 하늘공원 러닝 코스', '도시 속 녹지와 계단을 섞어 달리기 강화되는 기분 좋은 트레일', '서울시 마포구 하늘공원로 95 (월드컵공원 하늘공원)', 11.3, '약 3-5 km (공원 내부 루프)', 'https://runcode-bucket.s3.ap-northeast-2.amazonaws.com/courses/course9_worldcup.jpg', 0.0, 0);
 INSERT INTO courses (user_id, title, content, address, distance, distance_description, thumbnail, star_average, review_count) VALUES (1, '안양천 강변 러닝 코스', '강변 나무 그늘 아래 꾸준히 달리기 좋은 강변 산책로', '서울시 구로구 구로동 ~ 양천구 일대 (안양천 산책로)', 12.0, '약 5-6 km (안양천 산책·러닝 구간)', 'https://runcode-bucket.s3.ap-northeast-2.amazonaws.com/courses/course10_anyang.jpg', 0.0, 0);
-INSERT INTO course_detail_image (course_id, image_url) VALUES (1, 'https://img.example.com/course_1_detail_1.jpg');
-INSERT INTO course_detail_image (course_id, image_url) VALUES (1, 'https://img.example.com/course_1_detail_2.jpg');
-INSERT INTO course_detail_image (course_id, image_url) VALUES (2, 'https://img.example.com/course_2_detail_1.jpg');
-INSERT INTO course_detail_image (course_id, image_url) VALUES (2, 'https://img.example.com/course_2_detail_2.jpg');
-INSERT INTO course_detail_image (course_id, image_url) VALUES (3, 'https://img.example.com/course_3_detail_1.jpg');
-INSERT INTO course_detail_image (course_id, image_url) VALUES (3, 'https://img.example.com/course_3_detail_2.jpg');
-INSERT INTO course_detail_image (course_id, image_url) VALUES (4, 'https://img.example.com/course_4_detail_1.jpg');
-INSERT INTO course_detail_image (course_id, image_url) VALUES (4, 'https://img.example.com/course_4_detail_2.jpg');
-INSERT INTO course_detail_image (course_id, image_url) VALUES (5, 'https://img.example.com/course_5_detail_1.jpg');
-INSERT INTO course_detail_image (course_id, image_url) VALUES (5, 'https://img.example.com/course_5_detail_2.jpg');
-INSERT INTO course_detail_image (course_id, image_url) VALUES (6, 'https://img.example.com/course_6_detail_1.jpg');
-INSERT INTO course_detail_image (course_id, image_url) VALUES (6, 'https://img.example.com/course_6_detail_2.jpg');
-INSERT INTO course_detail_image (course_id, image_url) VALUES (7, 'https://img.example.com/course_7_detail_1.jpg');
-INSERT INTO course_detail_image (course_id, image_url) VALUES (7, 'https://img.example.com/course_7_detail_2.jpg');
-INSERT INTO course_detail_image (course_id, image_url) VALUES (8, 'https://img.example.com/course_8_detail_1.jpg');
-INSERT INTO course_detail_image (course_id, image_url) VALUES (8, 'https://img.example.com/course_8_detail_2.jpg');
-INSERT INTO course_detail_image (course_id, image_url) VALUES (9, 'https://img.example.com/course_9_detail_1.jpg');
-INSERT INTO course_detail_image (course_id, image_url) VALUES (9, 'https://img.example.com/course_9_detail_2.jpg');
-INSERT INTO course_detail_image (course_id, image_url) VALUES (10, 'https://img.example.com/course_10_detail_1.jpg');
-INSERT INTO course_detail_image (course_id, image_url) VALUES (10, 'https://img.example.com/course_10_detail_2.jpg');
+
+-- 추가된 10개의 course
+INSERT INTO courses (user_id, title, content, address, distance, distance_description, thumbnail, star_average, review_count) VALUES (2, '송도 센트럴파크 수변런', '수로와 공원이 조화로운 인천 송도 수변 러닝 코스', '인천광역시 연수구 컨벤시아대로 160 (센트럴파크역 인근)', 6.8, '약 6-7 km (센트럴파크 일주 루프)', 'https://runcode-bucket.s3.ap-northeast-2.amazonaws.com/courses/course11_songdo.jpg', 0.0, 0);
+INSERT INTO courses (user_id, title, content, address, distance, distance_description, thumbnail, star_average, review_count) VALUES (3, '부산 광안리 해변 러닝', '바다 냄새를 느끼며 시원하게 달릴 수 있는 광안리 해변 코스', '부산광역시 수영구 광안해변로 (광안리해수욕장 일대)', 5.9, '약 5 km (광안리해변 왕복)', 'https://runcode-bucket.s3.ap-northeast-2.amazonaws.com/courses/course12_busan.jpg', 0.0, 0);
+INSERT INTO courses (user_id, title, content, address, distance, distance_description, thumbnail, star_average, review_count) VALUES (4, '대전 갑천 자전거도로 런', '강변 풍경을 따라 꾸준히 달릴 수 있는 평탄한 하천 코스', '대전광역시 유성구 어은동 갑천변', 8.1, '약 7-8 km (갑천변 러닝 구간)', 'https://runcode-bucket.s3.ap-northeast-2.amazonaws.com/courses/course13_daejeon.jpg', 0.0, 0);
+INSERT INTO courses (user_id, title, content, address, distance, distance_description, thumbnail, star_average, review_count) VALUES (5, '광교호수공원 순환 러닝', '호수 풍경과 나무 데크길을 따라 달릴 수 있는 인기 공원 코스', '경기도 수원시 영통구 광교호수공원', 7.4, '약 7 km (호수 순환)', 'https://runcode-bucket.s3.ap-northeast-2.amazonaws.com/courses/course14_gwanggyo.jpg', 0.0, 0);
+INSERT INTO courses (user_id, title, content, address, distance, distance_description, thumbnail, star_average, review_count) VALUES (6, '제주 탑동 바다 러닝', '제주 바다 바람과 탁 트인 해안선을 달릴 수 있는 코스', '제주특별자치도 제주시 탑동해변공연장 일대', 9.5, '약 8-10 km (해안 산책로 왕복)', 'https://runcode-bucket.s3.ap-northeast-2.amazonaws.com/courses/course15_jeju.jpg', 0.0, 0);
+INSERT INTO courses (user_id, title, content, address, distance, distance_description, thumbnail, star_average, review_count) VALUES (7, '울산 대왕암 해안 러닝', '해송 숲길과 해안 절경을 함께 즐길 수 있는 힐링 러닝 코스', '울산광역시 동구 일산동 대왕암공원', 10.2, '약 9-10 km (공원 및 해안 산책로)', 'https://runcode-bucket.s3.ap-northeast-2.amazonaws.com/courses/course16_ulsan.jpg', 0.0, 0);
+INSERT INTO courses (user_id, title, content, address, distance, distance_description, thumbnail, star_average, review_count) VALUES (1, '춘천 공지천 의암호 러닝', '호수와 산이 어우러진 강원도 대표 러닝 명소', '강원특별자치도 춘천시 송암동 공지천 일대', 11.7, '약 10-12 km (공지천-의암호 일주)', 'https://runcode-bucket.s3.ap-northeast-2.amazonaws.com/courses/course17_chuncheon.jpg', 0.0, 0);
+INSERT INTO courses (user_id, title, content, address, distance, distance_description, thumbnail, star_average, review_count) VALUES (2, '성남 탄천 러닝', '탄천을 따라 남북으로 길게 뻗은 평탄한 하천 러닝 명소', '경기도 성남시 분당구 서현동 탄천변', 12.3, '약 10-12 km (분당 탄천 구간)', 'https://runcode-bucket.s3.ap-northeast-2.amazonaws.com/courses/course18_seongnam.jpg', 0.0, 0);
+INSERT INTO courses (user_id, title, content, address, distance, distance_description, thumbnail, star_average, review_count) VALUES (3, '광주 풍암호수 러닝', '작지만 집중 러닝하기 좋은 호수 순환 코스', '광주광역시 서구 풍암동 풍암호수공원', 5.4, '약 5 km (호수 순환)', 'https://runcode-bucket.s3.ap-northeast-2.amazonaws.com/courses/course19_gwangju.jpg', 0.0, 0);
+INSERT INTO courses (user_id, title, content, address, distance, distance_description, thumbnail, star_average, review_count) VALUES (4, '세종 호수공원 수목원 런', '호수공원과 수목원 구간을 잇는 세종 대표 러닝 코스', '세종특별자치시 한누리대로 1575 (호수공원)', 13.0, '약 12-13 km (호수공원–수목원 루프)', 'https://runcode-bucket.s3.ap-northeast-2.amazonaws.com/courses/course20_sejong.jpg', 0.0, 0);
+
+
+INSERT INTO course_detail_image (course_id, image_url) VALUES (1, 'https://runcode-bucket.s3.ap-northeast-2.amazonaws.com/course_detail/banpo_detail1.png');
+INSERT INTO course_detail_image (course_id, image_url) VALUES (1, 'https://runcode-bucket.s3.ap-northeast-2.amazonaws.com/course_detail/banpo_detail2.png');
+INSERT INTO course_detail_image (course_id, image_url) VALUES (2, 'https://runcode-bucket.s3.ap-northeast-2.amazonaws.com/course_detail/yeouido_detail1.png');
+INSERT INTO course_detail_image (course_id, image_url) VALUES (2, 'https://runcode-bucket.s3.ap-northeast-2.amazonaws.com/course_detail/yeouido_detail2.png');
+INSERT INTO course_detail_image (course_id, image_url) VALUES (3, 'https://runcode-bucket.s3.ap-northeast-2.amazonaws.com/course_detail/cheonggye_detail1.png');
+INSERT INTO course_detail_image (course_id, image_url) VALUES (3, 'https://runcode-bucket.s3.ap-northeast-2.amazonaws.com/course_detail/cheonggye_detail2.png');
+INSERT INTO course_detail_image (course_id, image_url) VALUES (4, 'https://runcode-bucket.s3.ap-northeast-2.amazonaws.com/course_detail/yangjae_detail1.png');
+INSERT INTO course_detail_image (course_id, image_url) VALUES (4, 'https://runcode-bucket.s3.ap-northeast-2.amazonaws.com/course_detail/yangjae_detail2.png');
+INSERT INTO course_detail_image (course_id, image_url) VALUES (5, 'https://runcode-bucket.s3.ap-northeast-2.amazonaws.com/course_detail/dulegil_detail1.png');
+INSERT INTO course_detail_image (course_id, image_url) VALUES (5, 'https://runcode-bucket.s3.ap-northeast-2.amazonaws.com/course_detail/dulegil_detail2.png');
+INSERT INTO course_detail_image (course_id, image_url) VALUES (6, 'https://runcode-bucket.s3.ap-northeast-2.amazonaws.com/course_detail/ttukseom_detail1.png');
+INSERT INTO course_detail_image (course_id, image_url) VALUES (6, 'https://runcode-bucket.s3.ap-northeast-2.amazonaws.com/course_detail/ttukseom_detail2.png');
+INSERT INTO course_detail_image (course_id, image_url) VALUES (7, 'https://runcode-bucket.s3.ap-northeast-2.amazonaws.com/course_detail/bugaksan_detail1.png');
+INSERT INTO course_detail_image (course_id, image_url) VALUES (7, 'https://runcode-bucket.s3.ap-northeast-2.amazonaws.com/course_detail/bugaksan_detail2.png');
+INSERT INTO course_detail_image (course_id, image_url) VALUES (8, 'https://runcode-bucket.s3.ap-northeast-2.amazonaws.com/course_detail/olympic_detail1.png');
+INSERT INTO course_detail_image (course_id, image_url) VALUES (8, 'https://runcode-bucket.s3.ap-northeast-2.amazonaws.com/course_detail/olympic_detail2.png');
+INSERT INTO course_detail_image (course_id, image_url) VALUES (9, 'https://runcode-bucket.s3.ap-northeast-2.amazonaws.com/course_detail/worldcup_detail1.png');
+INSERT INTO course_detail_image (course_id, image_url) VALUES (9, 'https://runcode-bucket.s3.ap-northeast-2.amazonaws.com/course_detail/worldcup_detail2.png');
+INSERT INTO course_detail_image (course_id, image_url) VALUES (10, 'https://runcode-bucket.s3.ap-northeast-2.amazonaws.com/course_detail/anyang_detail1.png');
+INSERT INTO course_detail_image (course_id, image_url) VALUES (10, 'https://runcode-bucket.s3.ap-northeast-2.amazonaws.com/course_detail/anyang_detail2.png');
+
+INSERT INTO course_detail_image (course_id, image_url) VALUES (11, 'https://runcode-bucket.s3.ap-northeast-2.amazonaws.com/course_detail/songdo_detail1.jpg');
+INSERT INTO course_detail_image (course_id, image_url) VALUES (11, 'https://runcode-bucket.s3.ap-northeast-2.amazonaws.com/course_detail/songdo_detail2.jpg');
+INSERT INTO course_detail_image (course_id, image_url) VALUES (12, 'https://runcode-bucket.s3.ap-northeast-2.amazonaws.com/course_detail/busan_detail1.jpg');
+INSERT INTO course_detail_image (course_id, image_url) VALUES (12, 'https://runcode-bucket.s3.ap-northeast-2.amazonaws.com/course_detail/busan_detail2.jpg');
+INSERT INTO course_detail_image (course_id, image_url) VALUES (13, 'https://runcode-bucket.s3.ap-northeast-2.amazonaws.com/course_detail/daejeon_detail1.jpg');
+INSERT INTO course_detail_image (course_id, image_url) VALUES (13, 'https://runcode-bucket.s3.ap-northeast-2.amazonaws.com/course_detail/daejeon_detail2.jpg');
+INSERT INTO course_detail_image (course_id, image_url) VALUES (14, 'https://runcode-bucket.s3.ap-northeast-2.amazonaws.com/course_detail/gwanggyo_detail1.jpg');
+INSERT INTO course_detail_image (course_id, image_url) VALUES (14, 'https://runcode-bucket.s3.ap-northeast-2.amazonaws.com/course_detail/gwanggyo_detail2.jpg');
+INSERT INTO course_detail_image (course_id, image_url) VALUES (15, 'https://runcode-bucket.s3.ap-northeast-2.amazonaws.com/course_detail/jeju_detail1.jpg');
+INSERT INTO course_detail_image (course_id, image_url) VALUES (15, 'https://runcode-bucket.s3.ap-northeast-2.amazonaws.com/course_detail/jeju_detail2.jpg');
+INSERT INTO course_detail_image (course_id, image_url) VALUES (16, 'https://runcode-bucket.s3.ap-northeast-2.amazonaws.com/course_detail/ulsan_detail1.jpg');
+INSERT INTO course_detail_image (course_id, image_url) VALUES (16, 'https://runcode-bucket.s3.ap-northeast-2.amazonaws.com/course_detail/ulsan_detail2.jpg');
+INSERT INTO course_detail_image (course_id, image_url) VALUES (17, 'https://runcode-bucket.s3.ap-northeast-2.amazonaws.com/course_detail/chuncheon_detail1.jpg');
+INSERT INTO course_detail_image (course_id, image_url) VALUES (17, 'https://runcode-bucket.s3.ap-northeast-2.amazonaws.com/course_detail/chuncheon_detail2.jpg');
+INSERT INTO course_detail_image (course_id, image_url) VALUES (18, 'https://runcode-bucket.s3.ap-northeast-2.amazonaws.com/course_detail/seongnam_detail1.jpg');
+INSERT INTO course_detail_image (course_id, image_url) VALUES (18, 'https://runcode-bucket.s3.ap-northeast-2.amazonaws.com/course_detail/seongnam_detail2.jpg');
+INSERT INTO course_detail_image (course_id, image_url) VALUES (19, 'https://runcode-bucket.s3.ap-northeast-2.amazonaws.com/course_detail/gwangju_detail1.jpg');
+INSERT INTO course_detail_image (course_id, image_url) VALUES (19, 'https://runcode-bucket.s3.ap-northeast-2.amazonaws.com/course_detail/gwangju_detail2.jpg');
+INSERT INTO course_detail_image (course_id, image_url) VALUES (20, 'https://runcode-bucket.s3.ap-northeast-2.amazonaws.com/course_detail/sejong_detail1.jpg');
+INSERT INTO course_detail_image (course_id, image_url) VALUES (20, 'https://runcode-bucket.s3.ap-northeast-2.amazonaws.com/course_detail/sejong_detail2.jpg');
+
 
 INSERT INTO course_tags (course_id, tag_id) VALUES (1, 2);
 INSERT INTO course_tags (course_id, tag_id) VALUES (1, 5);
@@ -284,6 +320,22 @@ INSERT INTO course_tags (course_id, tag_id) VALUES (9, 3);
 INSERT INTO course_tags (course_id, tag_id) VALUES (10, 1);
 INSERT INTO course_tags (course_id, tag_id) VALUES (10, 4);
 
+INSERT INTO course_tags (course_id, tag_id) VALUES (11, 2);
+INSERT INTO course_tags (course_id, tag_id) VALUES (11, 5);
+INSERT INTO course_tags (course_id, tag_id) VALUES (12, 3);
+INSERT INTO course_tags (course_id, tag_id) VALUES (12, 6);
+INSERT INTO course_tags (course_id, tag_id) VALUES (13, 4);
+INSERT INTO course_tags (course_id, tag_id) VALUES (13, 7);
+INSERT INTO course_tags (course_id, tag_id) VALUES (14, 8);
+INSERT INTO course_tags (course_id, tag_id) VALUES (14, 5);
+INSERT INTO course_tags (course_id, tag_id) VALUES (15, 6);
+INSERT INTO course_tags (course_id, tag_id) VALUES (16, 7);
+INSERT INTO course_tags (course_id, tag_id) VALUES (17, 8);
+INSERT INTO course_tags (course_id, tag_id) VALUES (17, 1);
+INSERT INTO course_tags (course_id, tag_id) VALUES (18, 2);
+INSERT INTO course_tags (course_id, tag_id) VALUES (19, 3);
+INSERT INTO course_tags (course_id, tag_id) VALUES (20, 1);
+INSERT INTO course_tags (course_id, tag_id) VALUES (20, 4);
 -- 타입당 태그 4개 맞춰놨습니다~
 -- INSERT INTO tags (name) VALUES ('아침런'); -- S 1
 -- INSERT INTO tags (name) VALUES ('기록 지향'); -- G 2
@@ -358,16 +410,27 @@ INSERT INTO type_tags (type_id, tag_id) VALUES (16, 8);
 INSERT INTO type_tags (type_id, tag_id) VALUES (16, 5);
 INSERT INTO type_tags (type_id, tag_id) VALUES (16, 7);
 
-INSERT INTO locations (latitude, longitude, location_type, course_id) VALUES (37.510000, 127.010000, 'START', 1);
-INSERT INTO locations (latitude, longitude, location_type, course_id) VALUES (37.520000, 127.020000, 'START', 2);
-INSERT INTO locations (latitude, longitude, location_type, course_id) VALUES (37.530000, 127.030000, 'START', 3);
-INSERT INTO locations (latitude, longitude, location_type, course_id) VALUES (37.540000, 127.040000, 'START', 4);
-INSERT INTO locations (latitude, longitude, location_type, course_id) VALUES (37.550000, 127.050000, 'START', 5);
-INSERT INTO locations (latitude, longitude, location_type, course_id) VALUES (37.560000, 127.060000, 'START', 6);
-INSERT INTO locations (latitude, longitude, location_type, course_id) VALUES (37.570000, 127.070000, 'START', 7);
-INSERT INTO locations (latitude, longitude, location_type, course_id) VALUES (37.580000, 127.080000, 'START', 8);
-INSERT INTO locations (latitude, longitude, location_type, course_id) VALUES (37.590000, 127.090000, 'START', 9);
-INSERT INTO locations (latitude, longitude, location_type, course_id) VALUES (37.600000, 127.100000, 'START', 10);
+INSERT INTO locations (latitude, longitude, location_type, course_id) VALUES (37.505800, 127.004400, 'START', 1);
+INSERT INTO locations (latitude, longitude, location_type, course_id) VALUES (37.526900, 126.934700, 'START', 2);
+INSERT INTO locations (latitude, longitude, location_type, course_id) VALUES (37.569200, 126.979200, 'START', 3);
+INSERT INTO locations (latitude, longitude, location_type, course_id) VALUES (37.470000, 127.038000, 'START', 4);
+INSERT INTO locations (latitude, longitude, location_type, course_id) VALUES (37.688600, 127.046900, 'START', 5);
+INSERT INTO locations (latitude, longitude, location_type, course_id) VALUES (37.529900, 127.067500, 'START', 6);
+INSERT INTO locations (latitude, longitude, location_type, course_id) VALUES (37.594300, 126.966900, 'START', 7);
+INSERT INTO locations (latitude, longitude, location_type, course_id) VALUES (37.520900, 127.121300, 'START', 8);
+INSERT INTO locations (latitude, longitude, location_type, course_id) VALUES (37.568500, 126.885100, 'START', 9);
+INSERT INTO locations (latitude, longitude, location_type, course_id) VALUES (37.501800, 126.869500, 'START', 10);
+
+INSERT INTO locations (latitude, longitude, location_type, course_id) VALUES (37.392700, 126.638000, 'START', 11);
+INSERT INTO locations (latitude, longitude, location_type, course_id) VALUES (35.153200, 129.118300, 'START', 12);
+INSERT INTO locations (latitude, longitude, location_type, course_id) VALUES (36.366400, 127.346800, 'START', 13);
+INSERT INTO locations (latitude, longitude, location_type, course_id) VALUES (37.288900, 127.057200, 'START', 14);
+INSERT INTO locations (latitude, longitude, location_type, course_id) VALUES (33.514100, 126.522700, 'START', 15);
+INSERT INTO locations (latitude, longitude, location_type, course_id) VALUES (35.490900, 129.436700, 'START', 16);
+INSERT INTO locations (latitude, longitude, location_type, course_id) VALUES (37.874900, 127.723400, 'START', 17);
+INSERT INTO locations (latitude, longitude, location_type, course_id) VALUES (37.386900, 127.126400, 'START', 18);
+INSERT INTO locations (latitude, longitude, location_type, course_id) VALUES (35.128900, 126.877000, 'START', 19);
+INSERT INTO locations (latitude, longitude, location_type, course_id) VALUES (36.485000, 127.259000, 'START', 20);
 
 INSERT INTO archivings (user_id, course_id, date, title, content, thumbnail, detail_image, distance, calorie, average_pace, time, altitude, cadence) VALUES (3, 4, '2025-10-02', '나의 첫 러닝!!', '첫 러닝이라 살짝 긴장했는데 공기가 차가워서 오히려 상쾌했다! 페이스는 무리 안 하고 감 잡는 느낌으로~', 'https://img.example.com/arch_1.jpg', 'https://img.example.com/arch_1_detail.jpg', 5.1, 320, '5''31\"', '31:11', 11, 161);
 INSERT INTO archivings (user_id, course_id, date, title, content, thumbnail, detail_image, distance, calorie, average_pace, time, altitude, cadence) VALUES (4, 5, '2025-10-03', 'Morning Run~', '어제보다 숨이 덜 찼다. 둘레길이 조용해서 머리가 맑아지는 느낌! 이런 코스는 자주 와야겠다.', 'https://img.example.com/arch_2.jpg', 'https://img.example.com/arch_2_detail.jpg', 5.7, 340, '5''32\"', '32:12', 12, 162);

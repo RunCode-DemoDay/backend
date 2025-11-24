@@ -2,6 +2,8 @@ package com.RunCode.type.dto;
 
 import com.RunCode.tag.dto.TagResponse;
 import com.RunCode.type.domain.Type;
+import com.RunCode.user.dto.UserRegisterResponse;
+import com.RunCode.user.domain.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

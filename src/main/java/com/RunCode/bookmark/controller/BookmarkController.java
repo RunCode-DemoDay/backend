@@ -54,6 +54,7 @@ public class BookmarkController {
         }
         Long userId = userDetails.getUserId();
 
+        //BookmarkDeleteResponse response = bookmarkService.deleteBookmark(userId, bookmarkId);
         BookmarkDeleteResponse response = bookmarkService.deleteBookmark(userId, courseId);
 
         return ResponseEntity

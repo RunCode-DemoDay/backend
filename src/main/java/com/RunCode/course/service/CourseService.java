@@ -20,7 +20,9 @@ import org.springframework.data.domain.Sort;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -58,6 +60,10 @@ public class CourseService {
         Sort sort = convertOrderToSort(order);
 
         List<Course> courses = courseRepository.findAll(spec, sort);
+        //log.info("course 검색결과: {}", courses);
+
+        log.info(">>> [COURSE SEARCH] keyword={}, userId={}", query, userId);
+        log.info(">>> [COURSE SEARCH RESULT] size={}, result={}", courses.size(), courses);
 
         return courses.stream()
                 .map(course -> {

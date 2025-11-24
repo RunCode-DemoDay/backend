@@ -29,7 +29,7 @@ public class AwsService {
 
         PutObjectRequest putObjectRequest = PutObjectRequest.builder()
                 .bucket(bucketName)
-                .key(imageName)
+                .key("archivings/" + imageName)
                 .contentType(contentType)
                 .build();
 
@@ -52,7 +52,7 @@ public class AwsService {
 
         GetObjectRequest getObjectRequest = GetObjectRequest.builder()
                 .bucket(bucketName)
-                .key(filename)
+                .key("archivings/" +filename)
                 .build();
 
         GetObjectPresignRequest presignRequest = GetObjectPresignRequest.builder()

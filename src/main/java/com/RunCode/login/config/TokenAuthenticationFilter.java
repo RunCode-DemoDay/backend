@@ -25,11 +25,23 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
+<<<<<<< HEAD
+=======
+        // String authorizationHeader = request.getHeader("Authorization");
+        // String token = (authorizationHeader != null && authorizationHeader.startsWith("Bearer "))
+        //         ? authorizationHeader.substring("Bearer ".length())
+        //         : null;
+>>>>>>> bd4c2fc ([log] 로그추가)
 
         String authorizationHeader = request.getHeader(HEADER_AUTHORIZATION);
         String token = (authorizationHeader != null && authorizationHeader.startsWith(TOKEN_PREFIX))
                 ? authorizationHeader.substring(TOKEN_PREFIX.length())
                 : null;
+
+        // if (token != null && tokenProvider.validToken(token)) {
+        //     Authentication authentication = tokenProvider.getAuthentication(token); // username = kakaoId
+        //     SecurityContextHolder.getContext().setAuthentication(authentication);
+        // }
 
         if (token != null) {
             try {

@@ -97,7 +97,8 @@ public class WebSecurityConfig {
                 "http://localhost:3000",
                 "http://localhost:5173",
                 "http://localhost:5174",
-                "https://runcode-real-main.vercel.app" // 프론트 배포 주소
+                "https://runcode-real-main.vercel.app", // 프론트 배포 주소
+                "https://runcord-jaldallijo.vercel.app"
         ));
         c.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         c.setAllowedHeaders(List.of("Authorization", "Content-Type"));

@@ -10,8 +10,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class ReviewStatusResponse {
-    Long courseId;
-    Long userId;
+    Long course_id;
+    Long user_id;
     boolean reviewStatus;
 
 

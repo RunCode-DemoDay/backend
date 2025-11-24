@@ -21,7 +21,9 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/courses")
@@ -90,8 +92,13 @@ public class CourseController {
                     .body(new ApiResponse(false, 401, "로그인이 필요합니다.", null));
         }
         Long userId = userDetails.getUserId();
+        
+        //log.info(">>> [COURSE SEARCH] keyword={}, userId={}", query, user != null ? user.getId() : null);
 
         List<CourseListResponse> courseList = courseService.searchCoursesByQueryAndOrder(query, order, userId);
+        //log.info("course 검색결과: {}", courseList);
+        log.info(">>> [COURSE SEARCH] keyword={}, userId={}", query, userId);
+        log.info(">>> [COURSE SEARCH RESULT] size={}, result={}", courseList.size(), courseList);
 
         if (courseList.isEmpty()) {
             // 404 Not Found 응답 -> 검색어는 틀리는 경우가 많을 것 같아서 명시적으로 일단 넣었습니다
