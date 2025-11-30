@@ -27,6 +27,33 @@ public class ArchivingController {
     private final ArchivingService archivingService;
     private final UserService userService;
 
+    // 데모용 archiving 만들기
+    @PostMapping("/demo-init")
+     public ResponseEntity<ApiResponse> demoInitArchivings(
+        @AuthenticationPrincipal CustomUserDetails userDetails
+     ){
+        /*login 연동*/
+        if (userDetails == null) {
+            return ResponseEntity
+                    .status(401)
+                    .body(new ApiResponse(false, 401, "로그인이 필요합니다.", null));
+        }
+        Long userId = userDetails.getUserId();
+        
+        try {
+                ArchivingSimpleResponse response = archivingService.initDemoArchivingsIfEmpty(userId);
+                return ResponseEntity
+                        .status(HttpStatus.CREATED)
+                        .body((new ApiResponse(true,201,"demo용 archiving 생성 성공",response)));
+
+        }catch (RuntimeException e) {
+                // 이미 아카이빙이 있는 유저 등 일반적인 예외
+                return ResponseEntity
+                        .ok(new ApiResponse(false, 200, e.getMessage(), null));
+        }
+
+     }
+
     
     // 내 archiving 전체조회
     @GetMapping()

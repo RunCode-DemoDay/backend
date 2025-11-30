@@ -88,7 +88,8 @@ public class BookmarkService {
 
         Sort sort = toSort(order);
 
-        List<Bookmark> bookmarks = bookmarkRepository.findByUserwithCourse(user, sort);
+        //List<Bookmark> bookmarks = bookmarkRepository.findByUserwithCourse(user, sort);
+        List<Bookmark> bookmarks = bookmarkRepository.findByUser(user, sort);
 
         return bookmarks.stream()
                 .map(BookmarkListResponse::of)

@@ -19,6 +19,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.data.domain.Sort;
 import java.util.List;
 
+import java.time.LocalDate;
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class ArchivingService {
@@ -26,6 +29,46 @@ public class ArchivingService {
     private final LapRepository lapRepository;
     private final CourseRepository courseRepository;
     private final UserRepository userRepository;
+
+    /*archiving 없으면 코스21번 에 archiving 1개 임시 생성*/
+    private static final Long DEMO_COURSE_IDS = 21L;
+
+    @Transactional
+    public ArchivingSimpleResponse initDemoArchivingsIfEmpty(Long userId) {
+        boolean exists = archivingRepository.existsByUserId(userId);
+        if (exists) {
+            throw new RuntimeException("이미 아카이빙이 존재하는 사용자입니다.");
+        }
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("해당 id의 사용자를 찾을 수 없습니다."));
+        Course course = courseRepository.findById(DEMO_COURSE_IDS)
+            .orElseThrow(()-> new EntityNotFoundException("해당 id의 course를 찾을 수 없습니다."));
+
+        // archiving 생성1
+        ArchivingDetailRequest demoRequest = ArchivingDetailRequest.builder()
+            .user_id(user.getId())
+            .course_id(course.getId())
+            .title("[DEMO] " + course.getTitle() + " 체험 러닝")
+            .content("runcord 첫 실행! 공덕역 러닝할 생각에 떨립니다 ㅎㅎ")
+            .thumbnail("https://runcode-bucket.s3.ap-northeast-2.amazonaws.com/archivings/solo_track_2.jpg")
+            .detailImage("https://runcode-bucket.s3.ap-northeast-2.amazonaws.com/archivings/exercise_2.jpg")
+            .distance(1.00)
+            .calorie(50)
+            .average_pace("5'45\"")
+            .time("1:30")
+            .altitude(90)
+            .cadence(50)
+            .date(LocalDate.now())
+            // laps는 필요하면 넣고, 아니면 null 허용
+            .build();
+        
+        Archiving archiving = demoRequest.toEntity(course, user);
+        Archiving saved = archivingRepository.save(archiving);
+        return ArchivingSimpleResponse.of(saved);
+
+    }
+
 
     /* archiving 전체 조회*/
     // 1. 코스별 archiving 목록

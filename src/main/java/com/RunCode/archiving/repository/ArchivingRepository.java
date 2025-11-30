@@ -34,6 +34,9 @@ public interface ArchivingRepository extends JpaRepository<Archiving, Long> {
             """)
     Optional<Archiving> findByIdWithCourse(@Param("id") Long id);
 
+    // archiving 있는지
+    boolean existsByUserId(Long userId);
+
 /*
     @Query("""
        select ac.id, ac.user.id, ac.course.id, ac.content

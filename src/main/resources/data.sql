@@ -199,22 +199,22 @@
 -- TRUNCATE TABLE bookmarks RESTART IDENTITY CASCADE;
 -- TRUNCATE TABLE course_detail_image RESTART IDENTITY CASCADE;
 
-INSERT INTO types (name, description, thumbnail) VALUES ('새벽솔로 도전자', '아침의 고요 속에서 혼자 달리며 기록에 집중하는 타입.\n꾸준한 루틴과 성취감을 통해 성장하는 러너.', 'https://img.example.com/type_1.png'); 
-INSERT INTO types (name, description, thumbnail) VALUES ('아침 팀 마라토너', '팀과 함께 아침 러닝으로 하루를 여는 타입.\n동료와의 협력 속에서 목표 달성에 힘을 얻는다.', 'https://img.example.com/type_2.png');
-INSERT INTO types (name, description, thumbnail) VALUES ('야간 기록 추격자', '저녁마다 홀로 기록을 갱신하려는 도전적인 타입\n어둠 속에서 자신과의 경쟁을 즐기는 러너.', 'https://img.example.com/type_3.png');
-INSERT INTO types (name, description, thumbnail) VALUES ('저녁 러닝 클럽 리더', '퇴근 후 크루와 함께 달리며 목표를 향하는 타입.\n서로를 이끌며 팀워크로 성취를 만들어간다.', 'https://img.example.com/type_4.png');
-INSERT INTO types (name, description, thumbnail) VALUES ('즉흥 새벽 질주러', '새벽 공기 속에서 즉흥적으로 달리기를 즐기는 타입.\n순간의 기분과 자유로움을 중시하는 러너.', 'https://img.example.com/type_5.png');
-INSERT INTO types (name, description, thumbnail) VALUES ('팀과 함께 즐기는 아침 스프린터', '아침에 모여 짧고 강렬한 달리기를 즐기는 타입.\n성취와 재미를 동시에 추구하는 활기찬 러너.', 'https://img.example.com/type_6.png');
-INSERT INTO types (name, description, thumbnail) VALUES ('퇴근 후 기록 도전자', '퇴근 후 즉흥적으로 달리지만 기록 욕심이 있는 타입.\n유연하면서도 끊임없이 한계를 시험한다.', 'https://img.example.com/type_7.png');
-INSERT INTO types (name, description, thumbnail) VALUES ('야간 즉흥 러닝 메이트', '밤에 친구들과 즉흥 러닝을 즐기는 타입.\n기록보다 분위기와 에너지를 우선시한다.', 'https://img.example.com/type_8.png');
-INSERT INTO types (name, description, thumbnail) VALUES ('루틴형 아침 힐링러', '아침마다 정해진 루틴으로 마음을 다스리는 타입.\n달리기를 작은 명상처럼 여기는 러너.', 'https://img.example.com/type_9.png');
-INSERT INTO types (name, description, thumbnail) VALUES ('아침 공원 러닝 메이트', '공원에서 함께 달리며 활기를 얻는 타입.\n교류와 웃음 속에서 힐링을 찾는다.', 'https://img.example.com/type_10.png');
-INSERT INTO types (name, description, thumbnail) VALUES ('저녁 루틴 산책러', '저녁 시간에 가볍게 달리며 하루를 정리하는 타입.\n차분하게 자신만의 시간을 즐기는 러너.', 'https://img.example.com/type_10.png');
-INSERT INTO types (name, description, thumbnail) VALUES ('퇴근 후 팀 러너', '퇴근 후 동료들과 함께 달리며 스트레스를 풀어내는 타입.\n함께 땀 흘리며 회복을 경험한다.', 'https://img.example.com/type_10.png');
-INSERT INTO types (name, description, thumbnail) VALUES ('기분파 아침 러너', '아침의 기분에 따라 자유롭게 달리는 타입.\n속도와 거리보다 그날의 감각을 중시한다.', 'https://img.example.com/type_10.png');
-INSERT INTO types (name, description, thumbnail) VALUES ('함께하는 감성 새벽 러너', '새벽 공기와 분위기를 함께 느끼며 달리는 타입.\n교감을 통해 러닝의 즐거움을 더한다.', 'https://img.example.com/type_10.png');
-INSERT INTO types (name, description, thumbnail) VALUES ('노을 감상 야간 러너', '노을을 감상하며 천천히 달리는 타입.\n풍경 속에서 힐링을 찾는 감성적인 러너.', 'https://img.example.com/type_10.png');
-INSERT INTO types (name, description, thumbnail) VALUES ('저녁 즉흥 러닝 메이트', '저녁에 즉흥적으로 모여 즐겁게 달리는 타입.\n기록보다 대화와 웃음을 우선시한다.', 'https://img.example.com/type_10.png');
+INSERT INTO types (name, description, thumbnail) VALUES ('새벽솔로 도전자', '아침의 고요 속에서 혼자 달리며\n기록에 집중하는 타입\n꾸준한 루틴과 성취감을 통해 성장하는 러너', 'https://img.example.com/type_1.png'); 
+INSERT INTO types (name, description, thumbnail) VALUES ('아침 팀 마라토너', '팀과 함께 아침 러닝으로 하루를 여는 타입\n동료와의 협력 속에서 목표 달성에 힘을 얻는다', 'https://img.example.com/type_2.png');
+INSERT INTO types (name, description, thumbnail) VALUES ('야간 기록 추격자', '저녁마다 홀로 기록을 갱신하려는 도전적인 타입\n어둠 속에서 자신과의 경쟁을 즐기는 러너', 'https://img.example.com/type_3.png');
+INSERT INTO types (name, description, thumbnail) VALUES ('저녁 러닝 클럽 리더', '퇴근 후 크루와 함께 달리며 목표를 향하는 타입\n서로를 이끌며 팀워크로 성취를 만들어간다', 'https://img.example.com/type_4.png');
+INSERT INTO types (name, description, thumbnail) VALUES ('즉흥 새벽 질주러', '새벽 공기 속에서 즉흥적으로 달리기를 즐기는 타입\n순간의 기분과 자유로움을 중시하는 러너', 'https://img.example.com/type_5.png');
+INSERT INTO types (name, description, thumbnail) VALUES ('팀과 함께 즐기는 아침 스프린터', '아침에 모여 짧고 강렬한 달리기를 즐기는 타입\n성취와 재미를 동시에 추구하는 활기찬 러너', 'https://img.example.com/type_6.png');
+INSERT INTO types (name, description, thumbnail) VALUES ('퇴근 후 기록 도전자', '퇴근 후 즉흥적으로 달리지만 기록 욕심이 있는 타입\n유연하면서도 끊임없이 한계를 시험한다', 'https://img.example.com/type_7.png');
+INSERT INTO types (name, description, thumbnail) VALUES ('야간 즉흥 러닝 메이트', '밤에 친구들과 즉흥 러닝을 즐기는 타입\n기록보다 분위기와 에너지를 우선시한다', 'https://img.example.com/type_8.png');
+INSERT INTO types (name, description, thumbnail) VALUES ('루틴형 아침 힐링러', '아침마다 정해진 루틴으로 마음을 다스리는 타입\n달리기를 작은 명상처럼 여기는 러너', 'https://img.example.com/type_9.png');
+INSERT INTO types (name, description, thumbnail) VALUES ('아침 공원 러닝 메이트', '공원에서 함께 달리며 활기를 얻는 타입\n교류와 웃음 속에서 힐링을 찾는다', 'https://img.example.com/type_10.png');
+INSERT INTO types (name, description, thumbnail) VALUES ('저녁 루틴 산책러', '저녁 시간에 가볍게 달리며 하루를 정리하는 타입\n차분하게 자신만의 시간을 즐기는 러너', 'https://img.example.com/type_10.png');
+INSERT INTO types (name, description, thumbnail) VALUES ('퇴근 후 팀 러너', '퇴근 후 동료들과 함께 달리며\n스트레스를 풀어내는 타입\n함께 땀 흘리며 회복을 경험한다', 'https://img.example.com/type_10.png');
+INSERT INTO types (name, description, thumbnail) VALUES ('기분파 아침 러너', '아침의 기분에 따라 자유롭게 달리는 타입\n속도와 거리보다 그날의 감각을 중시한다', 'https://img.example.com/type_10.png');
+INSERT INTO types (name, description, thumbnail) VALUES ('함께하는 감성 새벽 러너', '새벽 공기와 분위기를 함께 느끼며 달리는 타입\n교감을 통해 러닝의 즐거움을 더한다', 'https://img.example.com/type_10.png');
+INSERT INTO types (name, description, thumbnail) VALUES ('노을 감상 야간 러너', '노을을 감상하며 천천히 달리는 타입\n풍경 속에서 힐링을 찾는 감성적인 러너', 'https://img.example.com/type_10.png');
+INSERT INTO types (name, description, thumbnail) VALUES ('저녁 즉흥 러닝 메이트', '저녁에 즉흥적으로 모여 즐겁게 달리는 타입\n기록보다 대화와 웃음을 우선시한다', 'https://img.example.com/type_10.png');
 
 INSERT INTO users (kakao_id, name, profile_image, nickname, type_id) VALUES ('kakao001', '김가윤', 'https://img.example.com/avatar_1.jpg', 'runner01', 2);
 INSERT INTO users (kakao_id, name, profile_image, nickname, type_id) VALUES ('kakao002', '김유이', 'https://img.example.com/avatar_2.jpg', 'runner02', 3);
@@ -260,6 +260,17 @@ INSERT INTO courses (user_id, title, content, address, distance, distance_descri
 INSERT INTO courses (user_id, title, content, address, distance, distance_description, thumbnail, star_average, review_count) VALUES (4, '세종 호수공원 수목원 런', '호수공원과 수목원 구간을 잇는 세종 대표 러닝 코스', '세종특별자치시 한누리대로 1575 (호수공원)', 13.0, '약 12-13 km (호수공원–수목원 루프)', 'https://runcode-bucket.s3.ap-northeast-2.amazonaws.com/courses/course20_sejong.jpg', 0.0, 0);
 
 
+INSERT INTO courses (user_id, title, content, address, distance, distance_description, thumbnail, star_average, review_count) VALUES
+-- 코스 1: 약 1km, 완전 미니 루프 (빠르게 앱 체험용)
+(1,'프론트원 공덕역 1K 시티 루프','프론트원 앞에서 출발해 공덕역 4번 출구와 공덕오거리를 한 바퀴 도는 약 1km 도심 러닝 코스. 신호 2~3개만 지나 가볍게 몸풀기 좋은 코스입니다.', '서울시 마포구 마포대로 122 (프론트원 앞)', 1.0,  '약 1.0km (프론트원 ▶ 공덕역 4번 출구 ▶ 공덕오거리 블록 순환 ▶ 프론트원 복귀)',  'https://runcode-bucket.s3.ap-northeast-2.amazonaws.com/courses/course21_gongdeok.jpg',0.0,0);
+
+INSERT INTO courses (user_id, title, content, address, distance, distance_description, thumbnail, star_average, review_count) VALUES 
+(1,'신촌 한바퀴 러닝 코스', '이대와 신촌역 일대를 한 바퀴 도는 시민 친화형 러닝 코스입니다.야간 조명도 좋아 초보자부터 중·상급자까지 부담 없이 뛸 수 있으며, 지하철 접근성이 좋아 단체 러닝에도 적합한 신촌 대표 러닝 루프입니다.','서울 서대문구 신촌역 일대 (출발지: 신촌역)', 2.3,'약 2.3km (신촌역 ▶ 이대 ▶ 대흥역 ▶ 신촌 복귀)','https://runcode-bucket.s3.ap-northeast-2.amazonaws.com/courses/course22_shinchon.jpg',0.0,0);
+
+INSERT INTO courses (user_id, title, content, address, distance, distance_description, thumbnail, star_average, review_count) VALUES 
+(1,'자유코스', '내 취향과 무드를 자유롭게 담는 커스텀 러닝 코스! 가장 이쁜 코스모양을 그리신 분께 선물을 드립니다~!','공덕 창업 허브', 1.0,'약 1.0km (프론트원 ▶ 자유코스 ▶ 프론트원 복귀)','https://runcode-bucket.s3.ap-northeast-2.amazonaws.com/courses/course23_free.png',0.0,0);
+
+
 INSERT INTO course_detail_image (course_id, image_url) VALUES (1, 'https://runcode-bucket.s3.ap-northeast-2.amazonaws.com/course_detail/banpo_detail1.png');
 INSERT INTO course_detail_image (course_id, image_url) VALUES (1, 'https://runcode-bucket.s3.ap-northeast-2.amazonaws.com/course_detail/banpo_detail2.png');
 INSERT INTO course_detail_image (course_id, image_url) VALUES (2, 'https://runcode-bucket.s3.ap-northeast-2.amazonaws.com/course_detail/yeouido_detail1.png');
@@ -302,6 +313,14 @@ INSERT INTO course_detail_image (course_id, image_url) VALUES (19, 'https://runc
 INSERT INTO course_detail_image (course_id, image_url) VALUES (20, 'https://runcode-bucket.s3.ap-northeast-2.amazonaws.com/course_detail/sejong_detail1.jpg');
 INSERT INTO course_detail_image (course_id, image_url) VALUES (20, 'https://runcode-bucket.s3.ap-northeast-2.amazonaws.com/course_detail/sejong_detail2.jpg');
 
+INSERT INTO course_detail_image (course_id, image_url) VALUES (21, 'https://runcode-bucket.s3.ap-northeast-2.amazonaws.com/course_detail/gongdeok_detail1.jpeg');
+INSERT INTO course_detail_image (course_id, image_url) VALUES (21, 'https://runcode-bucket.s3.ap-northeast-2.amazonaws.com/course_detail/gongdoek_detail2.jpeg');
+INSERT INTO course_detail_image (course_id, image_url) VALUES (22, 'https://runcode-bucket.s3.ap-northeast-2.amazonaws.com/course_detail/sinchon_detail1.jpeg');
+INSERT INTO course_detail_image (course_id, image_url) VALUES (22, 'https://runcode-bucket.s3.ap-northeast-2.amazonaws.com/course_detail/sinchon_detail2.jpeg');
+
+INSERT INTO course_detail_image (course_id, image_url) VALUES (23, 'https://runcode-bucket.s3.ap-northeast-2.amazonaws.com/course_detail/free_detail1.jpeg');
+INSERT INTO course_detail_image (course_id, image_url) VALUES (23, 'https://runcode-bucket.s3.ap-northeast-2.amazonaws.com/course_detail/free_detail2.jpeg');
+
 
 INSERT INTO course_tags (course_id, tag_id) VALUES (1, 2);
 INSERT INTO course_tags (course_id, tag_id) VALUES (1, 5);
@@ -336,6 +355,16 @@ INSERT INTO course_tags (course_id, tag_id) VALUES (18, 2);
 INSERT INTO course_tags (course_id, tag_id) VALUES (19, 3);
 INSERT INTO course_tags (course_id, tag_id) VALUES (20, 1);
 INSERT INTO course_tags (course_id, tag_id) VALUES (20, 4);
+
+INSERT INTO course_tags (course_id, tag_id) VALUES (21, 2);
+INSERT INTO course_tags (course_id, tag_id) VALUES (21, 5);
+INSERT INTO course_tags (course_id, tag_id) VALUES (22, 3);
+INSERT INTO course_tags (course_id, tag_id) VALUES (22, 6);
+
+INSERT INTO course_tags (course_id, tag_id) VALUES (23, 4);
+INSERT INTO course_tags (course_id, tag_id) VALUES (23, 7);
+
+
 -- 타입당 태그 4개 맞춰놨습니다~
 -- INSERT INTO tags (name) VALUES ('아침런'); -- S 1
 -- INSERT INTO tags (name) VALUES ('기록 지향'); -- G 2
@@ -431,6 +460,11 @@ INSERT INTO locations (latitude, longitude, location_type, course_id) VALUES (37
 INSERT INTO locations (latitude, longitude, location_type, course_id) VALUES (37.386900, 127.126400, 'START', 18);
 INSERT INTO locations (latitude, longitude, location_type, course_id) VALUES (35.128900, 126.877000, 'START', 19);
 INSERT INTO locations (latitude, longitude, location_type, course_id) VALUES (36.485000, 127.259000, 'START', 20);
+
+INSERT INTO locations (latitude, longitude, location_type, course_id) VALUES (37.5599000, 126.9429100, 'START', 21);
+INSERT INTO locations (latitude, longitude, location_type, course_id) VALUES (37.54539944, 126.9525600, 'START', 22);
+
+INSERT INTO locations (latitude, longitude, location_type, course_id) VALUES (37.546464, 126.950062, 'START', 23);
 
 INSERT INTO archivings (user_id, course_id, date, title, content, thumbnail, detail_image, distance, calorie, average_pace, time, altitude, cadence) VALUES (3, 4, '2025-10-02', '나의 첫 러닝!!', '첫 러닝이라 살짝 긴장했는데 공기가 차가워서 오히려 상쾌했다! 페이스는 무리 안 하고 감 잡는 느낌으로~', 'https://img.example.com/arch_1.jpg', 'https://img.example.com/arch_1_detail.jpg', 5.1, 320, '5''31\"', '31:11', 11, 161);
 INSERT INTO archivings (user_id, course_id, date, title, content, thumbnail, detail_image, distance, calorie, average_pace, time, altitude, cadence) VALUES (4, 5, '2025-10-03', 'Morning Run~', '어제보다 숨이 덜 찼다. 둘레길이 조용해서 머리가 맑아지는 느낌! 이런 코스는 자주 와야겠다.', 'https://img.example.com/arch_2.jpg', 'https://img.example.com/arch_2_detail.jpg', 5.7, 340, '5''32\"', '32:12', 12, 162);
