@@ -3,6 +3,8 @@ package com.RunCode.login.service;
 import com.RunCode.login.config.jwt.TokenProvider;
 import com.RunCode.login.repository.RefreshTokenRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
+
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
@@ -19,6 +21,7 @@ public class LogoutService {
      * @param authorizationHeader      Authorization 헤더(없을 수 있음)
      * @return true = 무효화 수행됨 / false = 무효화할 사용자 식별 실패
      */
+    @Transactional
     public boolean logoutAndInvalidate(String refreshFromCookieOrBody, String authorizationHeader) {
         Long userId = resolveUserId(refreshFromCookieOrBody, authorizationHeader);
         if (userId == null) return false;

@@ -1,27 +1,28 @@
-server:
-  port: 8080
-
 spring:
   application:
     name: runcode
   config:
     import: optional:file:.env[.properties]
+
   datasource:
     driver-class-name: org.postgresql.Driver
     url: ${DB_URL}
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
+
   sql:
     init:
       mode: never
       encoding: UTF-8
+
   jpa:
     database: postgresql
     hibernate:
-      ddl-auto: update
-    show-sql: true
+      ddl-auto: ${SPRING_JPA_HIBERNATE_DDL_AUTO:validate}
+    show-sql: ${SPRING_JPA_SHOW_SQL:false}
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     open-in-view: false
+
   security:
     oauth2:
       client:
@@ -29,7 +30,7 @@ spring:
           kakao: # 카카오 OAuth 설정
             client-id: ${REST_API_KEY}
             client-name: kakao
-            redirect-uri: "http://localhost:8080/login/oauth2/code/kakao"   #"{baseUrl}/login/oauth2/code/kakao"
+            redirect-uri: "https://runcode.shop/login/oauth2/code/kakao" # 수정
             authorization-grant-type: authorization_code
             scope: profile_nickname,profile_image
         provider:
@@ -44,7 +45,21 @@ logging:
     org.hibernate.orm.jdbc.bind: trace
     org.hibernate.type.descriptor.sql: trace
 
-
 jwt:
   issuer: demoday-runcode
   secret-key: "demoday-runcode-secret-key-2025-very-long-key"
+
+cloud:
+  aws:
+    s3:
+      bucket: runcode-bucket
+    region:
+      static: ap-northeast-2
+      auto: false
+    stack:
+      auto: false
+    credentials:
+      access-key: ${S3_ACCESS_KEY}
+      secret-key: ${S3_SECRET_KEY}
+server:
+  forward-headers-strategy: framework

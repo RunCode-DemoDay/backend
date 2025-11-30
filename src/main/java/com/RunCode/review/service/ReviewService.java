@@ -51,7 +51,7 @@ public class ReviewService {
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new EntityNotFoundException("해당 코스를 찾을 수 없습니다."));
 
-        if(reviewRepository.existsByUserAndCourse(user, course)) {
+        if (reviewRepository.existsByUserAndCourse(user, course)) {
             throw new IllegalStateException("이미 이 코스에 리뷰를 작성했습니다.");
         }
         Review review = request.toEntity(user, course);
@@ -67,7 +67,7 @@ public class ReviewService {
         Review review = reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new EntityNotFoundException("해당 리뷰를 찾을 수 없습니다."));
 
-        if(!review.getUser().getId().equals(userId)) {
+        if (!review.getUser().getId().equals(userId)) {
             throw new IllegalStateException("해당 리뷰를 삭제할 권한이 없습니다.");
         }
         ReviewDeleteResponse response = ReviewDeleteResponse.of(review);
@@ -81,20 +81,29 @@ public class ReviewService {
     }
 
     @Transactional(readOnly = true)
-    public ReviewStatusResponse hasUserReviewedCourse(Long courseId, Long userId){
+    public ReviewStatusResponse hasUserReviewedCourse(Long courseId, Long userId) {
         boolean reviewed = reviewRepository.existsByCourse_IdAndUser_Id(courseId, userId);
 
         return new ReviewStatusResponse(courseId, userId, reviewed);
     }
 
     private Sort toSort(String order) {
-        if (order == null || order.isBlank() || order.equalsIgnoreCase("latest")) {
-            return Sort.by(Sort.Direction.DESC, "createdAt");  // 최신순
-        }
-        if (order.equalsIgnoreCase("oldest")) {
-            return Sort.by(Sort.Direction.ASC, "createdAt");   // 옛날순
-        }
-        return Sort.by(Sort.Direction.DESC, "createdAt");      // 기본 최신순 - 파라미터 고정이어서 필요없긴 함(예외처리)
-    }
+        String effectiveOrder = (order == null || order.isBlank()) ? "latest" : order;
 
+        switch (effectiveOrder.toLowerCase()) {
+            case "oldest": // 오래된 순
+                return Sort.by(Sort.Direction.ASC, "createdAt");
+
+            case "star_desc": // 별점 높은 순
+                return Sort.by(Sort.Direction.DESC, "star");
+
+            case "star_asc": // 별점 낮은 순
+                return Sort.by(Sort.Direction.ASC, "star");
+
+            case "latest": // 최신 순
+            default:
+                return Sort.by(Sort.Direction.DESC, "createdAt");
+        }
+
+    }
 }

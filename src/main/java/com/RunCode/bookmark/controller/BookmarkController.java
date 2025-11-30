@@ -6,9 +6,14 @@ import com.RunCode.bookmark.dto.BookmarkDeleteResponse;
 import com.RunCode.bookmark.dto.BookmarkListResponse;
 import com.RunCode.bookmark.service.BookmarkService;
 import com.RunCode.common.domain.ApiResponse;
+
+import com.RunCode.user.domain.CustomUserDetails;
+import com.RunCode.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,9 +27,14 @@ public class BookmarkController {
 
     // bookmark 생성
     @PostMapping()
-    public ResponseEntity<ApiResponse> createBookmark(@RequestBody BookmarkCreateRequest request) {
+    public ResponseEntity<ApiResponse> createBookmark(@AuthenticationPrincipal CustomUserDetails userDetails, @RequestBody BookmarkCreateRequest request) {
 
-        Long userId = 1L;
+        if (userDetails == null) {
+            return ResponseEntity
+                    .status(401)
+                    .body(new ApiResponse(false, 401, "로그인이 필요합니다.", null));
+        }
+        Long userId = userDetails.getUserId();
 
         BookmarkCreateResponse response = bookmarkService.createBookmark(userId, request);
 
@@ -34,12 +44,18 @@ public class BookmarkController {
     }
 
     // bookmark 삭제
-    @DeleteMapping("/{bookmarkId}")
-    public ResponseEntity<ApiResponse> deleteBookmark(@PathVariable Long bookmarkId) {
+    @DeleteMapping("/{courseId}")
+    public ResponseEntity<ApiResponse> deleteBookmark(@AuthenticationPrincipal CustomUserDetails userDetails, @PathVariable Long courseId) {
 
-        Long userId = 1L;
+        if (userDetails == null) {
+            return ResponseEntity
+                    .status(401)
+                    .body(new ApiResponse(false, 401, "로그인이 필요합니다.", null));
+        }
+        Long userId = userDetails.getUserId();
 
-        BookmarkDeleteResponse response = bookmarkService.deleteBookmark(userId, bookmarkId);
+        //BookmarkDeleteResponse response = bookmarkService.deleteBookmark(userId, bookmarkId);
+        BookmarkDeleteResponse response = bookmarkService.deleteBookmark(userId, courseId);
 
         return ResponseEntity
                 .ok(new ApiResponse(true, 200, "북마크 삭제 성공", response));
@@ -47,9 +63,14 @@ public class BookmarkController {
 
     // 내가 생성한 bookmark 목록 조회
     @GetMapping
-    public ResponseEntity<ApiResponse> getMyBookmarks(@RequestParam(name = "order", defaultValue = "latest") String order) {
+    public ResponseEntity<ApiResponse> getMyBookmarks(@AuthenticationPrincipal CustomUserDetails userDetails, @RequestParam(name = "order", defaultValue = "latest") String order) {
 
-        Long userId = 1L;
+        if (userDetails == null) {
+            return ResponseEntity
+                    .status(401)
+                    .body(new ApiResponse(false, 401, "로그인이 필요합니다.", null));
+        }
+        Long userId = userDetails.getUserId();
 
         List<BookmarkListResponse> responseList = bookmarkService.getMyBookmarks(userId, order);
 

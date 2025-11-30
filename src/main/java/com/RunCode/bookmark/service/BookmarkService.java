@@ -55,14 +55,23 @@ public class BookmarkService {
 
     // bookmark 삭제
     @Transactional
-    public BookmarkDeleteResponse deleteBookmark(Long userId, Long bookmarkId) {
+    public BookmarkDeleteResponse deleteBookmark(Long userId, Long courseId) {
 
-        Bookmark bookmark = bookmarkRepository.findById(bookmarkId)
-                .orElseThrow(() -> new EntityNotFoundException("해당 북마크를 찾을 수 없습니다."));
+        // Bookmark bookmark = bookmarkRepository.findById(bookmarkId)
+        //         .orElseThrow(() -> new EntityNotFoundException("해당 북마크를 찾을 수 없습니다."));
+        // bookmarkId로 bookmark를 찾지말고 user와 course로 bookmark 찾기
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("해당 유저를 찾을 수 없습니다."));
 
-        if (!bookmark.getUser().getId().equals(userId)) {
-            throw new AccessDeniedException("해당 북마크를 삭제할 권한이 없습니다.");
-        }
+
+        // if (!bookmark.getUser().getId().equals(userId)) {
+        //     throw new AccessDeniedException("해당 북마크를 삭제할 권한이 없습니다.");
+        // }
+        Course course = courseRepository.findById(courseId)
+                .orElseThrow(() -> new EntityNotFoundException("해당 코스를 찾을 수 없습니다."));
+
+        Bookmark bookmark = bookmarkRepository.findByUserAndCourse(user, course)
+                .orElseThrow(() -> new EntityNotFoundException("해당 코스에 대한 북마크를 찾을 수 없습니다."));
 
         BookmarkDeleteResponse response = BookmarkDeleteResponse.of(bookmark);
 
@@ -79,7 +88,8 @@ public class BookmarkService {
 
         Sort sort = toSort(order);
 
-        List<Bookmark> bookmarks = bookmarkRepository.findByUserwithCourse(user, sort);
+        //List<Bookmark> bookmarks = bookmarkRepository.findByUserwithCourse(user, sort);
+        List<Bookmark> bookmarks = bookmarkRepository.findByUser(user, sort);
 
         return bookmarks.stream()
                 .map(BookmarkListResponse::of)
@@ -87,13 +97,28 @@ public class BookmarkService {
     }
 
     private Sort toSort(String order) {
-        if (order == null || order.isBlank() || order.equalsIgnoreCase("latest")) {
-            return Sort.by(Sort.Direction.DESC, "createdAt");  // 최신순
+        String effectiveOrder = (order == null || order.isBlank()) ? "latest" : order;
+
+        switch (effectiveOrder.toLowerCase()) {
+            case "oldest":
+                return Sort.by(Sort.Direction.ASC, "createdAt");
+
+            case "distance_asc": // 짧은 코스 순
+                return Sort.by(Sort.Direction.ASC, "course.distance");
+
+            case "distance_desc": // 긴 코스 순
+                return Sort.by(Sort.Direction.DESC, "course.distance");
+
+            case "star_desc": // 별점 높은 순
+                return Sort.by(Sort.Direction.DESC, "course.starAverage");
+
+            case "review_desc": // 리뷰 많은 순
+                return Sort.by(Sort.Direction.DESC, "course.reviewCount");
+
+            case "latest":
+            default:
+                return Sort.by(Sort.Direction.DESC, "createdAt");
         }
-        if (order.equalsIgnoreCase("oldest")) {
-            return Sort.by(Sort.Direction.ASC, "createdAt");   // 옛날순
-        }
-        return Sort.by(Sort.Direction.DESC, "createdAt");      // 기본 최신순 - 파라미터 고정이어서 필요없긴 함(예외처리)
     }
 
 }

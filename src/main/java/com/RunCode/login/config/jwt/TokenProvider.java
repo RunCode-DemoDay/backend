@@ -1,5 +1,6 @@
 package com.RunCode.login.config.jwt;
 
+import com.RunCode.user.domain.CustomUserDetails;
 import com.RunCode.user.domain.User;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
@@ -24,11 +25,9 @@ public class TokenProvider {
 
     private final JwtProperties jwtProperties;
 
-    // 일반 문자열 시크릿(32바이트 이상) 기준
     private Key key() {
         return Keys.hmacShaKeyFor(jwtProperties.getSecretKey().getBytes(StandardCharsets.UTF_8));
     }
-    // private Key key() { return Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtProperties.getSecretKey())); }
 
     public String generateToken(User user, Duration expiredAt) {
         Date now = new Date();
@@ -38,12 +37,12 @@ public class TokenProvider {
     private String makeToken(Date expiry, User user) {
         return Jwts.builder()
                 .setSubject(user.getKakaoId())              // subject = kakaoId
-                .claim("userId", user.getId())              // 내부 PK를 명시적으로 포함
+                .claim("userId", user.getId())              // DB PK
                 .claim("nickname", user.getNickname())
                 .claim("kakaoId", user.getKakaoId())
                 .setIssuedAt(new Date())
                 .setExpiration(expiry)
-                .signWith(key(), SignatureAlgorithm.HS256)  // Key 객체 사용
+                .signWith(key(), SignatureAlgorithm.HS256)
                 .compact();
     }
 
@@ -56,14 +55,19 @@ public class TokenProvider {
         }
     }
 
+    /** ✅ CustomUserDetails 로 Principal 구성 */
     public Authentication getAuthentication(String token) {
         Claims claims = getClaims(token);
+
+        Long userId = claims.get("userId", Long.class);
+        String kakaoId = claims.getSubject();
+
         Set<SimpleGrantedAuthority> auths =
                 Collections.singleton(new SimpleGrantedAuthority("ROLE_USER"));
-        return new UsernamePasswordAuthenticationToken(
-                new org.springframework.security.core.userdetails.User(claims.getSubject(), "", auths),
-                token, auths
-        );
+
+        CustomUserDetails principal = new CustomUserDetails(userId, kakaoId, auths);
+
+        return new UsernamePasswordAuthenticationToken(principal, token, auths);
     }
 
     public Long getUserId(String token) {
@@ -71,7 +75,10 @@ public class TokenProvider {
         return claims.get("userId", Long.class);
     }
 
-    private Claims getClaims(String token) {
-        return Jwts.parserBuilder().setSigningKey(key()).build().parseClaimsJws(token).getBody();
+    //private Claims getClaims(String token) {
+    public Claims getClaims(String token) {
+        return Jwts.parserBuilder().setSigningKey(key()).build()
+                .parseClaimsJws(token)
+                .getBody();
     }
 }
